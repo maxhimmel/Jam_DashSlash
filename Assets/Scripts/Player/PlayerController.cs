@@ -23,6 +23,9 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private int m_punchVibrato = 5;
 		[SerializeField] private float m_punchElasticity = 1;
 
+		[Header( "VFX" )]
+		[SerializeField] private ParticleSystem m_dashVfx = default;
+
 		private LerpMotor m_motor;
 		private PlayerTrajectoryController m_trajectoryController;
 
@@ -35,6 +38,8 @@ namespace DashSlash.Gameplay.Player
 			m_motor.SetDesiredVelocity( moveDir );
 
 			m_model.DOPunchRotation( Vector3.forward * m_punchStrength, m_startMoveDuration, m_punchVibrato, m_punchElasticity );
+
+			PlayDashVfx( m_startMoveDuration, moveDir.magnitude );
 		}
 
 		private void OnDragReleased( object sender, DragArgs e )
@@ -44,6 +49,17 @@ namespace DashSlash.Gameplay.Player
 			m_motor.SetEase( m_dashEase );
 			m_motor.SetDuration( m_dashMoveDuration );
 			m_motor.SetDesiredVelocity( moveDir );
+
+			PlayDashVfx( m_dashMoveDuration, moveDir.magnitude );
+		}
+
+		private void PlayDashVfx( float duration, float radius )
+		{
+			ParticleSystem.MainModule dashModule = m_dashVfx.main;
+			dashModule.startSize = radius * 2f;
+			dashModule.startLifetime = duration;
+
+			m_dashVfx.Play( true );
 		}
 
 		private void Update()
