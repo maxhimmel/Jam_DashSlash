@@ -28,6 +28,7 @@ namespace DashSlash.Gameplay.Player
 
 		private LerpMotor m_motor;
 		private PlayerTrajectoryController m_trajectoryController;
+		private Tweener m_rotationAnim;
 
 		private void OnDragStarted( object sender, DragArgs e )
 		{
@@ -37,7 +38,11 @@ namespace DashSlash.Gameplay.Player
 			m_motor.SetDuration( m_startMoveDuration );
 			m_motor.SetDesiredVelocity( moveDir );
 
-			m_model.DOPunchRotation( Vector3.forward * m_punchStrength, m_startMoveDuration, m_punchVibrato, m_punchElasticity );
+			if ( m_rotationAnim.IsActive() )
+			{
+				m_rotationAnim.Kill( true );
+			}
+			m_rotationAnim = m_model.DOPunchRotation( Vector3.forward * m_punchStrength, m_startMoveDuration, m_punchVibrato, m_punchElasticity );
 
 			PlayDashVfx( m_startMoveDuration, moveDir.magnitude );
 		}
