@@ -14,6 +14,8 @@ namespace DashSlash.Gameplay.Player
 		public event EventHandler<DragArgs> ZipUpCompleted;
 
 		public bool IsDragging => m_dragAndDrop.IsDragging;
+		public Vector3 Trajectory => m_dragAndDrop.CurrentDrag.Vector;
+
 		private Vector3 Center => transform.position;
 
 		[Header( "Proximity" )]
@@ -58,13 +60,13 @@ namespace DashSlash.Gameplay.Player
 
 		private IEnumerator WaitForZipUpComplete( DragArgs args )
 		{
-			float remainingDistSqr = (transform.position - args.End).sqrMagnitude;
+			float remainingDistSqr = (Center - args.End).sqrMagnitude;
 			while ( remainingDistSqr > 0.01f )
 			{
-				args.Start = transform.position;
+				args.Start = Center;
 				OnDragUpdated( this, args );
 
-				remainingDistSqr = (transform.position - args.End).sqrMagnitude;
+				remainingDistSqr = (Center - args.End).sqrMagnitude;
 				yield return null;
 			}
 
@@ -74,7 +76,7 @@ namespace DashSlash.Gameplay.Player
 
 		public void ForceUpdate()
 		{
-			var args = new DragArgs( transform.position, m_dragAndDrop.GetMouseWorldPosition() );
+			var args = new DragArgs( Center, m_dragAndDrop.GetMouseWorldPosition() );
 			OnDragUpdated( this, args );
 		}
 
