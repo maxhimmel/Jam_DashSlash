@@ -2,37 +2,45 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace DashSlash.Gameplay
+namespace DashSlash.Gameplay.Player
 {
 	[RequireComponent( typeof( LineRenderer ) )]
-    public class DragAndDropRenderer : MonoBehaviour
+    public class PlayerTrajectoryRenderer : MonoBehaviour
 	{
+		private const int k_minLinePoints = 2;
+
 		[SerializeField] private Transform m_reticle = default;
 
 		private LineRenderer m_renderer;
-		private IDragAndDrop m_dragAndDrop;
+		private PlayerTrajectoryController m_dragAndDrop;
+
+		private void OnZipUpCompleted( object sender, DragArgs e )
+		{
+			m_renderer.positionCount = 0;
+			m_reticle.gameObject.SetActive( false );
+		}
 
 		private void OnDragStarted( object sender, DragArgs e )
 		{
-			m_renderer.positionCount = 2;
-
-			m_renderer.SetPosition( 0, e.Start );
-			m_renderer.SetPosition( 1, e.End );
-
+			SetPositions( e );
 			UpdateReticle( e.End );
 		}
 
 		private void OnDragUpdated( object sender, DragArgs e )
 		{
-			m_renderer.SetPosition( 1, e.End );
-
+			SetPositions( e );
 			UpdateReticle( e.End );
 		}
 
-		private void OnDragReleased( object sender, DragArgs e )
+		private void SetPositions( DragArgs args )
 		{
-			m_renderer.positionCount = 0;
-			m_reticle.gameObject.SetActive( false );
+			if ( m_renderer.positionCount < k_minLinePoints )
+			{
+				m_renderer.positionCount = k_minLinePoints;
+			}
+
+			m_renderer.SetPosition( 0, args.Start );
+			m_renderer.SetPosition( 1, args.End );
 		}
 
 		private void UpdateReticle( Vector3 position )
@@ -48,20 +56,20 @@ namespace DashSlash.Gameplay
 
 			m_dragAndDrop.DragStarted += OnDragStarted;
 			m_dragAndDrop.DragUpdated += OnDragUpdated;
-			m_dragAndDrop.DragReleased += OnDragReleased;
+			m_dragAndDrop.ZipUpCompleted += OnZipUpCompleted;
 		}
 
 		private void OnDestroy()
 		{
 			m_dragAndDrop.DragStarted -= OnDragStarted;
 			m_dragAndDrop.DragUpdated -= OnDragUpdated;
-			m_dragAndDrop.DragReleased -= OnDragReleased;
+			m_dragAndDrop.ZipUpCompleted -= OnZipUpCompleted;
 		}
 
 		private void Awake()
 		{
 			m_renderer = GetComponent<LineRenderer>();
-			m_dragAndDrop = GetComponentInParent<IDragAndDrop>();
+			m_dragAndDrop = GetComponentInParent<PlayerTrajectoryController>();
 		}
 	}
 }

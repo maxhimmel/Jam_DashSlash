@@ -212,6 +212,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 179484217075613523, guid: bebf66faafef1e841a75f3e40861fabb, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4170325916560698839, guid: bebf66faafef1e841a75f3e40861fabb, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -550,7 +554,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.15686275}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.23921569}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -5153,7 +5157,7 @@ Transform:
   m_Children:
   - {fileID: 879899564}
   m_Father: {fileID: 1295579247}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &987506541
 GameObject:
@@ -5417,7 +5421,7 @@ MonoBehaviour:
   m_shiftDuration: 4
   m_colorData:
     HueMin: 0
-    HueMax: 1
+    HueMax: 0.12943959
     SaturationMin: 0.5269192
     SaturationMax: 0.7525788
     ValueMin: 0.82932335
@@ -5598,7 +5602,6 @@ Transform:
   - {fileID: 1230047986}
   - {fileID: 1042907263}
   - {fileID: 1795800668}
-  - {fileID: 1610867916}
   - {fileID: 933866861}
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -5689,49 +5692,6 @@ MonoBehaviour:
   m_clearVelocityOnMove: 1
   m_ease: 6
   m_lerpDuration: 0.5
---- !u!1 &1610867915
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1610867916}
-  - component: {fileID: 1610867917}
-  m_Layer: 0
-  m_Name: DragAndDrop
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1610867916
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610867915}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1295579247}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1610867917
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1610867915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 541c4a96e6bc6674982447d1713dda96, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1795800667
 GameObject:
   m_ObjectHideFlags: 0
@@ -5741,11 +5701,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1795800668}
+  - component: {fileID: 1795800672}
   - component: {fileID: 1795800670}
   - component: {fileID: 1795800671}
   - component: {fileID: 1795800669}
   m_Layer: 0
-  m_Name: Trajectory
+  m_Name: DragDropTrajectory
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5759,7 +5720,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1795800667}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 545858684}
@@ -5891,3 +5852,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_textureName: _BaseMap
   m_scrollSpeed: {x: -5, y: 0}
+--- !u!114 &1795800672
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1795800667}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 541c4a96e6bc6674982447d1713dda96, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

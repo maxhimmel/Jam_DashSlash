@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Player
 {
@@ -10,6 +11,7 @@ namespace DashSlash.Gameplay.Player
 		public event EventHandler<DragArgs> DragStarted;
 		public event EventHandler<DragArgs> DragUpdated;
 		public event EventHandler<DragArgs> DragReleased;
+		public event EventHandler<DragArgs> ZipUpCompleted;
 
 		public bool IsDragging => m_dragAndDrop.IsDragging;
 		private Vector3 Center => transform.position;
@@ -19,9 +21,12 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private float m_endProximity = 8;
 
 		private DragAndDrop m_dragAndDrop;
+		private Coroutine m_zipUpRoutine;
 
 		private void OnDragStarted( object sender, DragArgs args )
 		{
+			this.TryStopCoroutine( ref m_zipUpRoutine );
+
 			args.Start = GetClampedPosition( args.Start, m_startProximity );
 			args.End = GetClampedPosition( args.End, m_endProximity );
 
@@ -39,6 +44,9 @@ namespace DashSlash.Gameplay.Player
 		{
 			args.End = GetClampedPosition( args.End, m_endProximity );
 
+			this.TryStopCoroutine( ref m_zipUpRoutine );
+			m_zipUpRoutine = StartCoroutine( WaitForZipUpComplete( args ) );
+			
 			DragReleased?.Invoke( this, args );
 		}
 
@@ -48,9 +56,25 @@ namespace DashSlash.Gameplay.Player
 			return direction + Center;
 		}
 
+		private IEnumerator WaitForZipUpComplete( DragArgs args )
+		{
+			float remainingDistSqr = (transform.position - args.End).sqrMagnitude;
+			while ( remainingDistSqr > 0.01f )
+			{
+				args.Start = transform.position;
+				OnDragUpdated( this, args );
+
+				remainingDistSqr = (transform.position - args.End).sqrMagnitude;
+				yield return null;
+			}
+
+			m_zipUpRoutine = null;
+			ZipUpCompleted?.Invoke( this, args );
+		}
+
 		public void ForceUpdate()
 		{
-			var args = new DragArgs( m_dragAndDrop.CurrentDrag.Start, m_dragAndDrop.GetMouseWorldPosition() );
+			var args = new DragArgs( transform.position, m_dragAndDrop.GetMouseWorldPosition() );
 			OnDragUpdated( this, args );
 		}
 
