@@ -19,8 +19,8 @@ namespace DashSlash.Gameplay.Weapons
 
 		private void OnDashStarted( object sender, DragArgs e )
 		{
-			m_collider.enabled = true;
 			transform.rotation = Quaternion.LookRotation( Vector3.forward, e.Vector );
+			m_collider.enabled = true;
 		}
 
 		private void OnDashCompleted( object sender, DragArgs e )
