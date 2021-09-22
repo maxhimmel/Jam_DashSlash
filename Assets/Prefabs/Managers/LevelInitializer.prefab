@@ -54,6 +54,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4170325916560698839}
   - component: {fileID: 5848798371739525214}
+  - component: {fileID: 179484217075613523}
   m_Layer: 0
   m_Name: LevelInitializer
   m_TagString: Untagged
@@ -92,3 +93,17 @@ MonoBehaviour:
   m_gameManagerPrefab: {fileID: 4861474179600226522, guid: 19146d8e137a7fd46a651074be045145, type: 3}
   m_initFrameDelay: 2
   m_fadeInDuration: 1.5
+--- !u!114 &179484217075613523
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9203389658742171477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7610c5ce60dd66429d18d118204af5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_enabledState: 2
+  m_disabledState: 0
