@@ -14,6 +14,7 @@ namespace DashSlash.Gameplay
 
     public class DragArgs : EventArgs
     {
+        public float Length => Vector.magnitude;
         public Vector3 Normalized => Vector.normalized;
         public Vector3 Vector => End - Start;
 
