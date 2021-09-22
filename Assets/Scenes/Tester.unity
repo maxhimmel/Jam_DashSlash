@@ -677,6 +677,9 @@ MonoBehaviour:
   m_startMoveDuration: 0.2
   m_dashEase: 21
   m_dashMoveDuration: 0.4
+  m_punchStrength: 25
+  m_punchVibrato: 5
+  m_punchElasticity: 1
 --- !u!114 &1295579251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -705,6 +708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2fcd8728587ecfb4c82fd55a37ffbc4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_clearVelocityOnMove: 1
   m_ease: 6
   m_lerpDuration: 0.5
 --- !u!1 &1610867915

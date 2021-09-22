@@ -13,6 +13,11 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private Ease m_dashEase = Ease.OutQuad;
 		[SerializeField] private float m_dashMoveDuration = 0.4f;
 
+		[Header( "Rotation" )]
+		[SerializeField] private float m_punchStrength = 25;
+		[SerializeField] private int m_punchVibrato = 5;
+		[SerializeField] private float m_punchElasticity = 1;
+
 		private LerpMotor m_motor;
 		private PlayerTrajectoryController m_trajectoryController;
 
@@ -23,6 +28,8 @@ namespace DashSlash.Gameplay.Player
 			m_motor.SetEase( m_startEase );
 			m_motor.SetDuration( m_startMoveDuration );
 			m_motor.SetDesiredVelocity( moveDir );
+
+			transform.DOPunchRotation( Vector3.forward * m_punchStrength, m_startMoveDuration, m_punchVibrato, m_punchElasticity );
 		}
 
 		private void OnDragReleased( object sender, DragArgs e )
