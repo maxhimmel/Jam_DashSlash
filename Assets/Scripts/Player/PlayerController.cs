@@ -8,12 +8,17 @@ namespace DashSlash.Gameplay.Player
     public class PlayerController : MonoBehaviour
 	{
 		[Header( "Movement" )]
-		[SerializeField] private Ease m_startEase = Ease.OutQuad;
 		[SerializeField] private float m_startMoveDuration = 0.2f;
-		[SerializeField] private Ease m_dashEase = Ease.OutQuad;
 		[SerializeField] private float m_dashMoveDuration = 0.4f;
 
-		[Header( "Rotation" )]
+		[Header( "Animation" )]
+		[SerializeField] private Transform m_model = default;
+
+		[Space]
+		[SerializeField] private Ease m_startEase = Ease.OutQuad;
+		[SerializeField] private Ease m_dashEase = Ease.OutQuad;
+
+		[Space]
 		[SerializeField] private float m_punchStrength = 25;
 		[SerializeField] private int m_punchVibrato = 5;
 		[SerializeField] private float m_punchElasticity = 1;
@@ -29,7 +34,7 @@ namespace DashSlash.Gameplay.Player
 			m_motor.SetDuration( m_startMoveDuration );
 			m_motor.SetDesiredVelocity( moveDir );
 
-			transform.DOPunchRotation( Vector3.forward * m_punchStrength, m_startMoveDuration, m_punchVibrato, m_punchElasticity );
+			m_model.DOPunchRotation( Vector3.forward * m_punchStrength, m_startMoveDuration, m_punchVibrato, m_punchElasticity );
 		}
 
 		private void OnDragReleased( object sender, DragArgs e )
