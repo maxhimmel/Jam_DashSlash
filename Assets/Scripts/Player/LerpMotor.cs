@@ -10,6 +10,9 @@ namespace DashSlash.Gameplay
 		public Vector3 Position => m_body.position;
 		public bool IsMoving => m_moveTween.IsActive() || m_body.velocity.sqrMagnitude > 0.01f;
 
+		[SerializeField] private bool m_clearVelocityOnMove = true;
+
+		[Space]
 		[SerializeField] private Ease m_ease = Ease.OutQuad;
 		[SerializeField] private float m_lerpDuration = 0.5f;
 
@@ -28,13 +31,19 @@ namespace DashSlash.Gameplay
 
 		public void SetDesiredVelocity( Vector3 direction )
 		{
-			if ( m_moveTween.IsActive() )
+			if ( IsMoving )
 			{
 				m_moveTween.Kill();
+
+				if ( m_clearVelocityOnMove )
+				{
+					m_body.velocity = Vector2.zero;
+				}
 			}
 
 			Vector3 endPos = direction + Position;
 			m_moveTween = m_body.DOMove( endPos, m_lerpDuration )
+				.SetUpdate( UpdateType.Fixed )
 				.SetEase( m_ease );
 		}
 
