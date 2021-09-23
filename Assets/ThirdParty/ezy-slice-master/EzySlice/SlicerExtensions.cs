@@ -71,7 +71,7 @@ namespace EzySlice {
             SlicedHull slice = Slicer.Slice(obj, pl, cuttingRegion, crossSectionMaterial);
 
             if (slice == null) {
-                return null;
+                return System.Array.Empty<GameObject>();
             }
 
             GameObject upperHull = slice.CreateUpperHull(obj, crossSectionMaterial);
@@ -92,7 +92,7 @@ namespace EzySlice {
             }
 
             // nothing to return, so return nothing!
-            return null;
+            return System.Array.Empty<GameObject>();
         }
     }
 }

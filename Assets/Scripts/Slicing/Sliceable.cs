@@ -17,7 +17,7 @@ namespace DashSlash.Gameplay.Slicing
 		public GameObject[] Slice( Vector3 position, Vector3 normal )
 		{
 			GameObject[] slices = MeshObj.SliceInstantiate( position, normal );
-			if ( slices == null ) { return Array.Empty<GameObject>(); }
+			if ( slices.Length <= 0 ) { return slices; }
 
 			OnSliced();
 
