@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
+using Xam.Gameplay.Vfx;
 
 namespace DashSlash.Gameplay.Weapons
 {
@@ -52,6 +53,9 @@ namespace DashSlash.Gameplay.Weapons
 			for ( int idx = 0; idx < slices.Length; ++idx )
 			{
 				GameObject obj = slices[idx];
+
+				MeshFadeEmancipation meshFader = obj.AddComponent<MeshFadeEmancipation>();
+				meshFader.Emancipate();
 
 				obj.transform.SetPositionAndRotation( slicePos, sliceRot );
 				Rigidbody2D body = obj.AddComponent<Rigidbody2D>();
