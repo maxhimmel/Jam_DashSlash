@@ -432,6 +432,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 291834245}
+  - component: {fileID: 291834246}
   - component: {fileID: 291834244}
   m_Layer: 0
   m_Name: Sliceable (12)
@@ -454,7 +455,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -477,6 +478,19 @@ Transform:
   m_Father: {fileID: 626766096}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &291834246
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 291834243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &336049384
 GameObject:
   m_ObjectHideFlags: 0
@@ -624,6 +638,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 419666125}
+  - component: {fileID: 419666126}
   - component: {fileID: 419666124}
   m_Layer: 0
   m_Name: Sliceable (13)
@@ -646,7 +661,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -669,6 +684,19 @@ Transform:
   m_Father: {fileID: 626766096}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &419666126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 419666123}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &431793890
 GameObject:
   m_ObjectHideFlags: 0
@@ -1222,6 +1250,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 819910297}
+  - component: {fileID: 819910298}
   - component: {fileID: 819910296}
   m_Layer: 0
   m_Name: Sliceable (8)
@@ -1244,7 +1273,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -1267,6 +1296,19 @@ Transform:
   m_Father: {fileID: 626766096}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &819910298
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 819910295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &879899563
 GameObject:
   m_ObjectHideFlags: 0
@@ -6219,6 +6261,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 929936213}
+  - component: {fileID: 929936214}
   - component: {fileID: 929936212}
   m_Layer: 0
   m_Name: Sliceable (2)
@@ -6241,7 +6284,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -6255,7 +6298,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 929936211}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0.5338194, w: 0.8455985}
   m_LocalPosition: {x: -11, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6263,7 +6306,20 @@ Transform:
   - {fileID: 785396445}
   m_Father: {fileID: 626766096}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -64.528}
+--- !u!114 &929936214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 929936211}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &933866860
 GameObject:
   m_ObjectHideFlags: 0
@@ -6882,6 +6938,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1097237455}
+  - component: {fileID: 1097237456}
   - component: {fileID: 1097237454}
   m_Layer: 0
   m_Name: Sliceable (3)
@@ -6904,7 +6961,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -6918,7 +6975,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1097237453}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.9994097, w: -0.03435664}
   m_LocalPosition: {x: -7.5, y: -6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -6926,7 +6983,20 @@ Transform:
   - {fileID: 938894376}
   m_Father: {fileID: 626766096}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 183.938}
+--- !u!114 &1097237456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1097237453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &1166743817
 GameObject:
   m_ObjectHideFlags: 0
@@ -7074,6 +7144,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1201175203}
+  - component: {fileID: 1201175204}
   - component: {fileID: 1201175202}
   m_Layer: 0
   m_Name: Sliceable (11)
@@ -7096,7 +7167,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -7119,6 +7190,19 @@ Transform:
   m_Father: {fileID: 626766096}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1201175204
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1201175201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &1230047985
 GameObject:
   m_ObjectHideFlags: 0
@@ -7555,6 +7639,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1541527368}
+  - component: {fileID: 1541527369}
   - component: {fileID: 1541527367}
   m_Layer: 0
   m_Name: Sliceable (1)
@@ -7577,7 +7662,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -7591,7 +7676,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1541527366}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.3426429, w: 0.93946576}
   m_LocalPosition: {x: -9.5, y: 5.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7599,7 +7684,20 @@ Transform:
   - {fileID: 1870114650}
   m_Father: {fileID: 626766096}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 40.076}
+--- !u!114 &1541527369
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541527366}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &1587670345
 GameObject:
   m_ObjectHideFlags: 0
@@ -7666,6 +7764,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1747989326}
+  - component: {fileID: 1747989327}
   - component: {fileID: 1747989325}
   m_Layer: 0
   m_Name: Sliceable (4)
@@ -7688,7 +7787,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -7702,7 +7801,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1747989324}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.41547468, w: 0.9096048}
   m_LocalPosition: {x: -3, y: 6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -7710,7 +7809,20 @@ Transform:
   - {fileID: 152142157}
   m_Father: {fileID: 626766096}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 49.098}
+--- !u!114 &1747989327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1747989324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &1752417084
 GameObject:
   m_ObjectHideFlags: 0
@@ -7720,6 +7832,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1752417086}
+  - component: {fileID: 1752417087}
   - component: {fileID: 1752417085}
   m_Layer: 0
   m_Name: Sliceable (7)
@@ -7742,7 +7855,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -7765,6 +7878,19 @@ Transform:
   m_Father: {fileID: 626766096}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1752417087
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752417084}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &1795800667
 GameObject:
   m_ObjectHideFlags: 0
@@ -7946,6 +8072,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1842825831}
+  - component: {fileID: 1842825832}
   - component: {fileID: 1842825830}
   m_Layer: 0
   m_Name: Sliceable (6)
@@ -7968,7 +8095,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -7991,6 +8118,19 @@ Transform:
   m_Father: {fileID: 626766096}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1842825832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1842825829}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &1870114649
 GameObject:
   m_ObjectHideFlags: 0
@@ -8057,6 +8197,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1896451287}
+  - component: {fileID: 1896451289}
   - component: {fileID: 1896451288}
   m_Layer: 0
   m_Name: Sliceable
@@ -8072,7 +8213,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1896451286}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.5135115, w: 0.85808265}
   m_LocalPosition: {x: -4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -8080,7 +8221,7 @@ Transform:
   - {fileID: 1587670346}
   m_Father: {fileID: 626766096}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 61.796}
 --- !u!50 &1896451288
 Rigidbody2D:
   serializedVersion: 4
@@ -8095,13 +8236,26 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &1896451289
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1896451286}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &1944585689
 GameObject:
   m_ObjectHideFlags: 0
@@ -8111,6 +8265,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1944585691}
+  - component: {fileID: 1944585692}
   - component: {fileID: 1944585690}
   m_Layer: 0
   m_Name: Sliceable (9)
@@ -8133,7 +8288,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -8156,6 +8311,19 @@ Transform:
   m_Father: {fileID: 626766096}
   m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1944585692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944585689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &1972206470
 GameObject:
   m_ObjectHideFlags: 0
@@ -8246,6 +8414,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1993104097}
+  - component: {fileID: 1993104098}
   - component: {fileID: 1993104096}
   m_Layer: 0
   m_Name: Sliceable (5)
@@ -8268,7 +8437,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -8291,6 +8460,19 @@ Transform:
   m_Father: {fileID: 626766096}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1993104098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993104095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &2020929510
 GameObject:
   m_ObjectHideFlags: 0
@@ -8438,6 +8620,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2047004769}
+  - component: {fileID: 2047004770}
   - component: {fileID: 2047004768}
   m_Layer: 0
   m_Name: Sliceable (10)
@@ -8460,7 +8643,7 @@ Rigidbody2D:
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_AngularDrag: 1
   m_GravityScale: 0
   m_Material: {fileID: 0}
   m_Interpolate: 0
@@ -8483,6 +8666,19 @@ Transform:
   m_Father: {fileID: 626766096}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2047004770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2047004767}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_sliceMesh: {fileID: 0}
 --- !u!1 &2062648444
 GameObject:
   m_ObjectHideFlags: 0

@@ -8,6 +8,7 @@ using Xam.Gameplay.Vfx;
 namespace DashSlash.Gameplay.Weapons
 {
 	using Player;
+	using Gameplay.Slicing;
 
     public class Sword : MonoBehaviour
     {
@@ -34,41 +35,25 @@ namespace DashSlash.Gameplay.Weapons
 
 		private void OnTargetEnteredVolume( object sender, Rigidbody2D e )
 		{
-			e.isKinematic = true;
+			ISliceable sliceable = e.GetComponent<ISliceable>();
+			if ( sliceable == null ) { return; }
 
-			MeshFilter meshFilter = e.GetComponentInChildren<MeshFilter>();
-			if ( meshFilter == null ) { return; }
-
-			e.gameObject.SetActive( false );
-
-			GameObject sliceObj = meshFilter.gameObject;
-			Quaternion sliceRot = sliceObj.transform.rotation;
-			Vector3 slicePos = sliceObj.transform.position;
+			Vector3 slicePos = e.position;
 			Vector3 sliceNormal = Quaternion.AngleAxis( 90, Vector3.forward ) * SliceTrajectory;
-
-			GameObject[] slices = sliceObj.SliceInstantiate( slicePos, sliceNormal );
-			if ( slices == null ) { return; }
+			GameObject[] slices = sliceable.Slice( slicePos, sliceNormal );
 
 			for ( int idx = 0; idx < slices.Length; ++idx )
 			{
 				GameObject obj = slices[idx];
-
-				MeshFadeEmancipation meshFader = obj.AddComponent<MeshFadeEmancipation>();
-				meshFader.Emancipate();
-
-				obj.transform.SetPositionAndRotation( slicePos, sliceRot );
-				Rigidbody2D body = obj.AddComponent<Rigidbody2D>();
-				body.mass = e.mass * 0.5f;
-				body.drag = e.drag * 0.5f;
-				body.angularDrag = e.angularDrag * 0.5f;
+				Rigidbody2D body = obj.GetComponent<Rigidbody2D>();
+				if ( body == null ) { continue; }
 
 				int sliceDir = (idx & 1) > 0 ? -1 : 1;
 				Vector3 sliceForce = sliceDir * sliceNormal * m_sliceForceRange.Evaluate();
 				Vector3 forcePos = slicePos + SliceTrajectory * m_slicePosOffsetRange.Evaluate();
+
 				body.AddForceAtPosition( sliceForce, forcePos, ForceMode2D.Impulse );
 			}
-
-			Destroy( e.gameObject );
 		}
 
 		private void Start()
