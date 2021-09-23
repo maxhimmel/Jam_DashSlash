@@ -7,17 +7,20 @@ namespace DashSlash.Gameplay.Weapons
 {
 	using Player;
 	using Gameplay.Slicing;
+	using Vfx;
 
-    public class Sword : MonoBehaviour
+	public class Sword : MonoBehaviour
     {
 		private Vector3 SliceTrajectory => transform.up;
 
+		[Header( "Physics" )]
 		[SerializeField] private RandomFloatRange m_sliceForceRange = new RandomFloatRange( 1, 2 );
 		[SerializeField] private RandomFloatRange m_slicePosOffsetRange = new RandomFloatRange( 0.5f, 1f );
 
 		private Rigidbody2DBucket m_volume;
 		private Collider2D m_collider;
 		private PlayerTrajectoryController m_trajectoryController;
+		private SwordSliceVfxController m_vfxController;
 
 		private void OnDashStarted( object sender, DragArgs e )
 		{
@@ -29,29 +32,43 @@ namespace DashSlash.Gameplay.Weapons
 		{
 			m_collider.enabled = false;
 			m_volume.ClearBucket();
+
+			m_vfxController.StopSliceVfx();
 		}
 
 		private void OnTargetEnteredVolume( object sender, Rigidbody2D e )
 		{
-			ISliceable sliceable = e.GetComponent<ISliceable>();
-			if ( sliceable == null ) { return; }
+			if ( TrySlice( e ) )
+			{
+				m_vfxController.PlaySliceVfx();
+			}
+		}
 
-			Vector3 slicePos = e.position;
+		private bool TrySlice( Rigidbody2D body )
+		{
+			ISliceable sliceable = body.GetComponent<ISliceable>();
+			if ( sliceable == null ) { return false; }
+
+			Vector3 slicePos = body.position;
 			Vector3 sliceNormal = Quaternion.AngleAxis( 90, Vector3.forward ) * SliceTrajectory;
 			GameObject[] slices = sliceable.Slice( slicePos, sliceNormal );
+
+			if ( slices.Length <= 0 ) { return false; }
 
 			for ( int idx = 0; idx < slices.Length; ++idx )
 			{
 				GameObject obj = slices[idx];
-				Rigidbody2D body = obj.GetComponent<Rigidbody2D>();
-				if ( body == null ) { continue; }
+				Rigidbody2D halfBody = obj.GetComponent<Rigidbody2D>();
+				if ( halfBody == null ) { continue; }
 
 				int sliceDir = (idx & 1) > 0 ? -1 : 1;
 				Vector3 sliceForce = sliceDir * sliceNormal * m_sliceForceRange.Evaluate();
 				Vector3 forcePos = slicePos + SliceTrajectory * m_slicePosOffsetRange.Evaluate();
 
-				body.AddForceAtPosition( sliceForce, forcePos, ForceMode2D.Impulse );
+				halfBody.AddForceAtPosition( sliceForce, forcePos, ForceMode2D.Impulse );
 			}
+
+			return true;
 		}
 
 		private void Start()
@@ -69,6 +86,7 @@ namespace DashSlash.Gameplay.Weapons
 			m_volume = GetComponentInChildren<Rigidbody2DBucket>();
 			m_collider = GetComponentInChildren<Collider2D>();
 			m_trajectoryController = GetComponentInParent<PlayerTrajectoryController>();
+			m_vfxController = GetComponentInChildren<SwordSliceVfxController>();
 		}
 	}
 }
