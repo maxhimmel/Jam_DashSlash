@@ -5,46 +5,30 @@ using DG.Tweening;
 
 namespace DashSlash.Gameplay.Player
 {
+	using Animation;
+
     public class PlayerController : MonoBehaviour
 	{
 		[Header( "Movement" )]
-		[SerializeField] private float m_startMoveDuration = 0.2f;
+		[SerializeField] private Ease m_prepareEase = Ease.OutQuint;
+		[SerializeField] private float m_prepareMoveDuration = 0.2f;
+		[SerializeField] private Ease m_dashEase = Ease.OutCirc;
 		[SerializeField] private float m_dashMoveDuration = 0.4f;
-
-		[Header( "Animation" )]
-		[SerializeField] private Transform m_model = default;
-
-		[Space]
-		[SerializeField] private Ease m_startEase = Ease.OutQuad;
-		[SerializeField] private Ease m_dashEase = Ease.OutQuad;
-
-		[Space]
-		[SerializeField] private float m_punchStrength = 25;
-		[SerializeField] private int m_punchVibrato = 5;
-		[SerializeField] private float m_punchElasticity = 1;
-
-		[Header( "VFX" )]
-		[SerializeField] private ParticleSystem m_dashVfx = default;
 
 		private LerpMotor m_motor;
 		private PlayerTrajectoryController m_trajectoryController;
-		private Tweener m_rotationAnim;
+		private AnimController m_animator;
 
 		private void OnDragStarted( object sender, DragArgs e )
 		{
 			Vector3 moveDir = e.Start - m_motor.Position;
 
-			m_motor.SetEase( m_startEase );
-			m_motor.SetDuration( m_startMoveDuration );
+			m_motor.SetEase( m_prepareEase );
+			m_motor.SetDuration( m_prepareMoveDuration );
 			m_motor.SetDesiredVelocity( moveDir );
 
-			if ( m_rotationAnim.IsActive() )
-			{
-				m_rotationAnim.Kill( true );
-			}
-			m_rotationAnim = m_model.DOPunchRotation( Vector3.forward * m_punchStrength, m_startMoveDuration, m_punchVibrato, m_punchElasticity );
-
-			PlayDashVfx( m_startMoveDuration, moveDir.magnitude );
+			m_animator.PlayPrepareDashAnim( m_prepareMoveDuration );
+			m_animator.PlayDashVfx( m_prepareMoveDuration, moveDir.magnitude );
 		}
 
 		private void OnDragReleased( object sender, DragArgs e )
@@ -55,16 +39,7 @@ namespace DashSlash.Gameplay.Player
 			m_motor.SetDuration( m_dashMoveDuration );
 			m_motor.SetDesiredVelocity( moveDir );
 
-			PlayDashVfx( m_dashMoveDuration, moveDir.magnitude );
-		}
-
-		private void PlayDashVfx( float duration, float radius )
-		{
-			ParticleSystem.MainModule dashModule = m_dashVfx.main;
-			dashModule.startSize = radius * 2f;
-			dashModule.startLifetime = duration;
-
-			m_dashVfx.Play( true );
+			m_animator.PlayDashVfx( m_dashMoveDuration, moveDir.magnitude );
 		}
 
 		private void Update()
@@ -96,6 +71,7 @@ namespace DashSlash.Gameplay.Player
 		{
 			m_motor = GetComponentInChildren<LerpMotor>();
 			m_trajectoryController = GetComponent<PlayerTrajectoryController>();
+			m_animator = GetComponentInChildren<AnimController>();
 		}
 	}
 }

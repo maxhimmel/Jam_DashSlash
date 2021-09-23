@@ -490,6 +490,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &336049384
 GameObject:
@@ -696,6 +697,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &431793890
 GameObject:
@@ -1308,6 +1310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &879899563
 GameObject:
@@ -6319,6 +6322,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &933866860
 GameObject:
@@ -6996,6 +7000,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &1166743817
 GameObject:
@@ -7202,6 +7207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &1230047985
 GameObject:
@@ -7212,6 +7218,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1230047986}
+  - component: {fileID: 1230047988}
   - component: {fileID: 1230047987}
   m_Layer: 0
   m_Name: Sprite
@@ -7285,6 +7292,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1230047988
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230047985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58d86a0791bc9784f856c7b89b0b2ceb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_punchStrength: 25
+  m_punchVibrato: 5
+  m_punchElasticity: 1
+  m_dashVfx: {fileID: 879899566}
 --- !u!1 &1295579246
 GameObject:
   m_ObjectHideFlags: 0
@@ -7371,15 +7394,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fc0f1abb167be840ad8fe84ce53156c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_startMoveDuration: 0.2
-  m_dashMoveDuration: 0.4
-  m_model: {fileID: 1230047986}
-  m_startEase: 15
+  m_prepareEase: 15
+  m_prepareMoveDuration: 0.2
   m_dashEase: 21
-  m_punchStrength: 25
-  m_punchVibrato: 5
-  m_punchElasticity: 1
-  m_dashVfx: {fileID: 879899566}
+  m_dashMoveDuration: 0.4
 --- !u!114 &1295579251
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7697,6 +7715,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &1587670345
 GameObject:
@@ -7822,6 +7841,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &1752417084
 GameObject:
@@ -7890,6 +7910,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &1795800667
 GameObject:
@@ -8130,6 +8151,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &1870114649
 GameObject:
@@ -8255,6 +8277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &1944585689
 GameObject:
@@ -8323,6 +8346,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &1972206470
 GameObject:
@@ -8472,6 +8496,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &2020929510
 GameObject:
@@ -8678,6 +8703,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a368838cb9afd6f49bc8f3475b48470a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
 --- !u!1 &2062648444
 GameObject:
