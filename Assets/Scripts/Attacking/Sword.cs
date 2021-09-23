@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
+using Xam.Utility.Randomization;
 using Xam.Gameplay.Vfx;
 
 namespace DashSlash.Gameplay.Weapons
@@ -12,9 +13,10 @@ namespace DashSlash.Gameplay.Weapons
     {
 		private Vector3 SliceTrajectory => transform.up;
 
-		[SerializeField] private float m_sliceForce = 2;
+		[SerializeField] private RandomFloatRange m_sliceForceRange = new RandomFloatRange( 1, 2 );
+		[SerializeField] private RandomFloatRange m_slicePosOffsetRange = new RandomFloatRange( 0.5f, 1f );
 
-        private Rigidbody2DBucket m_volume;
+		private Rigidbody2DBucket m_volume;
 		private Collider2D m_collider;
 		private PlayerTrajectoryController m_trajectoryController;
 
@@ -44,9 +46,6 @@ namespace DashSlash.Gameplay.Weapons
 			Vector3 slicePos = sliceObj.transform.position;
 			Vector3 sliceNormal = Quaternion.AngleAxis( 90, Vector3.forward ) * SliceTrajectory;
 
-			Debug.DrawRay( slicePos, SliceTrajectory, Color.cyan, 5 );
-			Debug.DrawRay( slicePos, sliceNormal, Color.magenta, 5 );
-
 			GameObject[] slices = sliceObj.SliceInstantiate( slicePos, sliceNormal );
 			if ( slices == null ) { return; }
 
@@ -64,11 +63,12 @@ namespace DashSlash.Gameplay.Weapons
 				body.angularDrag = e.angularDrag * 0.5f;
 
 				int sliceDir = (idx & 1) > 0 ? -1 : 1;
-				Vector3 sliceForce = sliceDir * sliceNormal * m_sliceForce;
-				body.AddForceAtPosition( sliceForce, slicePos, ForceMode2D.Impulse );
+				Vector3 sliceForce = sliceDir * sliceNormal * m_sliceForceRange.Evaluate();
+				Vector3 forcePos = slicePos + SliceTrajectory * m_slicePosOffsetRange.Evaluate();
+				body.AddForceAtPosition( sliceForce, forcePos, ForceMode2D.Impulse );
 			}
 
-			Destroy( sliceObj );
+			Destroy( e.gameObject );
 		}
 
 		private void Start()

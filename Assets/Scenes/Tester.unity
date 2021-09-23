@@ -8640,7 +8640,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff776c1a4383de543b1bc566299dec5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_sliceForce: 2
+  m_sliceForceRange:
+    Min: 2
+    Max: 4
+  m_slicePosOffsetRange:
+    Min: 1
+    Max: 5
 --- !u!1 &2134396868
 GameObject:
   m_ObjectHideFlags: 0
