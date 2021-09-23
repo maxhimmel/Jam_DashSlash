@@ -1,9 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using EzySlice;
 using Xam.Utility.Randomization;
-using Xam.Gameplay.Vfx;
 
 namespace DashSlash.Gameplay.Weapons
 {

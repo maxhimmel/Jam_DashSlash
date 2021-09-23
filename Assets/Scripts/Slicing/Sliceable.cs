@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
+using Xam.Gameplay.Vfx;
 
 namespace DashSlash.Gameplay.Slicing
 {
@@ -42,7 +43,9 @@ namespace DashSlash.Gameplay.Slicing
 		{
 			if ( m_sliceLifetime >= 0 )
 			{
-				Destroy( slice, m_sliceLifetime );
+				MeshFadeEmancipation fadeEmancipation = slice.AddComponent<MeshFadeEmancipation>();
+				fadeEmancipation.SetDuration( m_sliceLifetime );
+				fadeEmancipation.Emancipate();
 			}
 		}
 
