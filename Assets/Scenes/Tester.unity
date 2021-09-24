@@ -157,7 +157,7 @@ MonoBehaviour:
   m_ApplyAfter: 2
   m_ChannelMask: 1
   m_Gain: 1
-  m_Use2DDistance: 0
+  m_Use2DDistance: 1
 --- !u!114 &51824406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1558,7 +1558,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 10
+    OrthographicSize: 9.85
     NearClipPlane: 0.1
     FarClipPlane: 50
     Dutch: 0
@@ -6646,6 +6646,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 879899564}
+  - {fileID: 1122238354}
   m_Father: {fileID: 1295579247}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6774,7 +6775,7 @@ GameObject:
   - component: {fileID: 943692611}
   - component: {fileID: 943692612}
   m_Layer: 0
-  m_Name: VfxController
+  m_Name: SliceVfx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6947,7 +6948,7 @@ MonoBehaviour:
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 60
-    OrthographicSize: 10
+    OrthographicSize: 9.03
     NearClipPlane: 0.1
     FarClipPlane: 50
     Dutch: 0
@@ -7337,6 +7338,79 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_sliceLifetime: 0.65
   m_sliceMesh: {fileID: 0}
+--- !u!1 &1122238353
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1122238354}
+  - component: {fileID: 1122238355}
+  m_Layer: 0
+  m_Name: Shake_Dash
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1122238354
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122238353}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 933866861}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1122238355
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1122238353}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 180ecf9b41d478f468eb3e9083753217, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ImpulseDefinition:
+    m_ImpulseChannel: 1
+    m_RawSignal: {fileID: 11400000, guid: 3ff61d94fea7ed04ba844654d881038c, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0
+      m_SustainTime: 0
+      m_DecayTime: 0.4
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 100
+    m_DirectionMode: 0
+    m_DissipationMode: 2
+    m_DissipationDistance: 1000
+    m_PropagationSpeed: 343
 --- !u!1 &1166743817
 GameObject:
   m_ObjectHideFlags: 0
@@ -7643,6 +7717,7 @@ MonoBehaviour:
   m_punchVibrato: 5
   m_punchElasticity: 1
   m_dashVfx: {fileID: 879899566}
+  m_dashShake: {fileID: 1122238355}
 --- !u!1 &1295579246
 GameObject:
   m_ObjectHideFlags: 0

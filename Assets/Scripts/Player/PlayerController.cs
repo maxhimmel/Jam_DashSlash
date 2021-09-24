@@ -27,8 +27,8 @@ namespace DashSlash.Gameplay.Player
 			m_motor.SetDuration( m_prepareMoveDuration );
 			m_motor.SetDesiredVelocity( moveDir );
 
-			m_animator.PlayPrepareDashAnim( m_prepareMoveDuration );
-			m_animator.PlayDashVfx( m_prepareMoveDuration, moveDir.magnitude );
+			m_animator.PlayPrepareDashAnim( m_prepareMoveDuration, moveDir );
+			m_animator.PlayDashVfx( m_prepareMoveDuration, moveDir );
 		}
 
 		private void OnDragReleased( object sender, DragArgs e )
@@ -39,7 +39,7 @@ namespace DashSlash.Gameplay.Player
 			m_motor.SetDuration( m_dashMoveDuration );
 			m_motor.SetDesiredVelocity( moveDir );
 
-			m_animator.PlayDashVfx( m_dashMoveDuration, moveDir.magnitude );
+			m_animator.PlayDashVfx( m_dashMoveDuration, moveDir );
 		}
 
 		private void Update()

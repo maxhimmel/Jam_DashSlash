@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Cinemachine;
 
 namespace DashSlash.Gameplay.Player.Animation
 {
@@ -16,10 +17,11 @@ namespace DashSlash.Gameplay.Player.Animation
 
 		[Header( "VFX" )]
 		[SerializeField] private ParticleSystem m_dashVfx = default;
+		[SerializeField] private CinemachineImpulseSource m_dashShake = default;
 
 		private Tweener m_rotationAnim;
 
-		public void PlayPrepareDashAnim( float duration )
+		public void PlayPrepareDashAnim( float duration, Vector3 trajectory )
 		{
 			if ( m_rotationAnim.IsActive() )
 			{
@@ -28,13 +30,16 @@ namespace DashSlash.Gameplay.Player.Animation
 			m_rotationAnim = Model.DOPunchRotation( Vector3.forward * m_punchStrength, duration, m_punchVibrato, m_punchElasticity );
 		}
 
-		public void PlayDashVfx( float duration, float radius )
+		public void PlayDashVfx( float duration, Vector3 trajectory )
 		{
-			ParticleSystem.MainModule dashModule = m_dashVfx.main;
-			dashModule.startSize = radius * 2f;
-			dashModule.startLifetime = duration;
+			float dashDistance = trajectory.magnitude;
 
+			ParticleSystem.MainModule dashModule = m_dashVfx.main;
+			dashModule.startSize = dashDistance * 2f;
+			dashModule.startLifetime = duration;
 			m_dashVfx.Play( true );
+
+			m_dashShake.GenerateImpulseAt( Model.position, trajectory );
 		}
 	}
 }
