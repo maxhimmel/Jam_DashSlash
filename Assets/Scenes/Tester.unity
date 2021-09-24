@@ -6809,7 +6809,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_slomoScale: 0.3
   m_slomoRampSpeed: 0.1
-  m_slomoDuration: 0.25
+  m_slomoDuration: 0.08
 --- !u!1 &946926242
 GameObject:
   m_ObjectHideFlags: 0
