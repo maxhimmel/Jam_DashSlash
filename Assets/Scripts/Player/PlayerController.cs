@@ -7,7 +7,7 @@ namespace DashSlash.Gameplay.Player
 {
 	using Animation;
 
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, IDamageable
 	{
 		[Header( "Movement" )]
 		[SerializeField] private Ease m_prepareEase = Ease.OutQuint;
@@ -18,6 +18,11 @@ namespace DashSlash.Gameplay.Player
 		private LerpMotor m_motor;
 		private PlayerTrajectoryController m_trajectoryController;
 		private AnimController m_animator;
+
+		void IDamageable.TakeDamage( DamageDatum dmgData )
+		{
+			m_motor.ClearMovement();
+		}
 
 		private void OnDragStarted( object sender, DragArgs e )
 		{
