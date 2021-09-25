@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2480311304585634825}
   - component: {fileID: 2480311304585634824}
-  m_Layer: 0
-  m_Name: Collision
+  m_Layer: 7
+  m_Name: Collision_Hit
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_lifetime: 3
+  m_cleanupDuration: 0.2
 --- !u!50 &2480311305916970925
 Rigidbody2D:
   serializedVersion: 4
