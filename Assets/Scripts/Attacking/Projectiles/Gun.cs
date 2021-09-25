@@ -50,7 +50,10 @@ namespace DashSlash.Gameplay.Weapons
             Vector3 spawnPos = m_projectileFactory.transform.position;
             Quaternion spawnRot = m_projectileFactory.transform.rotation;
 
-            return m_projectileFactory.Create( spawnPos, spawnRot );
+            Projectile newProjectile = m_projectileFactory.Create( spawnPos, spawnRot );
+            newProjectile.SetOwner( transform );
+
+            return newProjectile;
 		}
 
         public void StopFiring()

@@ -1,17 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Xam.Gameplay.Vfx;
 using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Weapons
 {
     public class Projectile : MonoBehaviour
     {
+		public bool IsCleaningUp { get; private set; }
+
 		private Vector3 Direction => transform.up;
 
 		[SerializeField] private float m_lifetime = 1;
 
+		[Header( "Cleanup" )]
+		[SerializeField] private float m_cleanupDuration = 0.5f;
+
+		private Transform m_owner;
         private Rigidbody2D m_body;
+
+		public void SetOwner( Transform owner )
+		{
+			m_owner = owner;
+		}
 
 		public void Fire( float force )
 		{
@@ -23,12 +35,30 @@ namespace DashSlash.Gameplay.Weapons
 
 		private void OnTriggerEnter2D( Collider2D collision )
 		{
+			if ( IsCleaningUp ) { return; }
 			Cleanup();
+
+			Rigidbody2D otherBody = collision.attachedRigidbody;
+			if ( otherBody.TryGetDamageable( out IDamageable damageable ) )
+			{
+				damageable.TakeDamage( new DamageDatum()
+				{
+					Instigator = m_owner,
+					DamageCauser = transform
+				} );
+			}
 		}
 
 		private void Cleanup()
 		{
-			Destroy( gameObject );
+			IsCleaningUp = true;
+			m_body.simulated = false;
+
+			MeshFadeEmancipation meshFader = gameObject.AddComponent<MeshFadeEmancipation>();
+			meshFader.SetDuration( m_cleanupDuration );
+			meshFader.Emancipate();
+
+			Destroy( gameObject, m_cleanupDuration );
 		}
 
 		private void Awake()
