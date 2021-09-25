@@ -47,6 +47,12 @@ namespace DashSlash.Gameplay
 				.SetEase( m_ease );
 		}
 
+		public void ClearMovement()
+		{
+			m_moveTween.Kill();
+			m_body.velocity = Vector2.zero;
+		}
+
 		private void Awake()
 		{
 			m_body = GetComponent<Rigidbody2D>();
