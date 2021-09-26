@@ -6916,7 +6916,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e6544174a217604b949ea86ce9bae86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_slomoScale: 0.3
+  m_slomoScale: 0.075
   m_slomoRampSpeed: 0.1
   m_slomoDuration: 0.08
 --- !u!1 &946926242
@@ -7256,12 +7256,12 @@ MonoBehaviour:
   m_useRandomColorAtStart: 1
   m_shiftDuration: 4
   m_colorData:
-    HueMin: 0.6097248
-    HueMax: 0.70389104
+    HueMin: 0.5542953
+    HueMax: 0.6283053
     SaturationMin: 0.68312967
     SaturationMax: 0.9087893
-    ValueMin: 0.66807383
-    ValueMax: 0.8387505
+    ValueMin: 0.59752715
+    ValueMax: 0.7682038
     AlphaMin: 0.000001
     AlphaMax: 0.000001
 --- !u!1 &1042907262
@@ -7493,8 +7493,8 @@ MonoBehaviour:
   m_ImpulseDefinition:
     m_ImpulseChannel: 1
     m_RawSignal: {fileID: 11400000, guid: 3ff61d94fea7ed04ba844654d881038c, type: 2}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
+    m_AmplitudeGain: 0.8
+    m_FrequencyGain: 0.8
     m_RepeatMode: 0
     m_Randomize: 1
     m_TimeEnvelope:
