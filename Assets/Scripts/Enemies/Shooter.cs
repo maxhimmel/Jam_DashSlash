@@ -7,17 +7,22 @@ namespace DashSlash.Gameplay.Enemies
 {
     using Weapons;
 
-    public class Shooter : MonoBehaviour
+    public class Shooter : Enemy
     {
 		private LazyCachedChildComponent<Gun> m_gun = new LazyCachedChildComponent<Gun>( false );
 
-		private void OnEnable()
+		protected override void OnAwokenFromSpawn()
 		{
+			base.OnAwokenFromSpawn();
+
+			UpdateRotationTowardsPlayer();
 			m_gun[this].StartFiring();
 		}
 
-		private void OnDisable()
+		protected override void OnDisable()
 		{
+			base.OnDisable();
+
 			m_gun[this].StopFiring();
 		}
 	}

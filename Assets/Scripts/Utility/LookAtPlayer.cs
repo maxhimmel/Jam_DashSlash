@@ -5,18 +5,19 @@ using Xam.Utility.Patterns;
 
 namespace DashSlash.Gameplay.Player
 {
-    public class LookAtPlayer : MonoBehaviour
+	[System.Serializable]
+    public class LookAtPlayer
     {
 		private PlayerController Player => DynamicPool.Instance.GetFirstPooledObjectByType<PlayerController>();
 
-		private void Update()
+		public Quaternion GetRotation( Vector3 other )
 		{
-			transform.rotation = Quaternion.LookRotation( Vector3.forward, GetDirection() );
+			return Quaternion.LookRotation( Vector3.forward, GetDirection( other ) );
 		}
 
-		private Vector3 GetDirection()
+		public Vector3 GetDirection( Vector3 other )
 		{
-			return (Player.transform.position - transform.position).normalized;
+			return (Player.transform.position - other).normalized;
 		}
 	}
 }
