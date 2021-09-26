@@ -13,6 +13,16 @@ namespace DashSlash.Gameplay.Movement
 		private Vector3 m_velocity;
 		private Vector3 m_desiredVelocity;
 
+		public void SetMaxSpeed( float max )
+		{
+			m_maxSpeed = max;
+		}
+
+		public void SetAcceleration( float acceleration )
+		{
+			m_acceleration = acceleration;
+		}
+
 		public void SetDesiredVelocity( Vector3 direction )
 		{
 			m_desiredVelocity = direction * m_maxSpeed;
