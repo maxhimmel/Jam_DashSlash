@@ -13,7 +13,7 @@ namespace DashSlash.Gameplay.Enemies
 		protected bool IsAwake => m_sleepRoutine == null;
 
         [SerializeField, Min( 0 )] private float m_spawnAwakeDelay = 0.25f;
-        [SerializeField] protected LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
+        [SerializeField] private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
 
 		private Coroutine m_sleepRoutine;
 		private ISliceable m_sliceable;
@@ -38,6 +38,11 @@ namespace DashSlash.Gameplay.Enemies
             transform.rotation = m_lookAtPlayer.GetRotation( transform.position );
 		}
 
+		protected Vector3 GetDirectionToPlayer()
+		{
+			return m_lookAtPlayer.GetDirection( transform.position );
+		}
+
 		protected virtual void OnAwokenFromSpawn()
 		{
 			m_sleepRoutine = null;
@@ -53,12 +58,22 @@ namespace DashSlash.Gameplay.Enemies
 			m_sleepRoutine = this.StartWaitingForSeconds( m_spawnAwakeDelay, OnAwokenFromSpawn );
 		}
 
-		protected virtual void Start()
+		private void Start()
+		{
+			InitReferences();
+		}
+
+		protected virtual void InitReferences()
 		{
 			m_sliceable.Sliced += OnSliced;
 		}
 
-		protected virtual void Awake()
+		private void Awake()
+		{
+			CacheReferences();
+		}
+
+		protected virtual void CacheReferences()
 		{
 			m_body = GetComponent<Rigidbody2D>();
 			m_sliceable = GetComponentInChildren<ISliceable>();
