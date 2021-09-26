@@ -23,10 +23,6 @@ namespace DashSlash.Gameplay.Enemies.Factories
 			{
 				m_placement.GetNextOrientation( idx, spawnCount, out Vector3 spawnPos, out Quaternion spawnRot );
 
-				Debug.Log( spawnPos );
-				Debug.Log( spawnRot );
-				Debug.DrawRay( spawnPos, spawnRot * Vector3.forward, Color.magenta, 1 );
-
 				results[idx] = m_factory.Create( spawnPos, spawnRot );
 			}
 
