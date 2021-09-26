@@ -27,6 +27,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_spawnAwakeDelay: 0.25
+  m_spawnInvincibiltyDuration: 0.25
 --- !u!58 &139662201468358054
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -34,7 +35,7 @@ CircleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2933685253793141384}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -50,8 +51,8 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 9000519399964222847, guid: 269936834e6f15748986965b3853633f, type: 3}
-      propertyPath: m_IsActive
+    - target: {fileID: 1454571057710358098, guid: 269936834e6f15748986965b3853633f, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9000519400709442586, guid: 269936834e6f15748986965b3853633f, type: 3}
