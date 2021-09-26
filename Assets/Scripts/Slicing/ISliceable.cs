@@ -6,6 +6,8 @@ namespace DashSlash.Gameplay.Slicing
 {
     public interface ISliceable
     {
+        event System.EventHandler Sliced;
+
         GameObject[] Slice( Vector3 position, Vector3 normal );
     }
 }

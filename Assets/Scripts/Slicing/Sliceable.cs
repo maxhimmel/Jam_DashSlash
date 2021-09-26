@@ -9,6 +9,8 @@ namespace DashSlash.Gameplay.Slicing
 {
 	public class Sliceable : MonoBehaviour, ISliceable
 	{
+		public event EventHandler Sliced;
+
 		private GameObject MeshObj => m_sliceMesh.gameObject;
 
 		[SerializeField, Min( -1 )] private float m_sliceLifetime = 0.65f;
@@ -19,7 +21,7 @@ namespace DashSlash.Gameplay.Slicing
 			GameObject[] slices = MeshObj.SliceInstantiate( position, normal );
 			if ( slices.Length <= 0 ) { return slices; }
 
-			OnSliced();
+			OnPreSlice();
 
 			for ( int idx = 0; idx < slices.Length; ++idx )
 			{
@@ -29,14 +31,21 @@ namespace DashSlash.Gameplay.Slicing
 				OnSlicedObjectCreated( obj );
 			}
 
-			Destroy( gameObject );
+			OnSliced();
 
 			return slices;
 		}
 
-		protected virtual void OnSliced()
+		protected virtual void OnPreSlice()
 		{
 			gameObject.SetActive( false );
+		}
+
+		protected virtual void OnSliced()
+		{
+			Destroy( gameObject );
+
+			Sliced?.Invoke( this, EventArgs.Empty );
 		}
 
 		protected virtual void OnSlicedObjectCreated( GameObject slice )

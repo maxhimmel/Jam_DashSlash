@@ -9,9 +9,9 @@ namespace DashSlash.Gameplay.Slicing
     {
 		private Rigidbody2D m_body;
 
-		protected override void OnSliced()
+		protected override void OnPreSlice()
 		{
-			base.OnSliced();
+			base.OnPreSlice();
 
 			m_body.isKinematic = true;
 		}
