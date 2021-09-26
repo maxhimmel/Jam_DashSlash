@@ -15,10 +15,13 @@ namespace DashSlash.Gameplay.Enemies
 		protected bool IsAwake => m_sleepRoutine == null;
 
         [SerializeField, Min( 0 )] private float m_spawnAwakeDelay = 0.25f;
-        [SerializeField] private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
+        [SerializeField, Min( 0 )] private float m_spawnInvincibiltyDuration = 0.25f;
+		[SerializeField] private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
 
 		private Coroutine m_sleepRoutine;
+		private Coroutine m_spawnInvincibilityRoutine;
 		private ISliceable m_sliceable;
+		private HurtBox[] m_hurtBoxes;
 
 		protected Rigidbody2D m_body;
 
@@ -45,11 +48,6 @@ namespace DashSlash.Gameplay.Enemies
 			return m_lookAtPlayer.GetDirection( transform.position );
 		}
 
-		protected virtual void OnAwokenFromSpawn()
-		{
-			m_sleepRoutine = null;
-		}
-
 		protected virtual void OnSliced( object sender, System.EventArgs e )
 		{
 			Died?.Invoke( this, e );
@@ -59,6 +57,35 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			this.TryStopCoroutine( ref m_sleepRoutine );
 			m_sleepRoutine = this.StartWaitingForSeconds( m_spawnAwakeDelay, OnAwokenFromSpawn );
+
+			if ( m_spawnInvincibiltyDuration > 0 )
+			{
+				BeginSpawnInvincibilityToggle();
+			}
+		}
+
+		protected virtual void OnAwokenFromSpawn()
+		{
+			m_sleepRoutine = null;
+		}
+
+		private void BeginSpawnInvincibilityToggle()
+		{
+			SetHurtBoxesActive( false );
+
+			this.TryStopCoroutine( ref m_spawnInvincibilityRoutine );
+			m_spawnInvincibilityRoutine = this.StartWaitingForSeconds( m_spawnInvincibiltyDuration, () =>
+			{
+				SetHurtBoxesActive( true );
+			} );
+		}
+
+		private void SetHurtBoxesActive( bool isActive )
+		{
+			foreach ( HurtBox hurt in m_hurtBoxes )
+			{
+				hurt.enabled = isActive;
+			}
 		}
 
 		private void Start()
@@ -80,6 +107,7 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			m_body = GetComponent<Rigidbody2D>();
 			m_sliceable = GetComponentInChildren<ISliceable>();
+			m_hurtBoxes = GetComponentsInChildren<HurtBox>( true );
 		}
 
 		protected virtual void OnDisable()
