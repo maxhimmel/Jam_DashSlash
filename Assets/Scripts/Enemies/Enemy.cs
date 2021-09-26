@@ -10,6 +10,8 @@ namespace DashSlash.Gameplay.Enemies
 
     public class Enemy : MonoBehaviour
     {
+		public event System.EventHandler Died;
+
 		protected bool IsAwake => m_sleepRoutine == null;
 
         [SerializeField, Min( 0 )] private float m_spawnAwakeDelay = 0.25f;
@@ -50,6 +52,7 @@ namespace DashSlash.Gameplay.Enemies
 
 		protected virtual void OnSliced( object sender, System.EventArgs e )
 		{
+			Died?.Invoke( this, e );
 		}
 
 		private void OnEnable()
