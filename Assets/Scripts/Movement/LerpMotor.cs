@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 
-namespace DashSlash.Gameplay
+namespace DashSlash.Gameplay.Movement
 {
     public class LerpMotor : MonoBehaviour
     {

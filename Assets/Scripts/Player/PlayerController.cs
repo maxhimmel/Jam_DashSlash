@@ -6,6 +6,7 @@ using DG.Tweening;
 namespace DashSlash.Gameplay.Player
 {
 	using Animation;
+	using Movement;
 
     public class PlayerController : MonoBehaviour, IDamageable
 	{
