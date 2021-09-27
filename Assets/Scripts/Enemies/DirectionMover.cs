@@ -8,7 +8,7 @@ namespace DashSlash.Gameplay.Enemies
 
     public class DirectionMover : Enemy
     {
-        private DirectionMotor m_motor;
+        private CharacterMotor m_motor;
 
 		protected override void UpdateState()
 		{
@@ -21,7 +21,7 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			base.CacheReferences();
 
-			m_motor = GetComponent<DirectionMotor>();
+			m_motor = GetComponent<CharacterMotor>();
 		}
 	}
 }
