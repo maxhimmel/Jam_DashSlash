@@ -12,10 +12,16 @@ namespace DashSlash.Gameplay.Enemies
     {
 		public event System.EventHandler Died;
 
+		public Vector3 Position => m_pawn.position;
 		protected bool IsAwake => m_sleepRoutine == null;
 
+		[SerializeField] private Transform m_pawn = default;
+
+		[Header( "Spawning" )]
         [SerializeField, Min( 0 )] private float m_spawnAwakeDelay = 0.25f;
         [SerializeField, Min( 0 )] private float m_spawnInvincibiltyDuration = 0.25f;
+
+		[Header( "Helpers" )]
 		[SerializeField] private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
 
 		private Coroutine m_sleepRoutine;
@@ -40,22 +46,22 @@ namespace DashSlash.Gameplay.Enemies
 
         protected void UpdateRotationTowardsPlayer()
 		{
-            transform.rotation = m_lookAtPlayer.GetRotation( transform.position );
+            transform.rotation = m_lookAtPlayer.GetRotation( Position );
 		}
 
 		protected Vector3 GetDirectionToPlayer()
 		{
-			return m_lookAtPlayer.GetDirection( transform.position );
+			return m_lookAtPlayer.GetDirection( Position );
 		}
 
 		protected float GetDistanceToPlayer()
 		{
-			return m_lookAtPlayer.GetDistance( transform.position );
+			return m_lookAtPlayer.GetDistance( Position );
 		}
 
 		protected float GetDistanceSqrToPlayer()
 		{
-			return m_lookAtPlayer.GetDistanceSqr( transform.position );
+			return m_lookAtPlayer.GetDistanceSqr( Position );
 		}
 
 		protected virtual void OnSliced( object sender, System.EventArgs e )

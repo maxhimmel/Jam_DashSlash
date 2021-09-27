@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1fc74c10fee7644dabc45e2ee69c603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_pawn: {fileID: 4160999606722785634}
   m_spawnAwakeDelay: 0.25
+  m_spawnInvincibiltyDuration: 0.25
 --- !u!114 &8656142877248817936
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,5 +89,10 @@ PrefabInstance:
 --- !u!1 &3783102637604467580 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9000519400927449605, guid: 269936834e6f15748986965b3853633f, type: 3}
+  m_PrefabInstance: {fileID: 5217423996350046585}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4160999606722785634 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8202977296798928923, guid: 269936834e6f15748986965b3853633f, type: 3}
   m_PrefabInstance: {fileID: 5217423996350046585}
   m_PrefabAsset: {fileID: 0}

@@ -1,22 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &8997982395150857933
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1506020655843959835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6777be83aba9e704db531cd1b776bf43, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_spawnAwakeDelay: 0.25
-  m_spawnInvincibiltyDuration: 0.25
-  m_dashOffsetAngle: 20
-  m_dashCooldownDuration: 2
-  m_dashDistance: 5
 --- !u!114 &2107273230648498039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32,6 +15,24 @@ MonoBehaviour:
   m_clearVelocityOnMove: 1
   m_ease: 21
   m_lerpDuration: 0.5
+--- !u!114 &8997982395150857933
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506020655843959835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6777be83aba9e704db531cd1b776bf43, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_pawn: {fileID: 1862490337528473093}
+  m_spawnAwakeDelay: 0.25
+  m_spawnInvincibiltyDuration: 0.25
+  m_dashOffsetAngle: 20
+  m_dashCooldownDuration: 2
+  m_dashDistance: 5
 --- !u!1001 &7497984838024050206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92,5 +93,10 @@ PrefabInstance:
 --- !u!1 &1506020655843959835 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9000519400927449605, guid: 269936834e6f15748986965b3853633f, type: 3}
+  m_PrefabInstance: {fileID: 7497984838024050206}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1862490337528473093 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8202977296798928923, guid: 269936834e6f15748986965b3853633f, type: 3}
   m_PrefabInstance: {fileID: 7497984838024050206}
   m_PrefabAsset: {fileID: 0}
