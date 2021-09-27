@@ -22,6 +22,11 @@ namespace DashSlash.Gameplay.Weapons
 		private PlayerTrajectoryController m_trajectoryController;
 		private SwordSliceVfxController m_vfxController;
 
+		private void OnDragStarted( object sender, DragArgs e )
+		{
+			m_collider.enabled = false;
+		}
+
 		private void OnDashStarted( object sender, DragArgs e )
 		{
 			transform.rotation = Quaternion.LookRotation( Vector3.forward, e.Vector );
@@ -75,6 +80,7 @@ namespace DashSlash.Gameplay.Weapons
 		{
 			m_collider.enabled = false;
 
+			m_trajectoryController.DragStarted += OnDragStarted;
 			m_trajectoryController.DragReleased += OnDashStarted;
 			m_trajectoryController.ZipUpCompleted += OnDashCompleted;
 
