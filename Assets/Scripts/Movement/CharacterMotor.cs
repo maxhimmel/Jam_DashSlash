@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace DashSlash.Gameplay.Movement
 {
-    public class DirectionMotor : MonoBehaviour
+    public class CharacterMotor : MonoBehaviour
     {
 		[SerializeField] private float m_maxSpeed = 4;
 		[SerializeField] private float m_acceleration = 10;
