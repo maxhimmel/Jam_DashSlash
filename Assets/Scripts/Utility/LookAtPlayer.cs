@@ -19,5 +19,15 @@ namespace DashSlash.Gameplay.Player
 		{
 			return (Player.transform.position - other).normalized;
 		}
+
+		public float GetDistance( Vector3 other )
+		{
+			return (Player.transform.position - other).magnitude;
+		}
+
+		public float GetDistanceSqr( Vector3 other )
+		{
+			return (Player.transform.position - other).sqrMagnitude;
+		}
 	}
 }

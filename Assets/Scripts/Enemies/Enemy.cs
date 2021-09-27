@@ -48,6 +48,16 @@ namespace DashSlash.Gameplay.Enemies
 			return m_lookAtPlayer.GetDirection( transform.position );
 		}
 
+		protected float GetDistanceToPlayer()
+		{
+			return m_lookAtPlayer.GetDistance( transform.position );
+		}
+
+		protected float GetDistanceSqrToPlayer()
+		{
+			return m_lookAtPlayer.GetDistanceSqr( transform.position );
+		}
+
 		protected virtual void OnSliced( object sender, System.EventArgs e )
 		{
 			Died?.Invoke( this, e );
