@@ -12,10 +12,10 @@ namespace DashSlash.Gameplay.Enemies
     {
 		public event System.EventHandler Died;
 
-		public Vector3 Position => m_pawn.position;
-		protected bool IsAwake => m_sleepRoutine == null;
+		public virtual Vector3 Position => m_pawn.position;
+		public virtual Vector3 FacingDirection => m_pawn.up;
 
-		[SerializeField] private Transform m_pawn = default;
+		protected bool IsAwake => m_sleepRoutine == null;
 
 		[Header( "Spawning" )]
         [SerializeField, Min( 0 )] private float m_spawnAwakeDelay = 0.25f;
@@ -24,6 +24,7 @@ namespace DashSlash.Gameplay.Enemies
 		[Header( "Helpers" )]
 		[SerializeField] private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
 
+		private Transform m_pawn;
 		private Coroutine m_sleepRoutine;
 		private Coroutine m_spawnInvincibilityRoutine;
 		private ISliceable m_sliceable;
@@ -121,6 +122,8 @@ namespace DashSlash.Gameplay.Enemies
 
 		protected virtual void CacheReferences()
 		{
+			m_pawn = transform.Find( "Pawn" );
+
 			m_body = GetComponent<Rigidbody2D>();
 			m_sliceable = GetComponentInChildren<ISliceable>();
 			m_hurtBoxes = GetComponentsInChildren<HurtBox>( true );
