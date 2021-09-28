@@ -8,6 +8,8 @@ namespace DashSlash.Gameplay.Slicing
     {
         event System.EventHandler Sliced;
 
+        public Vector3 MeshPos { get; }
+
         GameObject[] Slice( Vector3 position, Vector3 normal );
     }
 }

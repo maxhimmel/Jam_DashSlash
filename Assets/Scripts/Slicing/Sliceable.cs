@@ -11,7 +11,9 @@ namespace DashSlash.Gameplay.Slicing
 	{
 		public event EventHandler Sliced;
 
-		private GameObject MeshObj => m_sliceMesh.gameObject;
+		public virtual Vector3 MeshPos => MeshObj.transform.position;
+
+		protected GameObject MeshObj => m_sliceMesh.gameObject;
 
 		[SerializeField, Min( -1 )] private float m_sliceLifetime = 0.65f;
 		[SerializeField] private MeshFilter m_sliceMesh = default;

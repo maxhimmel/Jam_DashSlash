@@ -54,7 +54,7 @@ namespace DashSlash.Gameplay.Weapons
 			ISliceable sliceable = body.GetComponent<ISliceable>();
 			if ( sliceable == null ) { return false; }
 
-			Vector3 slicePos = body.position;
+			Vector3 slicePos = sliceable.MeshPos;
 			Vector3 sliceNormal = Quaternion.AngleAxis( 90, Vector3.forward ) * SliceTrajectory;
 			GameObject[] slices = sliceable.Slice( slicePos, sliceNormal );
 
