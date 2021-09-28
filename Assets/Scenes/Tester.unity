@@ -1164,7 +1164,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &626766096
 Transform:
   m_ObjectHideFlags: 0
@@ -7116,7 +7116,7 @@ GameObject:
   - component: {fileID: 1002499673}
   - component: {fileID: 1002499668}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
