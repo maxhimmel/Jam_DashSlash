@@ -11,10 +11,12 @@ namespace DashSlash.Gameplay.Movement
 		[SerializeField] private WaveDatum m_wave = new WaveDatum( 1, 1, 0 );
 
         private IWaveEvaluator m_evaluator;
+		private float m_timer;
 
 		private void FixedUpdate()
 		{
-			transform.localPosition = m_localDirection * m_evaluator.Evaluate( m_wave, Time.timeSinceLevelLoad );
+			m_timer += Time.deltaTime;
+			transform.localPosition = m_localDirection * m_evaluator.Evaluate( m_wave, m_timer );
 		}
 
 		private void Awake()
