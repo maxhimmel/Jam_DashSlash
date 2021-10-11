@@ -18,8 +18,8 @@ namespace DashSlash.Gameplay.Enemies
 		protected bool IsAwake => m_sleepRoutine == null;
 
 		[Header( "Spawning" )]
-        [SerializeField, Min( 0 )] private float m_spawnAwakeDelay = 0.25f;
-        [SerializeField, Min( 0 )] private float m_spawnInvincibiltyDuration = 0.25f;
+        [SerializeField, Min( 0 )] protected float m_spawnAwakeDelay = 0.25f;
+        [SerializeField, Min( 0 )] protected float m_spawnInvincibiltyDuration = 0.25f;
 
 		[Header( "Helpers" )]
 		[SerializeField] private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
