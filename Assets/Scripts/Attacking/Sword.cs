@@ -51,6 +51,8 @@ namespace DashSlash.Gameplay.Weapons
 
 		private bool TrySlice( Rigidbody2D body )
 		{
+			if ( body == null ) { return false; }
+
 			ISliceable sliceable = body.GetComponent<ISliceable>();
 			if ( sliceable == null ) { return false; }
 
