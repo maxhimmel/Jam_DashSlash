@@ -72,6 +72,11 @@ namespace DashSlash.Gameplay.Enemies
 
 		private void OnEnable()
 		{
+			BeginSpawning();
+		}
+
+		protected virtual void BeginSpawning()
+		{
 			this.TryStopCoroutine( ref m_sleepRoutine );
 			m_sleepRoutine = this.StartWaitingForSeconds( m_spawnAwakeDelay, OnAwokenFromSpawn );
 
