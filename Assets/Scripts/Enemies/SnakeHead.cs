@@ -8,6 +8,7 @@ using Xam.Utility;
 namespace DashSlash.Gameplay.Enemies
 {
 	using Slicing;
+	using Movement;
 
 	public class SnakeHead : Enemy
     {
@@ -17,10 +18,37 @@ namespace DashSlash.Gameplay.Enemies
         [SerializeField] private int m_segmentCount = 5;
 		[SerializeField] private SnakeSegment m_segmentPrefab = default;
 
+		[Space]
+		[SerializeField] private float m_avoidRange = 3;
+
 		private LazyCachedChildComponent<Rig> m_rig = new LazyCachedChildComponent<Rig>( false );
 		private LazyCachedChildComponent<RigBuilder> m_rigBuilder = new LazyCachedChildComponent<RigBuilder>( false );
 		private LazyCachedChildComponent<SnakeSegment> m_headSegment = new LazyCachedChildComponent<SnakeSegment>( false );
 		private List<SnakeSegment> m_segments = new List<SnakeSegment>();
+		private CharacterMotor m_motor;
+
+		protected override void UpdateRotationTowardsPlayer()
+		{
+			float distSqrToPlayer = GetDistanceSqrToPlayer();
+			if ( distSqrToPlayer <= m_avoidRange * m_avoidRange )
+			{
+				Quaternion rotationToPlayer = GetFacingRotationToPlayer();
+				Quaternion perpendicularRotation = rotationToPlayer * Quaternion.Euler( 0, 0, 90 );
+
+				transform.rotation = perpendicularRotation;
+			}
+			else
+			{
+				base.UpdateRotationTowardsPlayer();
+			}
+		}
+
+		protected override void UpdateState()
+		{
+			base.UpdateState();
+
+			m_motor.SetDesiredVelocity( FacingDirection );
+		}
 
 		protected override void InitReferences()
 		{
@@ -182,6 +210,7 @@ namespace DashSlash.Gameplay.Enemies
 
 			newHead.name = newHead.name.Replace( "Segment", "NewHead" );
 			newHead.m_body.bodyType = RigidbodyType2D.Dynamic;
+			newHead.m_avoidRange = this.m_avoidRange;
 
 			return newHead;
 		}
@@ -192,6 +221,13 @@ namespace DashSlash.Gameplay.Enemies
 			{
 				base.BeginSpawning();
 			}
+		}
+
+		protected override void CacheReferences()
+		{
+			base.CacheReferences();
+
+			m_motor = GetComponent<CharacterMotor>();
 		}
 	}
 }

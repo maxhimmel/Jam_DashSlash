@@ -45,7 +45,7 @@ namespace DashSlash.Gameplay.Enemies
 			UpdateRotationTowardsPlayer();
 		}
 
-        protected void UpdateRotationTowardsPlayer()
+        protected virtual void UpdateRotationTowardsPlayer()
 		{
             transform.rotation = m_lookAtPlayer.GetRotation( Position );
 		}
@@ -53,6 +53,11 @@ namespace DashSlash.Gameplay.Enemies
 		protected Vector3 GetDirectionToPlayer()
 		{
 			return m_lookAtPlayer.GetDirection( Position );
+		}
+
+		protected Quaternion GetFacingRotationToPlayer()
+		{
+			return m_lookAtPlayer.GetRotation( Position );
 		}
 
 		protected float GetDistanceToPlayer()
