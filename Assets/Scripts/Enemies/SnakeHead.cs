@@ -19,13 +19,12 @@ namespace DashSlash.Gameplay.Enemies
 		private LazyCachedChildComponent<RigBuilder> m_rigBuilder = new LazyCachedChildComponent<RigBuilder>( false );
 		private LazyCachedChildComponent<SnakeSegment> m_headSegment = new LazyCachedChildComponent<SnakeSegment>( false );
 		private List<SnakeSegment> m_segments = new List<SnakeSegment>();
-		private bool m_isOriginalSnake = true;
 
 		protected override void InitReferences()
 		{
 			base.InitReferences();
 
-			if ( m_isOriginalSnake )
+			if ( m_segmentPrefab != null )
 			{
 				CreateSnakeSegments();
 				CreateRigSegments();
@@ -104,18 +103,27 @@ namespace DashSlash.Gameplay.Enemies
 			}
 		}
 
+		protected override void OnSliced( object sender, System.EventArgs e )
+		{
+			base.OnSliced( sender, e );
+
+			OnSegmentSliced( sender, e );
+		}
+
 		private void OnSegmentSliced( object sender, System.EventArgs e )
 		{
 			Component slicedComponent = sender as Component;
 			SnakeSegment slicedSegment = slicedComponent?.GetComponent<SnakeSegment>();
 			Debug.Assert( slicedSegment != null, $"Sliced segment must be of type 'SnakeSegment.'", this );
 
-			if ( !TryOrganizeSnakeSplit( slicedSegment, out var nextHeadSegment, out var splitSegments ) ) { return; }
+			if ( !TryOrganizeSnakeSplit( slicedSegment, out var nextHeadSegment, out var discardedSegments ) ) { return; }
 
 			nextHeadSegment.gameObject.SetActive( false );
 
-			foreach ( var segment in splitSegments )
+			foreach ( var segment in discardedSegments )
 			{
+				if ( segment == null ) { continue; }
+
 				ISliceable sliceable = segment.GetComponent<ISliceable>();
 				sliceable.Sliced -= OnSegmentSliced;
 			}
@@ -125,10 +133,18 @@ namespace DashSlash.Gameplay.Enemies
 			newHead.PostProcessSegments();
 		}
 
-		private bool TryOrganizeSnakeSplit( SnakeSegment slicedSegment, out SnakeSegment nextHeadSegment, out List<SnakeSegment> splitSegments )
+		private bool TryOrganizeSnakeSplit( SnakeSegment slicedSegment, out SnakeSegment nextHeadSegment, out List<SnakeSegment> discardedSegments )
 		{
-			splitSegments = null;
+			discardedSegments = null;
 			nextHeadSegment = null;
+
+			if ( slicedSegment == m_headSegment[this] )
+			{
+				discardedSegments = new List<SnakeSegment>( 0 );
+				nextHeadSegment = m_segments[0];
+
+				return true;
+			}
 
 			for ( int idx = 0; idx < m_segments.Count - 1; ++idx )
 			{
@@ -138,7 +154,9 @@ namespace DashSlash.Gameplay.Enemies
 				int nextSegmentIndex = idx + 1;
 				nextHeadSegment = m_segments[nextSegmentIndex];
 
-				splitSegments = m_segments.GetRange( nextSegmentIndex, m_segments.Count - nextSegmentIndex );
+				if ( nextHeadSegment == null ) { continue; }
+
+				discardedSegments = m_segments.GetRange( nextSegmentIndex, m_segments.Count - nextSegmentIndex );
 				m_segments.RemoveRange( idx, m_segments.Count - idx );
 
 				return true;
@@ -157,12 +175,13 @@ namespace DashSlash.Gameplay.Enemies
 			newSegments.Remove( newHeadSegment );
 
 			SnakeHead newHead = newHeadSegment.gameObject.AddComponent<SnakeHead>();
-			newHead.m_isOriginalSnake = false;
 			newHead.m_segmentCount = newSegments.Count;
 			newHead.m_segments = newSegments;
 
-			newHead.m_body.bodyType = RigidbodyType2D.Dynamic;
 			newHead.name = newHead.name.Replace( "Segment", "NewHead" );
+			newHead.m_body.bodyType = RigidbodyType2D.Dynamic;
+			newHead.m_spawnInvincibiltyDuration = 0;
+			newHead.m_spawnAwakeDelay = 0;
 
 			return newHead;
 		}
