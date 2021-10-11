@@ -11,6 +11,8 @@ namespace DashSlash.Gameplay.Enemies
 
 	public class SnakeHead : Enemy
     {
+		private bool IsOriginalSnake => m_segmentPrefab != null;
+
         [Header( "Snake" )]
         [SerializeField] private int m_segmentCount = 5;
 		[SerializeField] private SnakeSegment m_segmentPrefab = default;
@@ -24,7 +26,7 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			base.InitReferences();
 
-			if ( m_segmentPrefab != null )
+			if ( IsOriginalSnake )
 			{
 				CreateSnakeSegments();
 				CreateRigSegments();
@@ -141,28 +143,28 @@ namespace DashSlash.Gameplay.Enemies
 			if ( slicedSegment == m_headSegment[this] )
 			{
 				discardedSegments = new List<SnakeSegment>( 0 );
-				nextHeadSegment = m_segments[0];
-
-				return true;
+				nextHeadSegment = m_segments.Count > 0 ? m_segments[0] : null;
 			}
-
-			for ( int idx = 0; idx < m_segments.Count - 1; ++idx )
+			else
 			{
-				SnakeSegment otherSegment = m_segments[idx];
-				if ( otherSegment != slicedSegment ) { continue; }
+				for ( int idx = 0; idx < m_segments.Count - 1; ++idx )
+				{
+					SnakeSegment otherSegment = m_segments[idx];
+					if ( otherSegment != slicedSegment ) { continue; }
 
-				int nextSegmentIndex = idx + 1;
-				nextHeadSegment = m_segments[nextSegmentIndex];
+					int nextSegmentIndex = idx + 1;
+					nextHeadSegment = m_segments[nextSegmentIndex];
 
-				if ( nextHeadSegment == null ) { continue; }
+					if ( nextHeadSegment == null ) { continue; }
 
-				discardedSegments = m_segments.GetRange( nextSegmentIndex, m_segments.Count - nextSegmentIndex );
-				m_segments.RemoveRange( idx, m_segments.Count - idx );
+					discardedSegments = m_segments.GetRange( nextSegmentIndex, m_segments.Count - nextSegmentIndex );
+					m_segments.RemoveRange( idx, m_segments.Count - idx );
 
-				return true;
+					break;
+				}
 			}
 
-			return false;
+			return nextHeadSegment != null;
 		}
 
 		private SnakeHead CreateSlicedSnake( SnakeSegment headSegmentPrefab )
@@ -180,10 +182,16 @@ namespace DashSlash.Gameplay.Enemies
 
 			newHead.name = newHead.name.Replace( "Segment", "NewHead" );
 			newHead.m_body.bodyType = RigidbodyType2D.Dynamic;
-			newHead.m_spawnInvincibiltyDuration = 0;
-			newHead.m_spawnAwakeDelay = 0;
 
 			return newHead;
+		}
+
+		protected override void BeginSpawning()
+		{
+			if ( IsOriginalSnake )
+			{
+				base.BeginSpawning();
+			}
 		}
 	}
 }
