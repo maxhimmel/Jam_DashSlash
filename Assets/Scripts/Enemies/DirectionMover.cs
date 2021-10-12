@@ -14,7 +14,7 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			base.UpdateState();
 
-			m_motor.SetDesiredVelocity( GetDirectionToPlayer() );
+			m_motor.SetDesiredVelocity( FacingDirection );
 		}
 
 		protected override void CacheReferences()
