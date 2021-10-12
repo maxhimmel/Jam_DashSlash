@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_spawnAwakeDelay: 0.25
   m_spawnInvincibiltyDuration: 0.25
+  m_rotationSpeed: Infinity
 --- !u!114 &9160921463547688927
 MonoBehaviour:
   m_ObjectHideFlags: 0
