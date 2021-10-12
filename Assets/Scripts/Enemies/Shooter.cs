@@ -15,7 +15,7 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			base.OnAwokenFromSpawn();
 
-			UpdateRotationTowardsPlayer();
+			UpdateRotation();
 			m_gun[this].StartFiring();
 		}
 

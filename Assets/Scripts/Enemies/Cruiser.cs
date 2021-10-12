@@ -20,7 +20,7 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			base.OnAwokenFromSpawn();
 
-			UpdateRotationTowardsPlayer();
+			UpdateRotation();
 
 			m_waveMovement.enabled = true;
 		}

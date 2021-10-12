@@ -43,10 +43,10 @@ namespace DashSlash.Gameplay.Enemies
 
 		protected virtual void UpdateState()
 		{
-			UpdateRotationTowardsPlayer();
+			UpdateRotation();
 		}
 
-        protected void UpdateRotationTowardsPlayer()
+        protected void UpdateRotation()
 		{
 			Quaternion targetRotation = GetDesiredRotation();
 
