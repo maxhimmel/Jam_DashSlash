@@ -1252,6 +1252,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8498629955676047798, guid: 6a439dee66ab4854cbe9fa821e6f2895, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8498629955676047798, guid: 6a439dee66ab4854cbe9fa821e6f2895, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6a439dee66ab4854cbe9fa821e6f2895, type: 3}
 --- !u!1001 &712877115
@@ -7232,6 +7236,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4609112399578585701, guid: a3abc227d37d399438e24a503011c0c5, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 4609112399578585701, guid: a3abc227d37d399438e24a503011c0c5, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a3abc227d37d399438e24a503011c0c5, type: 3}
 --- !u!1 &986833618
@@ -7553,6 +7561,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Snake_Head
       objectReference: {fileID: 0}
+    - target: {fileID: 1597520143355914453, guid: a71269b90eab5294b91d3e2411a2e305, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2540947183237355160, guid: a71269b90eab5294b91d3e2411a2e305, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 2540947183237355160, guid: a71269b90eab5294b91d3e2411a2e305, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a71269b90eab5294b91d3e2411a2e305, type: 3}
 --- !u!1 &1042907262
@@ -7899,6 +7915,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2254384827294812257, guid: 6ae974b7f1bc4d441bb4999e19ba14c0, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 2254384827294812257, guid: 6ae974b7f1bc4d441bb4999e19ba14c0, type: 3}
     - target: {fileID: 3783102637604467576, guid: 6ae974b7f1bc4d441bb4999e19ba14c0, type: 3}
       propertyPath: m_RootOrder
       value: 7
@@ -8372,6 +8392,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8997982395150857933, guid: 88c9359525d5a314a84095efe050db6d, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 8997982395150857933, guid: 88c9359525d5a314a84095efe050db6d, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88c9359525d5a314a84095efe050db6d, type: 3}
 --- !u!1 &1323367093
@@ -8602,6 +8626,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1409821141}
+  - component: {fileID: 1409821142}
   - component: {fileID: 1409821140}
   m_Layer: 0
   m_Name: EventDirector
@@ -8668,6 +8693,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1409821142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409821139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4dc4758edf3710643a9487ac9963e5e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1441164071
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8675,6 +8712,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3800090803861906035, guid: 6b116920905e96e48ae5ba87d8f641b6, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 3800090803861906035, guid: 6b116920905e96e48ae5ba87d8f641b6, type: 3}
     - target: {fileID: 4532287718372824768, guid: 6b116920905e96e48ae5ba87d8f641b6, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -10181,6 +10222,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1053942149712358371, guid: 9138520843e7fd14da3b430b07f00d69, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1053942149712358371, guid: 9138520843e7fd14da3b430b07f00d69, type: 3}
+    - target: {fileID: 1053942150218119288, guid: 9138520843e7fd14da3b430b07f00d69, type: 3}
+      propertyPath: serializationData.Prefab
+      value: 
+      objectReference: {fileID: 1053942150218119288, guid: 9138520843e7fd14da3b430b07f00d69, type: 3}
     - target: {fileID: 3555171358945586497, guid: 9138520843e7fd14da3b430b07f00d69, type: 3}
       propertyPath: m_Name
       value: CruiserPair
