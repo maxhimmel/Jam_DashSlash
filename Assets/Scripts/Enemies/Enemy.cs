@@ -21,14 +21,15 @@ namespace DashSlash.Gameplay.Enemies
         [SerializeField, Min( 0 )] protected float m_spawnAwakeDelay = 0.25f;
         [SerializeField, Min( 0 )] protected float m_spawnInvincibiltyDuration = 0.25f;
 
-		[Header( "Helpers" )]
-		[SerializeField] private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
+		[Header( "Rotation" )]
+		[SerializeField] protected float m_rotationSpeed = 540;
 
 		private Transform m_pawn;
 		private Coroutine m_sleepRoutine;
 		private Coroutine m_spawnInvincibilityRoutine;
 		private ISliceable m_sliceable;
 		private HurtBox[] m_hurtBoxes;
+		private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
 
 		protected Rigidbody2D m_body;
 
@@ -45,19 +46,29 @@ namespace DashSlash.Gameplay.Enemies
 			UpdateRotationTowardsPlayer();
 		}
 
-        protected virtual void UpdateRotationTowardsPlayer()
+        protected void UpdateRotationTowardsPlayer()
 		{
-            transform.rotation = m_lookAtPlayer.GetRotation( Position );
+			Quaternion targetRotation = GetDesiredRotation();
+
+			float rotationDelta = m_rotationSpeed * Time.deltaTime;
+			Quaternion newRotation = Quaternion.RotateTowards( transform.rotation, targetRotation, rotationDelta );
+
+			transform.rotation = newRotation;
 		}
 
-		protected Vector3 GetDirectionToPlayer()
+		protected virtual Quaternion GetDesiredRotation()
 		{
-			return m_lookAtPlayer.GetDirection( Position );
+			return GetFacingRotationToPlayer();
 		}
 
 		protected Quaternion GetFacingRotationToPlayer()
 		{
 			return m_lookAtPlayer.GetRotation( Position );
+		}
+
+		protected Vector3 GetDirectionToPlayer()
+		{
+			return m_lookAtPlayer.GetDirection( Position );
 		}
 
 		protected float GetDistanceToPlayer()

@@ -27,20 +27,18 @@ namespace DashSlash.Gameplay.Enemies
 		private List<SnakeSegment> m_segments = new List<SnakeSegment>();
 		private CharacterMotor m_motor;
 
-		protected override void UpdateRotationTowardsPlayer()
+		protected override Quaternion GetDesiredRotation()
 		{
 			float distSqrToPlayer = GetDistanceSqrToPlayer();
-			if ( distSqrToPlayer <= m_avoidRange * m_avoidRange )
+			if ( distSqrToPlayer > m_avoidRange * m_avoidRange )
 			{
-				Quaternion rotationToPlayer = GetFacingRotationToPlayer();
-				Quaternion perpendicularRotation = rotationToPlayer * Quaternion.Euler( 0, 0, 90 );
+				return base.GetDesiredRotation();
+			}
 
-				transform.rotation = perpendicularRotation;
-			}
-			else
-			{
-				base.UpdateRotationTowardsPlayer();
-			}
+			Quaternion rotationToPlayer = GetFacingRotationToPlayer();
+			Quaternion perpendicularRotation = rotationToPlayer * Quaternion.Euler( 0, 0, 90 );
+
+			return perpendicularRotation;
 		}
 
 		protected override void UpdateState()
