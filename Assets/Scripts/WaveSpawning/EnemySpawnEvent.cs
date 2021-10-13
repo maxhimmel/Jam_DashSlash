@@ -19,8 +19,10 @@ namespace DashSlash.Gameplay.WaveSpawning
 		[SerializeField, Min( 0 )] private float m_nextSpawnDelay = 0;
 		[SerializeField] protected RandomIntRange m_spawnRange = new RandomIntRange( 1, 4 );
 
+		[Space]
+		[SerializeField] protected InstancedPlacement m_placement = default;
+
 		protected IFactory<Enemy> m_enemyFactory;
-		protected IPlacement m_placement;
 		protected EnemySpawnStateTracker m_stateTracker;
 		protected Coroutine m_spawnRoutine;
 
@@ -62,8 +64,12 @@ namespace DashSlash.Gameplay.WaveSpawning
 		protected virtual void Awake()
 		{
 			m_enemyFactory = GetComponentInChildren<IFactory<Enemy>>();
-			m_placement = GetComponentInChildren<IPlacement>();
 			m_stateTracker = GetComponentInChildren<EnemySpawnStateTracker>();
+
+			if ( m_placement == null )
+			{
+				m_placement = GetComponentInChildren<InstancedPlacement>();
+			}
 		}
 	}
 }
