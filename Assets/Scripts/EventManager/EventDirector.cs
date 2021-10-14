@@ -17,6 +17,11 @@ namespace DashSlash.Gameplay.EventQueues
         private Coroutine m_queueRoutine;
         private WaitForFixedUpdate m_waitForFixedUpdate = new WaitForFixedUpdate();
 
+        public void SetEventIndex( int index )
+		{
+            m_nextEventIndex = index;
+		}
+
         [ContextMenu( "Reset Queue" )]
         public void ResetQueue()
 		{
