@@ -112,10 +112,7 @@ namespace DashSlash.Gameplay.Enemies
 			SetHurtBoxesActive( false );
 
 			this.TryStopCoroutine( ref m_spawnInvincibilityRoutine );
-			m_spawnInvincibilityRoutine = this.StartWaitingForSeconds( m_spawnInvincibiltyDuration, () =>
-			{
-				SetHurtBoxesActive( true );
-			} );
+			m_spawnInvincibilityRoutine = this.StartWaitingForSeconds( m_spawnInvincibiltyDuration, SetHurtBoxesActive, true );
 		}
 
 		private void SetHurtBoxesActive( bool isActive )
