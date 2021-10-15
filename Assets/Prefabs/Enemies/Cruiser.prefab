@@ -15,6 +15,20 @@ MonoBehaviour:
   m_spawnAwakeDelay: 0.25
   m_spawnInvincibiltyDuration: 0.25
   m_rotationSpeed: Infinity
+--- !u!114 &7620688231029507249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1792653837690852165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee4d2030bdb976a458ab66e3830e4e1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_lifetimeDuration: 9
+  m_gameObjectOverride: {fileID: 0}
 --- !u!114 &9160921463547688927
 MonoBehaviour:
   m_ObjectHideFlags: 0
