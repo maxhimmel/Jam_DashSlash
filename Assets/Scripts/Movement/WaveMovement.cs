@@ -13,6 +13,16 @@ namespace DashSlash.Gameplay.Movement
         private IWaveEvaluator m_evaluator;
 		private float m_timer;
 
+		public void SetLocalDirection( Vector3 direction )
+		{
+			m_localDirection = direction;
+		}
+
+		public void SetWaveData( WaveDatum datum )
+		{
+			m_wave = datum;
+		}
+
 		private void FixedUpdate()
 		{
 			m_timer += Time.deltaTime;
