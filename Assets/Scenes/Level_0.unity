@@ -399,7 +399,7 @@ MonoBehaviour:
     m_items:
     - m_normalizedWeight: 100
       Weight: 0
-      Item: {fileID: 4609112399578585701, guid: a3abc227d37d399438e24a503011c0c5, type: 3}
+      Item: {fileID: 4783648475598705198, guid: edf55759114ed564886400cf07069e57, type: 3}
 --- !u!114 &415036261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -424,10 +424,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a51b802324d78c147b4d6f473f62dd26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_nextSpawnDelay: 0.25
+  m_spawnsPerDelay: 2
+  m_nextSpawnDelay: 0.13
   m_spawnRange:
-    Min: 8
-    Max: 11
+    Min: 10
+    Max: 10
   m_placement: {fileID: 0}
 --- !u!114 &415036263
 MonoBehaviour:
@@ -705,6 +706,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a51b802324d78c147b4d6f473f62dd26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_spawnsPerDelay: 1
   m_nextSpawnDelay: 0.3
   m_spawnRange:
     Min: 10
@@ -9851,6 +9853,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a51b802324d78c147b4d6f473f62dd26, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_spawnsPerDelay: 1
   m_nextSpawnDelay: 0.8
   m_spawnRange:
     Min: 8
