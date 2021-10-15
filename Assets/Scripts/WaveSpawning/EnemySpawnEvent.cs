@@ -16,6 +16,7 @@ namespace DashSlash.Gameplay.WaveSpawning
 	{
 		public virtual PlayState State => m_stateTracker.State;
 
+		[SerializeField, Min( 1 )] private int m_spawnsPerDelay = 1;
 		[SerializeField, Min( 0 )] private float m_nextSpawnDelay = 0;
 		[SerializeField] protected RandomIntRange m_spawnRange = new RandomIntRange( 1, 4 );
 
@@ -38,12 +39,20 @@ namespace DashSlash.Gameplay.WaveSpawning
 		{
 			m_stateTracker.PrePlay( numSpawns );
 
-			for ( int idx = 0; idx < numSpawns; ++idx )
+			int spawnCounter = 0;
+			while ( spawnCounter < numSpawns )
 			{
-				m_placement.GetNextOrientation( idx, numSpawns, out Vector3 spawnPos, out Quaternion spawnRot );
-				Enemy newEnemy = m_enemyFactory.Create( spawnPos, spawnRot );
+				for ( int idx = 0; idx < m_spawnsPerDelay; ++idx )
+				{
+					if ( spawnCounter >= numSpawns ) { break; }
 
-				OnSpawned( newEnemy );
+					m_placement.GetNextOrientation( spawnCounter, numSpawns, out Vector3 spawnPos, out Quaternion spawnRot );
+					Enemy newEnemy = m_enemyFactory.Create( spawnPos, spawnRot );
+
+					OnSpawned( newEnemy );
+
+					++spawnCounter;
+				}
 
 				if ( m_nextSpawnDelay > 0 )
 				{
