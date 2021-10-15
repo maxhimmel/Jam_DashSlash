@@ -341,11 +341,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 415036258}
-  - component: {fileID: 415036262}
+  - component: {fileID: 415036259}
   - component: {fileID: 415036261}
+  - component: {fileID: 415036262}
   - component: {fileID: 415036260}
   - component: {fileID: 415036263}
-  - component: {fileID: 415036259}
   m_Layer: 0
   m_Name: Cruisers_SideWalls
   m_TagString: Untagged
@@ -640,8 +640,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 580007557}
-  - component: {fileID: 580007560}
   - component: {fileID: 580007559}
+  - component: {fileID: 580007560}
   - component: {fileID: 580007558}
   m_Layer: 0
   m_Name: Slug_Border
@@ -3965,7 +3965,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.23921569}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.1882353}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -9761,11 +9761,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1982833958}
-  - component: {fileID: 1982833962}
+  - component: {fileID: 1982833963}
   - component: {fileID: 1982833961}
+  - component: {fileID: 1982833962}
   - component: {fileID: 1982833960}
   - component: {fileID: 1982833959}
-  - component: {fileID: 1982833963}
   m_Layer: 0
   m_Name: Slug_Corners
   m_TagString: Untagged
