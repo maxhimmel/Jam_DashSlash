@@ -81,11 +81,6 @@ namespace DashSlash.Gameplay.Enemies
 			return m_lookAtPlayer.GetDistanceSqr( Position );
 		}
 
-		protected virtual void OnSliced( object sender, System.EventArgs e )
-		{
-			Died?.Invoke( this, e );
-		}
-
 		private void OnEnable()
 		{
 			BeginSpawning();
@@ -121,6 +116,22 @@ namespace DashSlash.Gameplay.Enemies
 			{
 				hurt.enabled = isActive;
 			}
+		}
+
+		protected virtual void OnSliced( object sender, System.EventArgs e )
+		{
+			// The child sliceable will destroy this gameobject.
+				// So, we can handle death stuffs in OnDestroy ...
+		}
+
+		private void OnDestroy()
+		{
+			OnDied();
+		}
+
+		protected virtual void OnDied()
+		{
+			Died?.Invoke( this, System.EventArgs.Empty );
 		}
 
 		private void Start()
