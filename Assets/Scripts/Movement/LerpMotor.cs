@@ -57,5 +57,13 @@ namespace DashSlash.Gameplay.Movement
 		{
 			m_body = GetComponent<Rigidbody2D>();
 		}
+
+		private void OnDestroy()
+		{
+			if ( m_moveTween.IsActive() )
+			{
+				m_moveTween.Kill();
+			}
+		}
 	}
 }
