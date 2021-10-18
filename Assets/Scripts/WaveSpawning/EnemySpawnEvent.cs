@@ -10,7 +10,6 @@ namespace DashSlash.Gameplay.WaveSpawning
 {
     using EventQueues;
 	using Enemies;
-	using Enemies.Factories;
 
 	public class EnemySpawnEvent : MonoBehaviour, IEvent
 	{
@@ -21,11 +20,17 @@ namespace DashSlash.Gameplay.WaveSpawning
 		[SerializeField] protected RandomIntRange m_spawnRange = new RandomIntRange( 1, 4 );
 
 		[Space]
+		[SerializeField, Min( 0 )] private float m_spawnAnticDuration = 0.5f;
+		[SerializeField] private GameObject m_spawnAnticPrefab = default;
+
+		[Space]
 		[SerializeField] protected InstancedPlacement m_placement = default;
 
 		protected IFactory<Enemy> m_enemyFactory;
 		protected EnemySpawnStateTracker m_stateTracker;
-		protected Coroutine m_spawnRoutine;
+		private Coroutine m_spawnRoutine;
+		private Coroutine m_anticRoutine;
+		private Queue<EnemySpawnData> m_spawnData = new Queue<EnemySpawnData>();
 
 		public virtual void Play()
 		{
@@ -33,26 +38,36 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 			this.TryStopCoroutine( ref m_spawnRoutine );
 			m_spawnRoutine = StartCoroutine( UpdateSpawning( numSpawns ) );
+
+			this.TryStopCoroutine( ref m_anticRoutine );
+			m_anticRoutine = StartCoroutine( UpdateAntics( numSpawns ) );
 		}
 
 		protected virtual IEnumerator UpdateSpawning( int numSpawns )
 		{
+			this.Log( $"Spawning: {numSpawns}" );
+
 			m_stateTracker.PrePlay( numSpawns );
 
 			int spawnCounter = 0;
 			while ( spawnCounter < numSpawns )
 			{
+				EnemySpawnData spawnData = new EnemySpawnData();
+
 				for ( int idx = 0; idx < m_spawnsPerDelay; ++idx )
 				{
 					if ( spawnCounter >= numSpawns ) { break; }
+					++spawnCounter;
 
 					m_placement.GetNextOrientation( spawnCounter, numSpawns, out Vector3 spawnPos, out Quaternion spawnRot );
-					Enemy newEnemy = m_enemyFactory.Create( spawnPos, spawnRot );
 
-					OnSpawned( newEnemy );
-
-					++spawnCounter;
+					GameObject antic = Instantiate( m_spawnAnticPrefab, spawnPos, spawnRot );
+					spawnData.Antics.Add( antic );
 				}
+
+				m_spawnData.Enqueue( spawnData );
+
+				//StartCoroutine( UpdateSpawnAntic( spawnData ) );
 
 				if ( m_nextSpawnDelay > 0 )
 				{
@@ -62,8 +77,53 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 			m_spawnRoutine = null;
 
+			//m_stateTracker.PostPlay();
+		}
+
+		protected IEnumerator UpdateAntics( int numSpawns )
+		{
+			int spawnCounter = 0;
+			while ( spawnCounter < numSpawns )
+			{
+				while ( m_spawnData.Count <= 0 ) { yield return null; }
+
+				if ( m_spawnAnticDuration > 0 )
+				{
+					yield return new WaitForSeconds( m_spawnAnticDuration );
+				}
+
+				EnemySpawnData spawnData = m_spawnData.Dequeue();
+				foreach ( var antic in spawnData.Antics )
+				{
+					++spawnCounter;
+
+					Enemy newEnemy = m_enemyFactory.Create( antic.transform.position, antic.transform.rotation );
+					OnSpawned( newEnemy );
+
+					Destroy( antic );
+				}
+			}
+
+			m_anticRoutine = null;
+
 			m_stateTracker.PostPlay();
 		}
+
+		//private IEnumerator UpdateSpawnAntic( EnemySpawnData spawnData )
+		//{
+		//	if ( m_spawnAnticDuration > 0 )
+		//	{
+		//		yield return new WaitForSeconds( m_spawnAnticDuration );
+		//	}
+
+		//	foreach ( var antic in spawnData.Antics )
+		//	{
+		//		Enemy newEnemy = m_enemyFactory.Create( antic.transform.position, antic.transform.rotation );
+		//		OnSpawned( newEnemy );
+
+		//		Destroy( antic );
+		//	}
+		//}
 
 		protected virtual void OnSpawned( Enemy enemy )
 		{
@@ -80,5 +140,10 @@ namespace DashSlash.Gameplay.WaveSpawning
 				m_placement = GetComponentInChildren<InstancedPlacement>();
 			}
 		}
+	}
+
+	class EnemySpawnData
+	{
+		public List<GameObject> Antics = new List<GameObject>();
 	}
 }
