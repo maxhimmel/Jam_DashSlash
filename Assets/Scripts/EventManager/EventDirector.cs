@@ -52,6 +52,8 @@ namespace DashSlash.Gameplay.EventQueues
                 return;
 			}
 
+            this.Log( $"Start", Colors.Red );
+
             m_queueRoutine = StartCoroutine( UpdateQueue() );
 		}
 
@@ -71,7 +73,9 @@ namespace DashSlash.Gameplay.EventQueues
 			}
 
             m_queueRoutine = null;
-		}
+
+            this.Log( $"Finish", Colors.Red );
+        }
 
         private IEvent GetNextEvent()
         {
@@ -91,7 +95,7 @@ namespace DashSlash.Gameplay.EventQueues
             if ( IsPlaying )
             {
                 this.TryStopCoroutine( ref m_queueRoutine );
-                Debug.Log( $"{name}'s queue has been interrupted.", this );
+                this.Log( $"Queue has been interrupted." );
             }
         }
 	}
