@@ -27,10 +27,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6777be83aba9e704db531cd1b776bf43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pawn: {fileID: 1862490337528473093}
   m_spawnAwakeDelay: 0.25
   m_spawnInvincibiltyDuration: 0.25
-  m_dashOffsetAngle: 20
+  m_rotationSpeed: 540
+  m_dashOffsetAngle: 30
   m_dashCooldownDuration: 2
   m_dashDistance: 5
 --- !u!1001 &7497984838024050206
@@ -40,6 +40,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3950608534882089491, guid: 269936834e6f15748986965b3853633f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9000519400927449601, guid: 269936834e6f15748986965b3853633f, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -93,10 +97,5 @@ PrefabInstance:
 --- !u!1 &1506020655843959835 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9000519400927449605, guid: 269936834e6f15748986965b3853633f, type: 3}
-  m_PrefabInstance: {fileID: 7497984838024050206}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1862490337528473093 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8202977296798928923, guid: 269936834e6f15748986965b3853633f, type: 3}
   m_PrefabInstance: {fileID: 7497984838024050206}
   m_PrefabAsset: {fileID: 0}
