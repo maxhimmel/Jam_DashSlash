@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6416c724f8d634c4a811244f0cce0942, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_maxSpeed: 5
+  m_maxSpeed: 6
   m_acceleration: 20
 --- !u!114 &4439555319345611745
 MonoBehaviour:
@@ -26,9 +26,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1fc74c10fee7644dabc45e2ee69c603, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_pawn: {fileID: 2704442255515461612}
   m_spawnAwakeDelay: 0.25
   m_spawnInvincibiltyDuration: 0.25
+  m_rotationSpeed: 270
 --- !u!58 &139662201468358054
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -126,11 +126,6 @@ PrefabInstance:
 --- !u!1 &2933685252558661106 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9000519400927449605, guid: 269936834e6f15748986965b3853633f, type: 3}
-  m_PrefabInstance: {fileID: 6079524716996294647}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2704442255515461612 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8202977296798928923, guid: 269936834e6f15748986965b3853633f, type: 3}
   m_PrefabInstance: {fileID: 6079524716996294647}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &2933685253793141384 stripped
