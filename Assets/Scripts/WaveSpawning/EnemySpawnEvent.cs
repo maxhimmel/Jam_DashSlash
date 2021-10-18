@@ -29,8 +29,6 @@ namespace DashSlash.Gameplay.WaveSpawning
 		protected IFactory<Enemy> m_enemyFactory;
 		protected EnemySpawnStateTracker m_stateTracker;
 		private Coroutine m_spawnRoutine;
-		private Coroutine m_anticRoutine;
-		private Queue<EnemySpawnData> m_spawnData = new Queue<EnemySpawnData>();
 
 		public virtual void Play()
 		{
@@ -38,9 +36,6 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 			this.TryStopCoroutine( ref m_spawnRoutine );
 			m_spawnRoutine = StartCoroutine( UpdateSpawning( numSpawns ) );
-
-			this.TryStopCoroutine( ref m_anticRoutine );
-			m_anticRoutine = StartCoroutine( UpdateAntics( numSpawns ) );
 		}
 
 		protected virtual IEnumerator UpdateSpawning( int numSpawns )
@@ -57,17 +52,16 @@ namespace DashSlash.Gameplay.WaveSpawning
 				for ( int idx = 0; idx < m_spawnsPerDelay; ++idx )
 				{
 					if ( spawnCounter >= numSpawns ) { break; }
-					++spawnCounter;
 
 					m_placement.GetNextOrientation( spawnCounter, numSpawns, out Vector3 spawnPos, out Quaternion spawnRot );
 
 					GameObject antic = Instantiate( m_spawnAnticPrefab, spawnPos, spawnRot );
 					spawnData.Antics.Add( antic );
+
+					++spawnCounter;
 				}
 
-				m_spawnData.Enqueue( spawnData );
-
-				//StartCoroutine( UpdateSpawnAntic( spawnData ) );
+				StartCoroutine( UpdateSpawnAntic( spawnData ) );
 
 				if ( m_nextSpawnDelay > 0 )
 				{
@@ -77,53 +71,24 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 			m_spawnRoutine = null;
 
-			//m_stateTracker.PostPlay();
-		}
-
-		protected IEnumerator UpdateAntics( int numSpawns )
-		{
-			int spawnCounter = 0;
-			while ( spawnCounter < numSpawns )
-			{
-				while ( m_spawnData.Count <= 0 ) { yield return null; }
-
-				if ( m_spawnAnticDuration > 0 )
-				{
-					yield return new WaitForSeconds( m_spawnAnticDuration );
-				}
-
-				EnemySpawnData spawnData = m_spawnData.Dequeue();
-				foreach ( var antic in spawnData.Antics )
-				{
-					++spawnCounter;
-
-					Enemy newEnemy = m_enemyFactory.Create( antic.transform.position, antic.transform.rotation );
-					OnSpawned( newEnemy );
-
-					Destroy( antic );
-				}
-			}
-
-			m_anticRoutine = null;
-
 			m_stateTracker.PostPlay();
 		}
 
-		//private IEnumerator UpdateSpawnAntic( EnemySpawnData spawnData )
-		//{
-		//	if ( m_spawnAnticDuration > 0 )
-		//	{
-		//		yield return new WaitForSeconds( m_spawnAnticDuration );
-		//	}
+		private IEnumerator UpdateSpawnAntic( EnemySpawnData spawnData )
+		{
+			if ( m_spawnAnticDuration > 0 )
+			{
+				yield return new WaitForSeconds( m_spawnAnticDuration );
+			}
 
-		//	foreach ( var antic in spawnData.Antics )
-		//	{
-		//		Enemy newEnemy = m_enemyFactory.Create( antic.transform.position, antic.transform.rotation );
-		//		OnSpawned( newEnemy );
+			foreach ( var antic in spawnData.Antics )
+			{
+				Enemy newEnemy = m_enemyFactory.Create( antic.transform.position, antic.transform.rotation );
+				OnSpawned( newEnemy );
 
-		//		Destroy( antic );
-		//	}
-		//}
+				Destroy( antic );
+			}
+		}
 
 		protected virtual void OnSpawned( Enemy enemy )
 		{
