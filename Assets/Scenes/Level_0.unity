@@ -400,8 +400,7 @@ MonoBehaviour:
   m_spawnRange:
     Min: 2
     Max: 4
-  m_spawnAnticDuration: 1
-  m_spawnAnticPrefab: {fileID: 7416017173819703962, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
+  m_spawnAnticPrefab: {fileID: 5807675619292289882, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
   m_placement: {fileID: 2132816662}
 --- !u!114 &64437765
 MonoBehaviour:
@@ -572,8 +571,7 @@ MonoBehaviour:
   m_spawnRange:
     Min: 6
     Max: 6
-  m_spawnAnticDuration: 1
-  m_spawnAnticPrefab: {fileID: 7416017173819703962, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
+  m_spawnAnticPrefab: {fileID: 5807675619292289882, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
   m_placement: {fileID: 0}
 --- !u!114 &415036263
 MonoBehaviour:
@@ -856,8 +854,7 @@ MonoBehaviour:
   m_spawnRange:
     Min: 10
     Max: 10
-  m_spawnAnticDuration: 1
-  m_spawnAnticPrefab: {fileID: 7416017173819703962, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
+  m_spawnAnticPrefab: {fileID: 5807675619292289882, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
   m_placement: {fileID: 59993217}
 --- !u!1 &595665730
 GameObject:
@@ -8925,8 +8922,7 @@ MonoBehaviour:
   m_spawnRange:
     Min: 4
     Max: 7
-  m_spawnAnticDuration: 1
-  m_spawnAnticPrefab: {fileID: 7416017173819703962, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
+  m_spawnAnticPrefab: {fileID: 5807675619292289882, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
   m_placement: {fileID: 954324011}
 --- !u!114 &954324014
 MonoBehaviour:
@@ -10213,8 +10209,7 @@ MonoBehaviour:
   m_spawnRange:
     Min: 4
     Max: 7
-  m_spawnAnticDuration: 1
-  m_spawnAnticPrefab: {fileID: 7416017173819703962, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
+  m_spawnAnticPrefab: {fileID: 5807675619292289882, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
   m_placement: {fileID: 1795400963}
 --- !u!114 &1795400963
 MonoBehaviour:
@@ -10691,8 +10686,7 @@ MonoBehaviour:
   m_spawnRange:
     Min: 8
     Max: 11
-  m_spawnAnticDuration: 1
-  m_spawnAnticPrefab: {fileID: 7416017173819703962, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
+  m_spawnAnticPrefab: {fileID: 5807675619292289882, guid: fd8a4599a9da2a84fa5b83b6808c9106, type: 3}
   m_placement: {fileID: 1982833959}
 --- !u!114 &1982833963
 MonoBehaviour:

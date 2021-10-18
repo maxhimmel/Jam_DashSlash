@@ -15,13 +15,14 @@ namespace DashSlash.Gameplay.WaveSpawning
 	{
 		public virtual PlayState State => m_stateTracker.State;
 
+		protected float SpawnAnticDuration => m_spawnAnticPrefab != null ? m_spawnAnticPrefab.Duration : 0;
+
 		[SerializeField, Min( 1 )] private int m_spawnsPerDelay = 1;
 		[SerializeField, Min( 0 )] private float m_nextSpawnDelay = 0;
 		[SerializeField] protected RandomIntRange m_spawnRange = new RandomIntRange( 1, 4 );
 
 		[Space]
-		[SerializeField, Min( 0 )] private float m_spawnAnticDuration = 0.5f;
-		[SerializeField] private GameObject m_spawnAnticPrefab = default;
+		[SerializeField] private SpawnAntic m_spawnAnticPrefab = default;
 
 		[Space]
 		[SerializeField] protected InstancedPlacement m_placement = default;
@@ -55,7 +56,7 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 					m_placement.GetNextOrientation( spawnCounter, numSpawns, out Vector3 spawnPos, out Quaternion spawnRot );
 
-					GameObject antic = Instantiate( m_spawnAnticPrefab, spawnPos, spawnRot );
+					SpawnAntic antic = Instantiate( m_spawnAnticPrefab, spawnPos, spawnRot );
 					spawnData.Antics.Add( antic );
 
 					++spawnCounter;
@@ -76,9 +77,9 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 		private IEnumerator UpdateSpawnAntic( EnemySpawnData spawnData )
 		{
-			if ( m_spawnAnticDuration > 0 )
+			if ( SpawnAnticDuration > 0 )
 			{
-				yield return new WaitForSeconds( m_spawnAnticDuration );
+				yield return new WaitForSeconds( SpawnAnticDuration );
 			}
 
 			foreach ( var antic in spawnData.Antics )
@@ -86,7 +87,7 @@ namespace DashSlash.Gameplay.WaveSpawning
 				Enemy newEnemy = m_enemyFactory.Create( antic.transform.position, antic.transform.rotation );
 				OnSpawned( newEnemy );
 
-				Destroy( antic );
+				Destroy( antic.gameObject );
 			}
 		}
 
@@ -109,6 +110,6 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 	class EnemySpawnData
 	{
-		public List<GameObject> Antics = new List<GameObject>();
+		public List<SpawnAntic> Antics = new List<SpawnAntic>();
 	}
 }
