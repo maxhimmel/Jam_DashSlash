@@ -56,8 +56,14 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 					m_placement.GetNextOrientation( spawnCounter, numSpawns, out Vector3 spawnPos, out Quaternion spawnRot );
 
-					SpawnAntic antic = Instantiate( m_spawnAnticPrefab, spawnPos, spawnRot );
-					spawnData.Antics.Add( antic );
+					spawnData.Positions.Add( spawnPos );
+					spawnData.Rotations.Add( spawnRot );
+					if ( m_spawnAnticPrefab != null )
+					{
+						SpawnAntic antic = Instantiate( m_spawnAnticPrefab, spawnPos, spawnRot );
+						spawnData.Antics.Add( antic );
+					}
+
 
 					++spawnCounter;
 				}
@@ -82,12 +88,19 @@ namespace DashSlash.Gameplay.WaveSpawning
 				yield return new WaitForSeconds( SpawnAnticDuration );
 			}
 
-			foreach ( var antic in spawnData.Antics )
+			for ( int idx = 0; idx < spawnData.Positions.Count; ++idx )
 			{
-				Enemy newEnemy = m_enemyFactory.Create( antic.transform.position, antic.transform.rotation );
+				Vector3 spawnPos = spawnData.Positions[idx];
+				Quaternion spawnRot = spawnData.Rotations[idx];
+
+				Enemy newEnemy = m_enemyFactory.Create( spawnPos, spawnRot );
 				OnSpawned( newEnemy );
 
-				Destroy( antic.gameObject );
+				if ( idx < spawnData.Antics.Count )
+				{
+					SpawnAntic antic = spawnData.Antics[idx];
+					Destroy( antic.gameObject );
+				}
 			}
 		}
 
@@ -111,5 +124,7 @@ namespace DashSlash.Gameplay.WaveSpawning
 	class EnemySpawnData
 	{
 		public List<SpawnAntic> Antics = new List<SpawnAntic>();
+		public List<Vector3> Positions = new List<Vector3>();
+		public List<Quaternion> Rotations = new List<Quaternion>();
 	}
 }
