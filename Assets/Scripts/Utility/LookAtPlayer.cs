@@ -15,6 +15,11 @@ namespace DashSlash.Gameplay.Player
 			return Quaternion.LookRotation( Vector3.forward, GetDirection( other ) );
 		}
 
+		/// <summary>
+		/// Is normalized.
+		/// </summary>
+		/// <param name="other"></param>
+		/// <returns></returns>
 		public Vector3 GetDirection( Vector3 other )
 		{
 			return (Player.transform.position - other).normalized;
