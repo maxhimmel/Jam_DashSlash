@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Xam.Utility.Juicy;
 using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay
@@ -9,14 +10,18 @@ namespace DashSlash.Gameplay
     {
 		public bool IsCleaningUp { get; private set; }
 
-		[SerializeField] private float m_lifetime = 3;
-		[SerializeField] private float m_launchTorque = 10;
+		[SerializeField, Min( 0 )] private float m_spawnInvincibilityDuration = 0.25f;
 
 		[Space]
-		[SerializeField] private float m_spawnInvincibilityDuration = 0.25f;
+		[SerializeField, Min( 0 )] private float m_lifetime = 3;
+		[SerializeField, Min( 0 )] private float m_expirationWarning = 0.5f;
+
+		[Space]
+		[SerializeField] private float m_launchTorque = 10;
 
 		private Rigidbody2D m_body;
 		private Collider2D m_collider;
+		private RendererBlinker m_warningBlinker;
 
 		public void Launch( Vector3 velocity )
 		{
@@ -28,6 +33,7 @@ namespace DashSlash.Gameplay
 
 			this.StartWaitingForSeconds( m_lifetime, Cleanup );
 			this.StartWaitingForSeconds( m_spawnInvincibilityDuration, SetCollisionActive, true );
+			this.StartWaitingForSeconds( m_lifetime - m_expirationWarning, m_warningBlinker.Play );
 		}
 
 		private void OnTriggerEnter2D( Collider2D collision )
@@ -51,6 +57,7 @@ namespace DashSlash.Gameplay
 		{
 			m_body = GetComponent<Rigidbody2D>();
 			m_collider = GetComponentInChildren<Collider2D>( true );
+			m_warningBlinker = GetComponentInChildren<RendererBlinker>( true );
 		}
 	}
 }

@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 5759407708105807505}
   - component: {fileID: 6907531394488588397}
   - component: {fileID: 5691689930966181378}
+  - component: {fileID: 6219156962191958053}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -120,6 +121,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d72292079968a1f4d803dfa79ad6cc85, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6219156962191958053
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759407708105807599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 196eda20932746845909185db6ae82c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_blinkFrequency: 0.1
 --- !u!1 &5759407708431196203
 GameObject:
   m_ObjectHideFlags: 0
@@ -225,7 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_spawnInvincibilityDuration: 0.25
   m_lifetime: 3
-  m_expirationWarning: 0.5
+  m_expirationWarning: 1.25
   m_launchTorque: 10
 --- !u!50 &5759407708982849701
 Rigidbody2D:
