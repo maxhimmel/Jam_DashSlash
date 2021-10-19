@@ -23,19 +23,28 @@ namespace DashSlash.Gameplay
 
 		private void OnEnemyDead( object sender, System.EventArgs e )
 		{
-			Vector3 spawnPos = transform.position;
-
 			int spawnAmount = m_spawnAmountRange.Evaluate();
 			for ( int idx = 0; idx < spawnAmount; ++idx )
 			{
-				int randAngle = Random.Range( 0, 360 );
-				Quaternion spawnRot = Quaternion.Euler( 0, 0, randAngle );
-				Pickup newPickup = Instantiate( m_pickupPrefab, spawnPos, spawnRot );
-
-				Vector3 launchDir = Random.insideUnitCircle.normalized;
-				float launchForce = m_launchForceRange.Evaluate();
-				newPickup.Launch( launchDir * launchForce );
+				Pickup newPickup = CreatePickup();
+				LaunchPickup( newPickup );
 			}
+		}
+
+		private Pickup CreatePickup()
+		{
+			int randAngle = Random.Range( 0, 360 );
+			Quaternion spawnRot = Quaternion.Euler( 0, 0, randAngle );
+
+			return Instantiate( m_pickupPrefab, transform.position, spawnRot );
+		}
+
+		private void LaunchPickup( Pickup pickup )
+		{
+			Vector3 launchDir = Random.insideUnitCircle.normalized;
+			float launchForce = m_launchForceRange.Evaluate();
+
+			pickup.Launch( launchDir * launchForce );
 		}
 	}
 }
