@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5759407708105807598}
   - component: {fileID: 5759407708105807505}
+  - component: {fileID: 6907531394488588397}
+  - component: {fileID: 5691689930966181378}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -82,6 +84,42 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6907531394488588397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759407708105807599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 81bb63149d81a5b489062523a0ba7299, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_playOnStart: 1
+  m_useRandomColorAtStart: 1
+  m_shiftDuration: 0.175
+  m_colorData:
+    HueMin: 0.1040434
+    HueMax: 0.17711127
+    SaturationMin: 0.88909817
+    SaturationMax: 1
+    ValueMin: 0.95057833
+    ValueMax: 1
+    AlphaMin: 1
+    AlphaMax: 1
+--- !u!114 &5691689930966181378
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5759407708105807599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72292079968a1f4d803dfa79ad6cc85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5759407708431196203
 GameObject:
   m_ObjectHideFlags: 0
@@ -185,9 +223,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3be309c95b3591646a5a06a20503048b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_lifetime: 3
-  m_launchTorque: 10
   m_spawnInvincibilityDuration: 0.25
+  m_lifetime: 3
+  m_expirationWarning: 0.5
+  m_launchTorque: 10
 --- !u!50 &5759407708982849701
 Rigidbody2D:
   serializedVersion: 4
