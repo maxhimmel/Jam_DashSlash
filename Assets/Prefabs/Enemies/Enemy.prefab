@@ -139,8 +139,8 @@ MonoBehaviour:
     Min: 5
     Max: 10
   m_spawnAmountRange:
-    Min: 3
-    Max: 8
+    Min: 2
+    Max: 4
 --- !u!1 &9000519399964222847
 GameObject:
   m_ObjectHideFlags: 0
