@@ -24,6 +24,7 @@ namespace DashSlash.Gameplay.Enemies
 		[Header( "Rotation" )]
 		[SerializeField] protected float m_rotationSpeed = 540;
 
+		private bool m_isAppQuitting = false;
 		private Transform m_pawn;
 		private Coroutine m_sleepRoutine;
 		private Coroutine m_spawnInvincibilityRoutine;
@@ -126,7 +127,10 @@ namespace DashSlash.Gameplay.Enemies
 
 		private void OnDestroy()
 		{
-			OnDied();
+			if ( !m_isAppQuitting )
+			{
+				OnDied();
+			}
 		}
 
 		protected virtual void OnDied()
@@ -161,6 +165,11 @@ namespace DashSlash.Gameplay.Enemies
 		protected virtual void OnDisable()
 		{
 
+		}
+
+		private void OnApplicationQuit()
+		{
+			m_isAppQuitting = true;
 		}
 	}
 }
