@@ -19,6 +19,7 @@ namespace DashSlash.Gameplay.Player
 		private LerpMotor m_motor;
 		private PlayerTrajectoryController m_trajectoryController;
 		private AnimController m_animator;
+		private DamageHandler m_damageHandler;
 
 		private void OnDragStarted( object sender, DragArgs e )
 		{
@@ -50,10 +51,15 @@ namespace DashSlash.Gameplay.Player
 
 		private void TryForceUpdateTrajectory()
 		{
-			if ( m_motor.IsMoving && m_trajectoryController.IsDragging )
+			if ( CanUpdateTrajectory() )
 			{
 				m_trajectoryController.ForceUpdate();
 			}
+		}
+
+		private bool CanUpdateTrajectory()
+		{
+			return m_motor.IsMoving && m_trajectoryController.IsDragging;
 		}
 
 		private void Start()
@@ -73,6 +79,7 @@ namespace DashSlash.Gameplay.Player
 			m_motor = GetComponentInChildren<LerpMotor>();
 			m_trajectoryController = GetComponent<PlayerTrajectoryController>();
 			m_animator = GetComponentInChildren<AnimController>();
+			m_damageHandler = GetComponent<DamageHandler>();
 		}
 	}
 }
