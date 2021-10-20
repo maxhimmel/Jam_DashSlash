@@ -13,9 +13,11 @@ namespace DashSlash.Gameplay.Player
 	{
 		public bool IsStunned => m_stunRoutine != null;
 
+		[Header( "Stunned" )]
 		[SerializeField] private float m_stunDuration = 1;
+		[SerializeField] private float m_stunVfxDuration = 0.5f;
 
-		[Space]
+		[Header( "Physics" )]
 		[SerializeField] private float m_knockbackForce = 8;
 		[SerializeField] private float m_knockbackTorque = 8;
 
@@ -44,6 +46,7 @@ namespace DashSlash.Gameplay.Player
 			m_body.freezeRotation = false;
 
 			m_animController.ClearAllAnimations( false );
+			m_animController.PlayStunnedVfx( m_stunVfxDuration );
 		}
 
 		private void ApplyDamage( DamageDatum dmgData )

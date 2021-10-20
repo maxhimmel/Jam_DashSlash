@@ -9428,6 +9428,7 @@ GameObject:
   - component: {fileID: 1230047986}
   - component: {fileID: 1230047988}
   - component: {fileID: 1230047987}
+  - component: {fileID: 1230047989}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -9520,6 +9521,20 @@ MonoBehaviour:
   m_stunRecoveryEase: 28
   m_dashVfx: {fileID: 879899566}
   m_dashShake: {fileID: 1122238355}
+  m_stunBlinker: {fileID: 1230047989}
+--- !u!114 &1230047989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1230047985}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 196eda20932746845909185db6ae82c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_blinkFrequency: 0.05
 --- !u!1 &1295579246
 GameObject:
   m_ObjectHideFlags: 0
@@ -9669,6 +9684,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_stunDuration: 1
+  m_stunVfxDuration: 0.5
   m_knockbackForce: 8
   m_knockbackTorque: 3
 --- !u!1 &1375025716

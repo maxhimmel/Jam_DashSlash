@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
 using Cinemachine;
+using Xam.Utility.Juicy;
+using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Player.Animation
 {
@@ -24,8 +26,10 @@ namespace DashSlash.Gameplay.Player.Animation
 		[Header( "VFX" )]
 		[SerializeField] private ParticleSystem m_dashVfx = default;
 		[SerializeField] private CinemachineImpulseSource m_dashShake = default;
+		[SerializeField] private RendererBlinker m_stunBlinker = default;
 
 		private Tweener m_rotationAnim;
+		private Coroutine m_stunBlinkRoutine;
 
 		public void PlayPrepareDashAnim( float duration, Vector3 trajectory )
 		{
@@ -48,6 +52,14 @@ namespace DashSlash.Gameplay.Player.Animation
 			m_dashShake.GenerateImpulseAt( Model.position, trajectory );
 		}
 
+		public void PlayStunnedVfx( float duration )
+		{
+			m_stunBlinker.Play();
+
+			this.TryStopCoroutine( ref m_stunBlinkRoutine );
+			m_stunBlinkRoutine = this.StartWaitingForSeconds( duration, () => m_stunBlinker.Stop( true ) );
+		}
+
 		public void PlayStunRecovery()
 		{
 			m_rotationAnim = ModelParent.DORotate( Vector3.zero, m_stunRecoveryDuration, m_stunRecoveryRotationMode )
@@ -60,6 +72,9 @@ namespace DashSlash.Gameplay.Player.Animation
 			{
 				m_rotationAnim.Kill( complete );
 			}
+
+			m_stunBlinker.Stop( true );
+			this.TryStopCoroutine( ref m_stunBlinkRoutine );
 		}
 	}
 }
