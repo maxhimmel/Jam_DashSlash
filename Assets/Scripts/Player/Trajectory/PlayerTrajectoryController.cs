@@ -13,7 +13,7 @@ namespace DashSlash.Gameplay.Player
 		public event EventHandler<DragArgs> DragReleased;
 		public event EventHandler<DragArgs> ZipUpCompleted;
 
-		public bool IsDragging => m_dragAndDrop.IsDragging;
+		public bool IsDragging => enabled && m_dragAndDrop.IsDragging;
 		public Vector3 Trajectory => m_dragAndDrop.CurrentDrag.Vector;
 
 		private Vector3 Center => transform.position;
@@ -80,14 +80,14 @@ namespace DashSlash.Gameplay.Player
 			OnDragUpdated( this, args );
 		}
 
-		private void Start()
+		private void OnEnable()
 		{
 			m_dragAndDrop.DragStarted += OnDragStarted;
 			m_dragAndDrop.DragUpdated += OnDragUpdated;
 			m_dragAndDrop.DragReleased += OnDragReleased;
 		}
 
-		private void OnDestroy()
+		private void OnDisable()
 		{
 			m_dragAndDrop.DragStarted -= OnDragStarted;
 			m_dragAndDrop.DragUpdated -= OnDragUpdated;
