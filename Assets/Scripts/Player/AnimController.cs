@@ -8,12 +8,18 @@ namespace DashSlash.Gameplay.Player.Animation
 {
     public class AnimController : MonoBehaviour
     {
+		private Transform ModelParent => Model.parent;
 		private Transform Model => transform;
 
 		[Header( "Prepare Dash" )]
 		[SerializeField] private float m_punchStrength = 25;
 		[SerializeField] private int m_punchVibrato = 5;
 		[SerializeField] private float m_punchElasticity = 1;
+
+		[Header( "Stun" )]
+		[SerializeField] private float m_stunRecoveryDuration = 0.5f;
+		[SerializeField] private RotateMode m_stunRecoveryRotationMode = RotateMode.LocalAxisAdd;
+		[SerializeField] private Ease m_stunRecoveryEase = Ease.InOutBounce;
 
 		[Header( "VFX" )]
 		[SerializeField] private ParticleSystem m_dashVfx = default;
@@ -40,6 +46,20 @@ namespace DashSlash.Gameplay.Player.Animation
 			m_dashVfx.Play( true );
 
 			m_dashShake.GenerateImpulseAt( Model.position, trajectory );
+		}
+
+		public void PlayStunRecovery()
+		{
+			m_rotationAnim = ModelParent.DORotate( Vector3.zero, m_stunRecoveryDuration, m_stunRecoveryRotationMode )
+				.SetEase( m_stunRecoveryEase );
+		}
+
+		public void ClearAllAnimations( bool complete = false )
+		{
+			if ( m_rotationAnim.IsActive() )
+			{
+				m_rotationAnim.Kill( complete );
+			}
 		}
 	}
 }
