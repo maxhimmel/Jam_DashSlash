@@ -14,6 +14,11 @@ namespace DashSlash.Gameplay
 	{
         public Transform Instigator;
         public Transform DamageCauser;
+
+        public Vector3 GetHitDirection( Vector3 otherPos )
+		{
+            return (otherPos - DamageCauser.position).normalized;
+		}
 	}
 
     public static class DamageableExtensions
