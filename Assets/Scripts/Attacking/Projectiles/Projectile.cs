@@ -19,10 +19,14 @@ namespace DashSlash.Gameplay.Weapons
 
 		private Transform m_owner;
         private Rigidbody2D m_body;
+		private DamageDatum m_damageData = new DamageDatum();
 
 		public void SetOwner( Transform owner )
 		{
 			m_owner = owner;
+
+			m_damageData.Instigator = owner;
+			m_damageData.DamageCauser = this.transform;
 		}
 
 		public void Fire( float force )
@@ -41,11 +45,7 @@ namespace DashSlash.Gameplay.Weapons
 			Rigidbody2D otherBody = collision.attachedRigidbody;
 			if ( otherBody.TryGetDamageable( out IDamageable damageable ) )
 			{
-				damageable.TakeDamage( new DamageDatum()
-				{
-					Instigator = m_owner,
-					DamageCauser = transform
-				} );
+				damageable.TakeDamage( m_damageData );
 			}
 		}
 
