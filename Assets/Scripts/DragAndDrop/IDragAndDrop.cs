@@ -26,5 +26,13 @@ namespace DashSlash.Gameplay
             Start = start;
             End = end;
         }
+
+        public DragArgs ToLocalSpace( Transform source )
+		{
+            return new DragArgs(
+                source.InverseTransformPoint( Start ),
+                source.InverseTransformPoint( End )
+            );
+        }
     }
 }

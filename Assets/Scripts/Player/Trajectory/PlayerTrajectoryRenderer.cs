@@ -39,6 +39,11 @@ namespace DashSlash.Gameplay.Player
 				m_renderer.positionCount = k_minLinePoints;
 			}
 
+			if ( !m_renderer.useWorldSpace )
+			{
+				args = args.ToLocalSpace( transform );
+			}
+
 			m_renderer.SetPosition( 0, args.Start );
 			m_renderer.SetPosition( 1, args.End );
 		}
