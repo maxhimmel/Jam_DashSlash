@@ -132,6 +132,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9000519400927449604, guid: 269936834e6f15748986965b3853633f, type: 3}
+      propertyPath: m_Constraints
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 9000519400927449605, guid: 269936834e6f15748986965b3853633f, type: 3}
       propertyPath: m_Name
       value: Swarmer
