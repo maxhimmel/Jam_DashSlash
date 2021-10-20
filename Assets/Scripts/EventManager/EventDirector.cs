@@ -10,6 +10,7 @@ namespace DashSlash.Gameplay.EventQueues
     {
         public bool IsPlaying => m_queueRoutine != null;
 
+        [ListDrawerSettings( ShowIndexLabels = true )]
         [SerializeField] private List<IEvent> m_events = new List<IEvent>();
 
         private int m_nextEventIndex = 0;
