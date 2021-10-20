@@ -70,7 +70,7 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 				StartCoroutine( UpdateSpawnAntic( spawnData ) );
 
-				if ( m_nextSpawnDelay > 0 )
+				if ( spawnCounter < numSpawns && m_nextSpawnDelay > 0 )
 				{
 					yield return new WaitForSeconds( m_nextSpawnDelay );
 				}
