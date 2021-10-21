@@ -11,6 +11,8 @@ namespace DashSlash.Gameplay.Weapons
 
 	public class Sword : MonoBehaviour
     {
+		public bool IsSlicing => m_collider.enabled;
+
 		private Vector3 SliceTrajectory => transform.up;
 
 		[Header( "Physics" )]
