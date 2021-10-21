@@ -39,7 +39,13 @@ namespace DashSlash.Gameplay
 		private void OnTriggerEnter2D( Collider2D collision )
 		{
 			if ( IsCleaningUp ) { return; }
-			Cleanup();
+
+			ICollector collector = collision.attachedRigidbody?.GetComponent<ICollector>();
+			if ( collector != null )
+			{
+				collector.Collect( this );
+				Cleanup();
+			}
 		}
 
 		private void Cleanup()
