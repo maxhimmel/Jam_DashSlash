@@ -8,6 +8,7 @@ namespace DashSlash.Gameplay.Player
 {
 	using Movement;
 	using Animation;
+	using Weapons;
 
 	public class DamageHandler : MonoBehaviour, IDamageable
 	{
@@ -29,6 +30,7 @@ namespace DashSlash.Gameplay.Player
 		private Rigidbody2D m_body;
 		private AnimController m_animController;
 		private PlayerTrajectoryController m_trajectoryController;
+		private Sword m_sword;
 		private Coroutine m_stunRoutine;
 
 		public void TakeDamage( DamageDatum dmgData )
@@ -44,6 +46,8 @@ namespace DashSlash.Gameplay.Player
 
 		private void PrepareForDamage( DamageDatum dmgData )
 		{
+			m_sword.Deactivate();
+
 			m_trajectoryController.enabled = false;
 			m_trajectoryController.RetrieveReticle( m_retrieveReticleDuration, m_retrieveReticleAnim );
 
@@ -86,6 +90,7 @@ namespace DashSlash.Gameplay.Player
 			m_body = GetComponent<Rigidbody2D>();
 			m_animController = GetComponentInChildren<AnimController>();
 			m_trajectoryController = GetComponent<PlayerTrajectoryController>();
+			m_sword = GetComponentInChildren<Sword>();
 		}
 	}
 }

@@ -35,6 +35,11 @@ namespace DashSlash.Gameplay.Weapons
 
 		private void OnDashCompleted( object sender, DragArgs e )
 		{
+			Deactivate();
+		}
+
+		public void Deactivate()
+		{
 			m_collider.enabled = false;
 			m_volume.ClearBucket();
 
