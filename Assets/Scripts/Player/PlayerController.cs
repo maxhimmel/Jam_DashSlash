@@ -8,7 +8,8 @@ namespace DashSlash.Gameplay.Player
 	using Animation;
 	using Movement;
 
-    public class PlayerController : MonoBehaviour
+    public class PlayerController : MonoBehaviour, 
+		ICollector
 	{
 		[Header( "Movement" )]
 		[SerializeField] private Ease m_prepareEase = Ease.OutQuint;
@@ -19,7 +20,11 @@ namespace DashSlash.Gameplay.Player
 		private LerpMotor m_motor;
 		private PlayerTrajectoryController m_trajectoryController;
 		private AnimController m_animator;
-		private DamageHandler m_damageHandler;
+
+		void ICollector.Collect( Pickup pickup )
+		{
+			m_animator.PlayCollectPickupVfx();
+		}
 
 		private void OnDragStarted( object sender, DragArgs e )
 		{
@@ -79,7 +84,6 @@ namespace DashSlash.Gameplay.Player
 			m_motor = GetComponentInChildren<LerpMotor>();
 			m_trajectoryController = GetComponent<PlayerTrajectoryController>();
 			m_animator = GetComponentInChildren<AnimController>();
-			m_damageHandler = GetComponent<DamageHandler>();
 		}
 	}
 }
