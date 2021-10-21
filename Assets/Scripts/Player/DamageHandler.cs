@@ -35,13 +35,24 @@ namespace DashSlash.Gameplay.Player
 
 		public void TakeDamage( DamageDatum dmgData )
 		{
-			if ( IsStunned ) { return; }
+			if ( !CanTakeDamage( dmgData ) ) { return; }
 
 			PrepareForDamage( dmgData );
 
 			ApplyDamage( dmgData );
 
 			m_stunRoutine = StartCoroutine( UpdateStunState() );
+		}
+
+		private bool CanTakeDamage( DamageDatum dmgData )
+		{
+			if ( IsStunned ) { return false; }
+			if ( !m_sword.IsSlicing ) { return true; }
+
+			Vector3 dmgDir = dmgData.GetHitDirection( transform.position );
+			float hitDot = Vector3.Dot( dmgDir, transform.up );
+
+			return hitDot <= 0;
 		}
 
 		private void PrepareForDamage( DamageDatum dmgData )
