@@ -25,6 +25,7 @@ namespace DashSlash.Gameplay.Player.Animation
 
 		[Header( "VFX" )]
 		[SerializeField] private ParticleSystem m_dashVfx = default;
+		[SerializeField] private ParticleSystem m_collectPickupVfx = default;
 		[SerializeField] private CinemachineImpulseSource m_dashShake = default;
 		[SerializeField] private RendererBlinker m_stunBlinker = default;
 
@@ -64,6 +65,11 @@ namespace DashSlash.Gameplay.Player.Animation
 		{
 			m_rotationAnim = ModelParent.DORotate( Vector3.zero, m_stunRecoveryDuration, m_stunRecoveryRotationMode )
 				.SetEase( m_stunRecoveryEase );
+		}
+
+		public void PlayCollectPickupVfx()
+		{
+			m_collectPickupVfx.Emit( 1 );
 		}
 
 		public void ClearAllAnimations( bool complete = false )
