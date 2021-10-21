@@ -14,7 +14,7 @@ namespace DashSlash.Gameplay.Player
 		private LineRenderer m_renderer;
 		private PlayerTrajectoryController m_dragAndDrop;
 
-		private void OnZipUpCompleted( object sender, DragArgs e )
+		private void OnTrajectoryCompleted( object sender, DragArgs e )
 		{
 			m_renderer.positionCount = 0;
 			m_reticle.gameObject.SetActive( false );
@@ -61,14 +61,14 @@ namespace DashSlash.Gameplay.Player
 
 			m_dragAndDrop.DragStarted += OnDragStarted;
 			m_dragAndDrop.DragUpdated += OnDragUpdated;
-			m_dragAndDrop.ZipUpCompleted += OnZipUpCompleted;
+			m_dragAndDrop.TrajectoryConnected += OnTrajectoryCompleted;
 		}
 
 		private void OnDestroy()
 		{
 			m_dragAndDrop.DragStarted -= OnDragStarted;
 			m_dragAndDrop.DragUpdated -= OnDragUpdated;
-			m_dragAndDrop.ZipUpCompleted -= OnZipUpCompleted;
+			m_dragAndDrop.ZipUpCompleted -= OnTrajectoryCompleted;
 		}
 
 		private void Awake()

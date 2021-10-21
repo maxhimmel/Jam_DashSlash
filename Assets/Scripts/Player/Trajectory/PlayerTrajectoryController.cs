@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Xam.Utility.Extensions;
+using DG.Tweening;
 
 namespace DashSlash.Gameplay.Player
 {
@@ -12,11 +13,13 @@ namespace DashSlash.Gameplay.Player
 		public event EventHandler<DragArgs> DragUpdated;
 		public event EventHandler<DragArgs> DragReleased;
 		public event EventHandler<DragArgs> ZipUpCompleted;
+		public event EventHandler<DragArgs> TrajectoryConnected;
 
 		public bool IsDragging => enabled && m_dragAndDrop.IsDragging;
 		public Vector3 Trajectory => m_dragAndDrop.CurrentDrag.Vector;
 
 		private Vector3 Center => transform.position;
+		private bool IsDragStarted => m_currentDrag != null;
 
 		[Header( "Proximity" )]
 		[SerializeField] private float m_startProximity = 2;
@@ -24,6 +27,8 @@ namespace DashSlash.Gameplay.Player
 
 		private DragAndDrop m_dragAndDrop;
 		private Coroutine m_zipUpRoutine;
+		private Tweener m_retrieveReticleTween;
+		private DragArgs m_currentDrag;
 
 		private void OnDragStarted( object sender, DragArgs args )
 		{
@@ -31,19 +36,25 @@ namespace DashSlash.Gameplay.Player
 
 			args.Start = GetClampedPosition( args.Start, m_startProximity );
 			args.End = GetClampedPosition( args.End, m_endProximity );
+			m_currentDrag = args;
 
 			DragStarted?.Invoke( this, args );
 		}
 
 		private void OnDragUpdated( object sender, DragArgs args )
 		{
+			if ( !IsDragStarted ) { return; }
+
 			args.End = GetClampedPosition( args.End, m_endProximity );
+			m_currentDrag = args;
 
 			DragUpdated?.Invoke( this, args );
 		}
 
 		private void OnDragReleased( object sender, DragArgs args )
 		{
+			if ( !IsDragStarted ) { return; }
+
 			args.End = GetClampedPosition( args.End, m_endProximity );
 
 			this.TryStopCoroutine( ref m_zipUpRoutine );
@@ -70,14 +81,51 @@ namespace DashSlash.Gameplay.Player
 				yield return null;
 			}
 
+			m_currentDrag = null;
 			m_zipUpRoutine = null;
+
 			ZipUpCompleted?.Invoke( this, args );
+			TrajectoryConnected?.Invoke( this, args );
 		}
 
 		public void ForceUpdate()
 		{
 			var args = new DragArgs( Center, m_dragAndDrop.GetMouseWorldPosition() );
 			OnDragUpdated( this, args );
+		}
+
+		public void RetrieveReticle( float duration, Ease easeAnim )
+		{
+			if ( !IsDragStarted ) { return; }
+
+			this.TryStopCoroutine( ref m_zipUpRoutine );
+			if ( m_retrieveReticleTween.IsActive() )
+			{
+				m_retrieveReticleTween.Kill();
+			}
+
+			float timer = 0;
+			Vector3 reticleStartPos = m_currentDrag.End;
+			var args = new DragArgs( Center, reticleStartPos );
+
+			m_retrieveReticleTween = DOTween.To( () => timer, tweenTime => timer = tweenTime, 1, duration )
+				.SetEase( easeAnim )
+				.OnUpdate( () =>
+				{
+					Vector3 newReticlePos = Vector3.LerpUnclamped( reticleStartPos, Center, timer );
+
+					args.Start = Center;
+					args.End = newReticlePos;
+					DragUpdated?.Invoke( this, args );
+				} )
+				.OnComplete( () =>
+				{
+					args.Start = Center;
+					args.End = Center;
+					TrajectoryConnected?.Invoke( this, args );
+				} );
+
+			m_currentDrag = null;
 		}
 
 		private void OnEnable()

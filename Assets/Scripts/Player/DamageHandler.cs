@@ -21,6 +21,10 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private float m_knockbackForce = 8;
 		[SerializeField] private float m_knockbackTorque = 8;
 
+		[Header( "Trajectory" )]
+		[SerializeField] private float m_retrieveReticleDuration = 0.5f;
+		[SerializeField] private Ease m_retrieveReticleAnim = Ease.InOutBack;
+
 		private LerpMotor m_motor;
 		private Rigidbody2D m_body;
 		private AnimController m_animController;
@@ -41,6 +45,7 @@ namespace DashSlash.Gameplay.Player
 		private void PrepareForDamage( DamageDatum dmgData )
 		{
 			m_trajectoryController.enabled = false;
+			m_trajectoryController.RetrieveReticle( m_retrieveReticleDuration, m_retrieveReticleAnim );
 
 			m_motor.ClearMovement();
 			m_body.freezeRotation = false;
