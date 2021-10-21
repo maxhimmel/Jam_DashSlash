@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_isInverted: 0
   m_offsetAngleRange:
-    Min: 0
-    Max: 8
+    Min: 8
+    Max: 15
 --- !u!1001 &6288274301020192664
 PrefabInstance:
   m_ObjectHideFlags: 0
