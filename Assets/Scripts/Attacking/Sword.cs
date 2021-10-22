@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Xam.Utility.Randomization;
+using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Weapons
 {
 	using Player;
 	using Gameplay.Slicing;
-	using Vfx;
 
 	public class Sword : MonoBehaviour
     {
@@ -21,8 +21,10 @@ namespace DashSlash.Gameplay.Weapons
 
 		private Rigidbody2DBucket m_volume;
 		private Collider2D m_collider;
+		private Rigidbody2D m_body;
 		private PlayerTrajectoryController m_trajectoryController;
 		private SwordSliceVfxController m_vfxController;
+		private Coroutine m_collisionCheckRoutine;
 
 		private void OnDragStarted( object sender, DragArgs e )
 		{
@@ -31,8 +33,24 @@ namespace DashSlash.Gameplay.Weapons
 
 		private void OnDashStarted( object sender, DragArgs e )
 		{
-			transform.rotation = Quaternion.LookRotation( Vector3.forward, e.Vector );
+			m_body.SetRotation( Quaternion.LookRotation( Vector3.forward, e.Vector ) );
+			m_body.MoveRotation( Quaternion.LookRotation( Vector3.forward, e.Vector ) );
+
 			m_collider.enabled = true;
+
+			this.TryStopCoroutine( ref m_collisionCheckRoutine );
+			m_collisionCheckRoutine = StartCoroutine( UpdateCollisionCheck() );
+		}
+
+		private IEnumerator UpdateCollisionCheck()
+		{
+			while ( m_collider.enabled )
+			{
+				m_volume.CheckProximity();
+				yield return new WaitForFixedUpdate();
+			}
+
+			m_collisionCheckRoutine = null;
 		}
 
 		private void OnDashCompleted( object sender, DragArgs e )
@@ -100,6 +118,7 @@ namespace DashSlash.Gameplay.Weapons
 		{
 			m_volume = GetComponentInChildren<Rigidbody2DBucket>();
 			m_collider = GetComponentInChildren<Collider2D>();
+			m_body = GetComponentInChildren<Rigidbody2D>();
 			m_trajectoryController = GetComponentInParent<PlayerTrajectoryController>();
 			m_vfxController = GetComponentInChildren<SwordSliceVfxController>();
 		}
