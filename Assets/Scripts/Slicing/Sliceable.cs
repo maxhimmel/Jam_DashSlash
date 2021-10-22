@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using EzySlice;
 using Xam.Gameplay.Vfx;
+using Xam.Utility.Juicy;
+using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Slicing
 {
@@ -16,6 +18,7 @@ namespace DashSlash.Gameplay.Slicing
 		protected GameObject MeshObj => m_sliceMesh.gameObject;
 
 		[SerializeField, Min( -1 )] private float m_sliceLifetime = 0.65f;
+		[SerializeField, Min( -1 )] private float m_blinkFrequency = 0.05f;
 		[SerializeField] private MeshFilter m_sliceMesh = default;
 
 		public GameObject[] Slice( Vector3 position, Vector3 normal )
@@ -57,6 +60,10 @@ namespace DashSlash.Gameplay.Slicing
 				MeshFadeEmancipation fadeEmancipation = slice.AddComponent<MeshFadeEmancipation>();
 				fadeEmancipation.SetDuration( m_sliceLifetime );
 				fadeEmancipation.Emancipate();
+
+				RendererBlinker blinker = slice.AddComponent<RendererBlinker>();
+				blinker.SetFrequency( m_blinkFrequency );
+				blinker.StartWaitingForSeconds( m_sliceLifetime / 2f, blinker.Play );
 			}
 		}
 
