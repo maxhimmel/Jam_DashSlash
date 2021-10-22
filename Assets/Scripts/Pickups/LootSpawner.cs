@@ -21,7 +21,10 @@ namespace DashSlash.Gameplay
 		private void Start()
 		{
             Enemy enemy = GetComponentInParent<Enemy>();
-			enemy.Died += OnEnemyDead;
+			if ( enemy != null )
+			{
+				enemy.Died += OnEnemyDead;
+			}
 		}
 
 		private void OnEnemyDead( object sender, System.EventArgs e )
