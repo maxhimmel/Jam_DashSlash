@@ -6,11 +6,13 @@ using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.EventQueues
 {
-    public class EventDirector : SerializedMonoBehaviour
+    public class EventDirector : SerializedMonoBehaviour, IEvent
     {
-        public bool IsPlaying => m_queueRoutine != null;
+        public PlayState State { get; private set; } = PlayState.Sleeping;
 
-        [ListDrawerSettings( ShowIndexLabels = true )]
+        private bool IsPlaying => m_queueRoutine != null;
+
+		[ListDrawerSettings( ShowIndexLabels = true )]
         [SerializeField] private List<IEvent> m_events = new List<IEvent>();
 
         private int m_nextEventIndex = 0;
@@ -30,6 +32,7 @@ namespace DashSlash.Gameplay.EventQueues
 
             m_nextEventIndex = 0;
             m_currentEvent = null;
+            State = PlayState.Sleeping;
         }
 
         [ContextMenu( "Stop" )]
@@ -38,6 +41,7 @@ namespace DashSlash.Gameplay.EventQueues
             if ( IsPlaying )
             {
                 this.TryStopCoroutine( ref m_queueRoutine );
+                State = PlayState.Sleeping;
             }
         }
 
@@ -55,6 +59,7 @@ namespace DashSlash.Gameplay.EventQueues
 
             this.Log( $"Start", Colors.Red );
 
+            State = PlayState.Playing;
             m_queueRoutine = StartCoroutine( UpdateQueue() );
 		}
 
@@ -74,6 +79,8 @@ namespace DashSlash.Gameplay.EventQueues
 			}
 
             m_queueRoutine = null;
+            m_currentEvent = null;
+            State = PlayState.Done;
 
             this.Log( $"Finish", Colors.Red );
         }
@@ -96,6 +103,8 @@ namespace DashSlash.Gameplay.EventQueues
             if ( IsPlaying )
             {
                 this.TryStopCoroutine( ref m_queueRoutine );
+                State = PlayState.Sleeping;
+
                 this.Log( $"Queue has been interrupted." );
             }
         }
