@@ -11,11 +11,17 @@ namespace DashSlash.Gameplay.Enemies
     {
 		private LazyCachedChildComponent<Gun> m_gun = new LazyCachedChildComponent<Gun>( false );
 
+		protected override void BeginSpawning()
+		{
+			transform.rotation = GetFacingRotationToPlayer();
+
+			base.BeginSpawning();
+		}
+
 		protected override void OnAwokenFromSpawn()
 		{
 			base.OnAwokenFromSpawn();
 
-			UpdateRotation();
 			m_gun[this].StartFiring();
 		}
 
