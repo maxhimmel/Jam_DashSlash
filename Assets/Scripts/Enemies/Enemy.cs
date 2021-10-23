@@ -7,6 +7,7 @@ namespace DashSlash.Gameplay.Enemies
 {
 	using Slicing;
     using Player;
+	using Weapons;
 
     public class Enemy : MonoBehaviour
     {
@@ -30,6 +31,7 @@ namespace DashSlash.Gameplay.Enemies
 		private Coroutine m_spawnInvincibilityRoutine;
 		private ISliceable m_sliceable;
 		private HurtBox[] m_hurtBoxes;
+		private HitBox[] m_hitBoxes;
 		private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
 
 		protected Rigidbody2D m_body;
@@ -106,9 +108,16 @@ namespace DashSlash.Gameplay.Enemies
 		private void BeginSpawnInvincibilityToggle()
 		{
 			SetHurtBoxesActive( false );
+			SetHitBoxesActive( false );
 
 			this.TryStopCoroutine( ref m_spawnInvincibilityRoutine );
-			m_spawnInvincibilityRoutine = this.StartWaitingForSeconds( m_spawnInvincibiltyDuration, SetHurtBoxesActive, true );
+			m_spawnInvincibilityRoutine = this.StartWaitingForSeconds( m_spawnInvincibiltyDuration, OnSpawnInvincibilityEnded );
+		}
+
+		protected virtual void OnSpawnInvincibilityEnded()
+		{
+			SetHurtBoxesActive( true );
+			SetHitBoxesActive( true );
 		}
 
 		private void SetHurtBoxesActive( bool isActive )
@@ -116,6 +125,14 @@ namespace DashSlash.Gameplay.Enemies
 			foreach ( HurtBox hurt in m_hurtBoxes )
 			{
 				hurt.enabled = isActive;
+			}
+		}
+
+		private void SetHitBoxesActive( bool isActive )
+		{
+			foreach ( HitBox hit in m_hitBoxes )
+			{
+				hit.enabled = isActive;
 			}
 		}
 
@@ -160,6 +177,7 @@ namespace DashSlash.Gameplay.Enemies
 			m_body = GetComponent<Rigidbody2D>();
 			m_sliceable = GetComponentInChildren<ISliceable>();
 			m_hurtBoxes = GetComponentsInChildren<HurtBox>( true );
+			m_hitBoxes = GetComponentsInChildren<HitBox>( true );
 		}
 
 		protected virtual void OnDisable()
