@@ -65,7 +65,7 @@ namespace DashSlash.Gameplay.Player
 			m_motor.ClearMovement();
 			m_body.freezeRotation = false;
 
-			m_animController.ClearAllAnimations( false );
+			m_animController.ClearAllAnimations();
 			m_animController.PlayStunnedVfx( m_stunVfxDuration );
 		}
 

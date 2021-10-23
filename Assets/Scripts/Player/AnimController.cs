@@ -72,11 +72,11 @@ namespace DashSlash.Gameplay.Player.Animation
 			m_collectPickupVfx.Emit( 1 );
 		}
 
-		public void ClearAllAnimations( bool complete = false )
+		public void ClearAllAnimations()
 		{
 			if ( m_rotationAnim.IsActive() )
 			{
-				m_rotationAnim.Kill( complete );
+				m_rotationAnim.Kill( true );
 			}
 
 			m_stunBlinker.Stop( true );
