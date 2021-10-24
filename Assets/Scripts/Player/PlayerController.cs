@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Player
 {
@@ -12,6 +13,8 @@ namespace DashSlash.Gameplay.Player
 	public class PlayerController : MonoBehaviour, 
 		ICollector
 	{
+		public ScoreController Score { get; private set; } = new ScoreController();
+
 		[Header( "Movement" )]
 		[SerializeField] private Ease m_prepareEase = Ease.OutQuint;
 		[SerializeField] private float m_prepareMoveDuration = 0.2f;
@@ -28,6 +31,7 @@ namespace DashSlash.Gameplay.Player
 		void ICollector.Collect( Pickup pickup )
 		{
 			m_animator.PlayCollectPickupVfx();
+			Score.AddPickup();
 		}
 
 		private void OnDragStarted( object sender, DragArgs e )
@@ -56,11 +60,19 @@ namespace DashSlash.Gameplay.Player
 			m_motor.SetDesiredVelocity( moveDir );
 
 			m_animator.PlayDashVfx( m_dashMoveDuration, moveDir );
+
+			Score.BeginCombo();
 		}
 
 		private void OnZipUpCompleted( object sender, DragArgs e )
 		{
 			m_sword.StopSlicing( true );
+			Score.TryClearCombo();
+		}
+
+		private void OnSwordSliced( object sender, System.EventArgs e )
+		{
+			Score.AddSliceKill();
 		}
 
 		private void Update()
@@ -86,6 +98,8 @@ namespace DashSlash.Gameplay.Player
 			m_trajectoryController.DragStarted += OnDragStarted;
 			m_trajectoryController.DragReleased += OnDragReleased;
 			m_trajectoryController.ZipUpCompleted += OnZipUpCompleted;
+
+			m_sword.Sliced += OnSwordSliced;
 		}
 
 		private void OnDestroy()
@@ -93,6 +107,8 @@ namespace DashSlash.Gameplay.Player
 			m_trajectoryController.DragStarted -= OnDragStarted;
 			m_trajectoryController.DragReleased -= OnDragReleased;
 			m_trajectoryController.ZipUpCompleted -= OnZipUpCompleted;
+
+			m_sword.Sliced -= OnSwordSliced;
 		}
 
 		private void Awake()

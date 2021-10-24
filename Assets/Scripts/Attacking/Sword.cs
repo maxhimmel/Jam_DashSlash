@@ -11,6 +11,8 @@ namespace DashSlash.Gameplay.Weapons
 
 	public class Sword : MonoBehaviour
     {
+		public event System.EventHandler Sliced;
+
 		public bool IsSlicing => m_collider.enabled;
 
 		private Vector3 SliceTrajectory => transform.up;
@@ -101,6 +103,7 @@ namespace DashSlash.Gameplay.Weapons
 				halfBody.AddForceAtPosition( sliceForce, forcePos, ForceMode2D.Impulse );
 			}
 
+			Sliced?.Invoke( this, System.EventArgs.Empty );
 			return true;
 		}
 
