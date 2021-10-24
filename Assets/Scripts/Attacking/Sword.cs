@@ -22,20 +22,33 @@ namespace DashSlash.Gameplay.Weapons
 		private Rigidbody2DBucket m_volume;
 		private Collider2D m_collider;
 		private Rigidbody2D m_body;
-		private PlayerTrajectoryController m_trajectoryController;
 		private SwordSliceVfxController m_vfxController;
 		private Coroutine m_collisionCheckRoutine;
 
-		private void OnDragStarted( object sender, DragArgs e )
+		public void SetRotation( Vector3 lookDirection )
 		{
-			m_collider.enabled = false;
+			m_body.SetRotation( Quaternion.LookRotation( Vector3.forward, lookDirection ) );
+			m_body.MoveRotation( Quaternion.LookRotation( Vector3.forward, lookDirection ) );
 		}
 
-		private void OnDashStarted( object sender, DragArgs e )
+		public void StopSlicing( bool stopVfx )
 		{
-			m_body.SetRotation( Quaternion.LookRotation( Vector3.forward, e.Vector ) );
-			m_body.MoveRotation( Quaternion.LookRotation( Vector3.forward, e.Vector ) );
+			ClearCollision();
 
+			if ( stopVfx )
+			{
+				m_vfxController.StopSliceVfx();
+			}
+		}
+
+		private void ClearCollision()
+		{
+			m_collider.enabled = false;
+			m_volume.ClearBucket();
+		}
+
+		public void StartSlicing()
+		{
 			m_collider.enabled = true;
 
 			this.TryStopCoroutine( ref m_collisionCheckRoutine );
@@ -51,19 +64,6 @@ namespace DashSlash.Gameplay.Weapons
 			}
 
 			m_collisionCheckRoutine = null;
-		}
-
-		private void OnDashCompleted( object sender, DragArgs e )
-		{
-			Deactivate();
-		}
-
-		public void Deactivate()
-		{
-			m_collider.enabled = false;
-			m_volume.ClearBucket();
-
-			m_vfxController.StopSliceVfx();
 		}
 
 		private void OnTargetEnteredVolume( object sender, Rigidbody2D e )
@@ -82,7 +82,8 @@ namespace DashSlash.Gameplay.Weapons
 			if ( sliceable == null ) { return false; }
 
 			Vector3 slicePos = sliceable.MeshPos;
-			Vector3 sliceNormal = Quaternion.AngleAxis( 90, Vector3.forward ) * SliceTrajectory;
+			Vector3 sliceTrajectory = (slicePos - transform.position).normalized;
+			Vector3 sliceNormal = Quaternion.AngleAxis( 90, Vector3.forward ) * sliceTrajectory;
 			GameObject[] slices = sliceable.Slice( slicePos, sliceNormal );
 
 			if ( slices.Length <= 0 ) { return false; }
@@ -95,7 +96,7 @@ namespace DashSlash.Gameplay.Weapons
 
 				int sliceDir = (idx & 1) > 0 ? -1 : 1;
 				Vector3 sliceForce = sliceDir * sliceNormal * m_sliceForceRange.Evaluate();
-				Vector3 forcePos = slicePos + SliceTrajectory * m_slicePosOffsetRange.Evaluate();
+				Vector3 forcePos = slicePos + sliceTrajectory * m_slicePosOffsetRange.Evaluate();
 
 				halfBody.AddForceAtPosition( sliceForce, forcePos, ForceMode2D.Impulse );
 			}
@@ -105,11 +106,7 @@ namespace DashSlash.Gameplay.Weapons
 
 		private void Start()
 		{
-			m_collider.enabled = false;
-
-			m_trajectoryController.DragStarted += OnDragStarted;
-			m_trajectoryController.DragReleased += OnDashStarted;
-			m_trajectoryController.ZipUpCompleted += OnDashCompleted;
+			ClearCollision();
 
 			m_volume.TargetEntered += OnTargetEnteredVolume;
 		}
@@ -119,7 +116,6 @@ namespace DashSlash.Gameplay.Weapons
 			m_volume = GetComponentInChildren<Rigidbody2DBucket>();
 			m_collider = GetComponentInChildren<Collider2D>();
 			m_body = GetComponentInChildren<Rigidbody2D>();
-			m_trajectoryController = GetComponentInParent<PlayerTrajectoryController>();
 			m_vfxController = GetComponentInChildren<SwordSliceVfxController>();
 		}
 	}

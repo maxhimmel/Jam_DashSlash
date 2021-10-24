@@ -26,12 +26,16 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private float m_retrieveReticleDuration = 0.5f;
 		[SerializeField] private Ease m_retrieveReticleAnim = Ease.InOutBack;
 
+		[Header( "Attacking" )]
+		[SerializeField] private Sword m_sword = default;
+		[SerializeField] private Sword m_recoverySword = default;
+
 		private LerpMotor m_motor;
 		private Rigidbody2D m_body;
 		private AnimController m_animController;
 		private PlayerTrajectoryController m_trajectoryController;
-		private Sword m_sword;
 		private Coroutine m_stunRoutine;
+		private Coroutine m_recoverySliceRoutine;
 
 		public void TakeDamage( DamageDatum dmgData )
 		{
@@ -57,7 +61,7 @@ namespace DashSlash.Gameplay.Player
 
 		private void PrepareForDamage( DamageDatum dmgData )
 		{
-			m_sword.Deactivate();
+			m_sword.StopSlicing( true );
 
 			m_trajectoryController.enabled = false;
 			m_trajectoryController.RetrieveReticle( m_retrieveReticleDuration, m_retrieveReticleAnim );
@@ -93,6 +97,18 @@ namespace DashSlash.Gameplay.Player
 			m_body.angularVelocity = 0;
 
 			m_animController.PlayStunRecovery();
+
+			this.TryStopCoroutine( ref m_recoverySliceRoutine );
+			m_recoverySliceRoutine = StartCoroutine( PerformRecoverySlice() );
+		}
+
+		private IEnumerator PerformRecoverySlice()
+		{
+			m_recoverySword.StartSlicing();
+			yield return null;
+			m_recoverySword.StopSlicing( false );
+
+			m_recoverySliceRoutine = null;
 		}
 
 		private void Awake()
@@ -101,7 +117,6 @@ namespace DashSlash.Gameplay.Player
 			m_body = GetComponent<Rigidbody2D>();
 			m_animController = GetComponentInChildren<AnimController>();
 			m_trajectoryController = GetComponent<PlayerTrajectoryController>();
-			m_sword = GetComponentInChildren<Sword>();
 		}
 	}
 }
