@@ -13,7 +13,7 @@ namespace DashSlash.Gameplay.Player
 	public class PlayerController : MonoBehaviour, 
 		ICollector
 	{
-		public ScoreController Score { get; private set; } = new ScoreController();
+		private ScoreController Score => ScoreController.Instance;
 
 		[Header( "Movement" )]
 		[SerializeField] private Ease m_prepareEase = Ease.OutQuint;

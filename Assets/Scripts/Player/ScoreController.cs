@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Xam.Utility.Patterns;
 using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay
 {
 	[System.Serializable]
-	public class ScoreController
+	public class ScoreController : Singleton<ScoreController>
 	{
 		private const int k_comboBase = 2;
+		private const int k_pickupGroupCount = 10;
 
 		public event System.EventHandler ScoreUpdated;
 		public event System.EventHandler ComboDropped;
@@ -32,6 +34,10 @@ namespace DashSlash.Gameplay
 		{
 			if ( !m_hasKills && !m_hasPickups )
 			{
+				// TODO: Multiply score by pickup groups?!
+					// ...
+
+				Pickups = 0;
 				ComboSlices = 0;
 
 				this.Log( "Cleared combo", Colors.Magenta );
@@ -71,6 +77,17 @@ namespace DashSlash.Gameplay
 		public int GetComboBonus()
 		{
 			return (int)Mathf.Pow( k_comboBase, ComboSlices );
+		}
+
+		public float GetPickupRatio()
+		{
+			int pickups = Pickups % k_pickupGroupCount;
+			return pickups / (float)k_pickupGroupCount;
+		}
+
+		public int GetPickupGroupBonus()
+		{
+			return 1 + Mathf.FloorToInt( Pickups / k_pickupGroupCount );
 		}
 	}
 }
