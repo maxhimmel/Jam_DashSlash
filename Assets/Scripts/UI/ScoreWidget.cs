@@ -3,15 +3,24 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using DG.Tweening;
 
 namespace DashSlash.Gameplay.UI
 {
+	using Utility;
+
     public class ScoreWidget : MonoBehaviour
 	{
+		[Header( "Pickup Meter" )]
+		[SerializeField] private ImageFillAnimator m_pickupMeterElement = default;
+		[SerializeField] private TMP_Text m_pickupGroupBonusElement = default;
+		[SerializeField] private Ease m_pickupMeterFillTween = Ease.OutCubic;
+		[SerializeField] private float m_pickupMeterFillDuration = 0.3f;
+
+		[Header( "Elements" )]
 		[SerializeField] private TMP_Text m_comboElement = default;
 		[SerializeField] private TMP_Text m_bonusElement = default;
 		[SerializeField] private TMP_Text m_scoreElement = default;
-		[SerializeField] private Image m_pickupMeterElement = default;
 
 		private ScoreController Score => ScoreController.Instance;
 
@@ -26,7 +35,9 @@ namespace DashSlash.Gameplay.UI
 			m_bonusElement.gameObject.SetActive( true );
 
 			m_scoreElement.text = score.Score.ToString();
-			m_pickupMeterElement.fillAmount = score.GetPickupRatio();
+
+			m_pickupGroupBonusElement.text = score.GetPickupGroupBonus().ToString();
+			m_pickupMeterElement.Fill( score.GetPickupRatio(), m_pickupMeterFillDuration, m_pickupMeterFillTween );
 		}
 
 		private void OnComboDropped( object sender, System.EventArgs e )
@@ -39,7 +50,8 @@ namespace DashSlash.Gameplay.UI
 			m_bonusElement.text = 0.ToString();
 			m_bonusElement.gameObject.SetActive( false );
 
-			m_pickupMeterElement.fillAmount = 0;
+			m_pickupGroupBonusElement.text = score.GetPickupGroupBonus().ToString();
+			m_pickupMeterElement.Fill( 0, m_pickupMeterFillDuration, m_pickupMeterFillTween, true );
 		}
 
 		private void Start()
@@ -51,7 +63,9 @@ namespace DashSlash.Gameplay.UI
 			m_bonusElement.gameObject.SetActive( false );
 
 			m_scoreElement.text = 0.ToString();
-			m_pickupMeterElement.fillAmount = 0;
+
+			m_pickupGroupBonusElement.text = Score.GetPickupGroupBonus().ToString();
+			m_pickupMeterElement.Fill( 0, 0, m_pickupMeterFillTween );
 
 			Score.ScoreUpdated += OnScoreUpdated;
 			Score.ComboDropped += OnComboDropped;
