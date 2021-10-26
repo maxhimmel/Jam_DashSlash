@@ -144,7 +144,7 @@ namespace DashSlash.Gameplay.Enemies
 
 		private void OnDestroy()
 		{
-			if ( !m_isAppQuitting )
+			if ( Application.isPlaying && !m_isAppQuitting )
 			{
 				OnDied();
 			}
