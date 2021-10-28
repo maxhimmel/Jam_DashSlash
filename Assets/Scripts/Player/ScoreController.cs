@@ -7,16 +7,26 @@ using Xam.Utility.Extensions;
 namespace DashSlash.Gameplay
 {
 	[System.Serializable]
-	public class ScoreController : Singleton<ScoreController>
+	public class ScoreController : SingletonMono<ScoreController>
 	{
 		private const int k_comboBase = 2;
-		private const int k_pickupGroupCount = 10;
 
-		public event System.EventHandler ScoreUpdated;
-		public event System.EventHandler ComboDropped;
+		public event System.EventHandler<ScoreEventArgs> ScoreUpdated;
+		public event System.EventHandler<ScoreEventArgs> PickupsUpdated;
+		public event System.EventHandler<ScoreEventArgs> ComboDropped;
+
+		[Header( "Scoring" )]
+		[Tooltip( "The rate at which the meter is constantly decaying." )]
+		[SerializeField, Min( 0 )] private float m_meterDecayRate = 1;
+		[Tooltip( "How much the meter is reduced when missing a dash/slash." )]
+		[SerializeField, Min( 0 )] private float m_meterUsageCost = 0.5f;
+
+		[Header( "Pickups" )]
+		[SerializeField, Min( 0 )] private int m_maxPickupGroupBonus = 5;
+		[SerializeField, Min( 0 )] private int m_pickupGroupCount = 10;
 
 		public int Score { get; private set; }
-		public int Pickups { get; private set; }
+		public float Pickups { get; private set; }
 		public int ComboSlices { get; private set; }
 
 		private bool m_hasKills = false;
@@ -30,31 +40,87 @@ namespace DashSlash.Gameplay
 			this.Log( "Begin combo", Colors.Lime );
 		}
 
-		public bool TryClearCombo()
+		public bool TryClearBonus()
 		{
 			if ( !m_hasKills && !m_hasPickups )
 			{
-				// TODO: Multiply score by pickup groups?!
-					// ...
-
-				Pickups = 0;
-				ComboSlices = 0;
-
-				this.Log( "Cleared combo", Colors.Magenta );
-				ComboDropped?.Invoke( this, System.EventArgs.Empty );
-
+				ClearCombo( false );
 				return true;
 			}
 			return false;
 		}
 
+		public void ForceClearCombo()
+		{
+			ClearCombo( true );
+
+			m_hasKills = false;
+			m_hasPickups = false;
+		}
+
+		private void ClearCombo( bool clearPickupBonus )
+		{
+			int scoreIncrement = 0;
+			bool hadCombo = ComboSlices > 0;
+			bool hadPickups = Pickups > 0;
+
+			// Apply and clear bonus ...
+			if ( hadCombo )
+			{
+				scoreIncrement = ApplyBonusCleared();
+			}
+
+			// Update pickups ...
+			if ( hadPickups )
+			{
+				float pickups = clearPickupBonus ? 0 : Pickups - m_meterUsageCost;
+				SetPickups( pickups );
+			}
+
+			// Finally, apply combo drop ...
+			if ( hadCombo )
+			{
+				this.Log( "Cleared combo", Colors.Red );
+				ComboDropped?.Invoke( this, new ScoreEventArgs()
+				{
+					Score = Score,
+					ScoreIncrement = scoreIncrement,
+					ComboSlices = ComboSlices,
+					ComboBonus = GetComboBonus(),
+					Pickups = Pickups,
+					PickupGroupBonus = GetPickupGroupBonus(),
+					PickupRatio = GetPickupRatio( true ),
+				} );
+			}
+		}
+
+		private int ApplyBonusCleared()
+		{
+			int scoreIncrement = ComboSlices * GetComboBonus() * GetPickupGroupBonus();
+			Score += scoreIncrement;
+
+			ScoreUpdated?.Invoke( this, new ScoreEventArgs()
+			{
+				Score = Score,
+				ScoreIncrement = scoreIncrement,
+				ComboSlices = ComboSlices,
+				ComboBonus = GetComboBonus(),
+				Pickups = Pickups,
+				PickupGroupBonus = GetPickupGroupBonus(),
+				PickupRatio = GetPickupRatio( true ),
+			} );
+
+			ComboSlices = 0;
+
+			return scoreIncrement;
+		}
+
 		public void AddPickup()
 		{
-			++Pickups;
 			m_hasPickups = true;
 
-			this.Log( $"Pickups : {Pickups}", Colors.Yellow );
-			ScoreUpdated?.Invoke( this, System.EventArgs.Empty );
+			this.Log( $"Pickups : {Pickups + 1}", Colors.Yellow );
+			SetPickups( Pickups + 1 );
 		}
 
 		public void AddSliceKill()
@@ -62,7 +128,9 @@ namespace DashSlash.Gameplay
 			int comboBonus = GetComboBonus();
 
 			++ComboSlices;
-			Score += ComboSlices * comboBonus;
+
+			int scoreIncrement = ComboSlices * comboBonus;
+			Score += scoreIncrement;
 
 			m_hasKills = true;
 
@@ -71,23 +139,80 @@ namespace DashSlash.Gameplay
 				$" <b>|</b> combo({ComboSlices})" +
 				$" <b>|</b> bonus({comboBonus})",
 				Colors.Olive );
-			ScoreUpdated?.Invoke( this, System.EventArgs.Empty );
+
+			ScoreUpdated?.Invoke( this, new ScoreEventArgs()
+			{
+				Score = Score,
+				ScoreIncrement = scoreIncrement,
+				ComboSlices = ComboSlices,
+				ComboBonus = GetComboBonus(),
+				Pickups = Pickups,
+				PickupGroupBonus = GetPickupGroupBonus(),
+				PickupRatio = GetPickupRatio( true ),
+			} );
 		}
 
-		public int GetComboBonus()
+		private int GetComboBonus()
 		{
 			return (int)Mathf.Pow( k_comboBase, ComboSlices );
 		}
 
-		public float GetPickupRatio()
+		private int GetPickupGroupBonus()
 		{
-			int pickups = Pickups % k_pickupGroupCount;
-			return pickups / (float)k_pickupGroupCount;
+			int result = 1 + Mathf.FloorToInt( Pickups / m_pickupGroupCount );
+			return Mathf.Min( result, m_maxPickupGroupBonus );
 		}
 
-		public int GetPickupGroupBonus()
+		private float GetPickupRatio( bool isWrapped )
 		{
-			return 1 + Mathf.FloorToInt( Pickups / k_pickupGroupCount );
+			if ( Pickups / m_pickupGroupCount > m_maxPickupGroupBonus ) { return 1; }
+
+			float pickups = isWrapped
+				? Pickups % m_pickupGroupCount
+				: Pickups;
+
+			return pickups / (float)m_pickupGroupCount;
 		}
+
+		private void SetPickups( float pickups  )
+		{
+			float prevPickups = Pickups;
+			float maxPickups = m_maxPickupGroupBonus * m_pickupGroupCount;
+			Pickups = Mathf.Clamp( pickups, 0, maxPickups );
+
+			if ( prevPickups == Pickups ) { return; }
+
+			PickupsUpdated?.Invoke( this, new ScoreEventArgs()
+			{
+				Score = Score,
+				ScoreIncrement = 0,
+				ComboSlices = ComboSlices,
+				ComboBonus = GetComboBonus(),
+				Pickups = Pickups,
+				PickupGroupBonus = GetPickupGroupBonus(),
+				PickupRatio = GetPickupRatio( true ),
+			} );
+		}
+
+		private void Update()
+		{
+			if ( Pickups <= 0 ) { return; }
+
+			float decayDelta = m_meterDecayRate * Time.deltaTime;
+			SetPickups( Pickups - decayDelta );
+		}
+	}
+
+	public class ScoreEventArgs : System.EventArgs
+	{
+		public int Score;
+		public int ScoreIncrement;
+
+		public int ComboSlices;
+		public int ComboBonus;
+
+		public float Pickups;
+		public int PickupGroupBonus;
+		public float PickupRatio;
 	}
 }

@@ -17,40 +17,55 @@ namespace DashSlash.Gameplay.UI
 		[SerializeField] private Ease m_pickupMeterFillTween = Ease.OutCubic;
 		[SerializeField] private float m_pickupMeterFillDuration = 0.3f;
 
+		[Header( "Score Increment" )]
+		[SerializeField] private TextCountAnimator m_scoreIncrementElement = default;
+		[SerializeField] private float m_scoreIncrementDuration = 1;
+
+		[Header( "Total Score" )]
+		[SerializeField] private TextCountAnimator m_scoreElement = default;
+		[SerializeField] private float m_scoreUpdateDuration = 1;
+
 		[Header( "Elements" )]
 		[SerializeField] private TMP_Text m_comboElement = default;
 		[SerializeField] private TMP_Text m_bonusElement = default;
-		[SerializeField] private TMP_Text m_scoreElement = default;
 
 		private ScoreController Score => ScoreController.Instance;
 
-		private void OnScoreUpdated( object sender, System.EventArgs e )
+		private void OnScoreUpdated( object sender, ScoreEventArgs e )
 		{
-			ScoreController score = sender as ScoreController;
-
-			m_comboElement.text = score.ComboSlices.ToString();
+			m_comboElement.text = e.ComboSlices.ToString();
 			m_comboElement.enabled = true;
 
-			m_bonusElement.text = score.GetComboBonus().ToString();
+			m_bonusElement.text = e.ComboBonus.ToString();
 			m_bonusElement.gameObject.SetActive( true );
 
-			m_scoreElement.text = score.Score.ToString();
+			m_scoreIncrementElement.gameObject.SetActive( true );
+			m_scoreIncrementElement.SetValue( e.ScoreIncrement, 0 );
+			m_scoreIncrementElement.SetValue( 0, m_scoreIncrementDuration );
 
-			m_pickupGroupBonusElement.text = score.GetPickupGroupBonus().ToString();
-			m_pickupMeterElement.Fill( score.GetPickupRatio(), m_pickupMeterFillDuration, m_pickupMeterFillTween );
+			m_scoreElement.SetValue( e.Score, m_scoreUpdateDuration, false );
 		}
 
-		private void OnComboDropped( object sender, System.EventArgs e )
+		private void OnPickupsUpdated( object sender, ScoreEventArgs e )
 		{
-			ScoreController score = sender as ScoreController;
+			m_pickupGroupBonusElement.text = e.PickupGroupBonus.ToString();
+			m_pickupMeterElement.Fill( e.PickupRatio, m_pickupMeterFillDuration, m_pickupMeterFillTween );
+		}
 
+		private void OnComboDropped( object sender, ScoreEventArgs e )
+		{
 			m_comboElement.text = 0.ToString();
 			m_comboElement.enabled = false;
 
 			m_bonusElement.text = 0.ToString();
 			m_bonusElement.gameObject.SetActive( false );
 
-			m_pickupGroupBonusElement.text = score.GetPickupGroupBonus().ToString();
+			m_scoreIncrementElement.SetValue( e.ScoreIncrement, 0, false );
+			m_scoreIncrementElement.SetValue( 0, m_scoreIncrementDuration, true );
+			// TODO: And then we gotta hide this element once it's back to zero
+				 // ...
+
+			m_pickupGroupBonusElement.text = 1.ToString();
 			m_pickupMeterElement.Fill( 0, m_pickupMeterFillDuration, m_pickupMeterFillTween, true );
 		}
 
@@ -62,19 +77,27 @@ namespace DashSlash.Gameplay.UI
 			m_bonusElement.text = 0.ToString();
 			m_bonusElement.gameObject.SetActive( false );
 
-			m_scoreElement.text = 0.ToString();
+			m_scoreIncrementElement.SetValue( 0, 0, true );
+			m_scoreIncrementElement.gameObject.SetActive( false );
 
-			m_pickupGroupBonusElement.text = Score.GetPickupGroupBonus().ToString();
+			m_scoreElement.SetValue( 0, 0, true );
+
+			m_pickupGroupBonusElement.text = 1.ToString();
 			m_pickupMeterElement.Fill( 0, 0, m_pickupMeterFillTween );
 
 			Score.ScoreUpdated += OnScoreUpdated;
+			Score.PickupsUpdated += OnPickupsUpdated;
 			Score.ComboDropped += OnComboDropped;
 		}
 
 		private void OnDestroy()
 		{
-			Score.ScoreUpdated -= OnScoreUpdated;
-			Score.ComboDropped -= OnComboDropped;
+			if ( ScoreController.Exists )
+			{
+				Score.ScoreUpdated -= OnScoreUpdated;
+				Score.PickupsUpdated -= OnPickupsUpdated;
+				Score.ComboDropped -= OnComboDropped;
+			}
 		}
 	}
 }

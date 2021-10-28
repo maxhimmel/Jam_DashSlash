@@ -14,6 +14,8 @@ namespace DashSlash.Gameplay.Player
 	{
 		public bool IsStunned => m_stunRoutine != null;
 
+		private ScoreController Score => ScoreController.Instance;
+
 		[Header( "Stunned" )]
 		[SerializeField] private float m_stunDuration = 1;
 		[SerializeField] private float m_stunVfxDuration = 0.5f;
@@ -71,6 +73,8 @@ namespace DashSlash.Gameplay.Player
 
 			m_animController.ClearAllAnimations();
 			m_animController.PlayStunnedVfx( m_stunVfxDuration );
+
+			Score.ForceClearCombo();
 		}
 
 		private void ApplyDamage( DamageDatum dmgData )

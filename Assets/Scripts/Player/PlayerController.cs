@@ -67,7 +67,7 @@ namespace DashSlash.Gameplay.Player
 		private void OnZipUpCompleted( object sender, DragArgs e )
 		{
 			m_sword.StopSlicing( true );
-			Score.TryClearCombo();
+			Score.TryClearBonus();
 		}
 
 		private void OnSwordSliced( object sender, System.EventArgs e )
@@ -78,6 +78,12 @@ namespace DashSlash.Gameplay.Player
 		private void Update()
 		{
 			TryForceUpdateTrajectory();
+
+			if ( Input.GetKeyDown( KeyCode.Space ) )
+			{
+				ICollector self = this as ICollector;
+				self.Collect( null );
+			}
 		}
 
 		private void TryForceUpdateTrajectory()
