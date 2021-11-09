@@ -9,6 +9,7 @@ namespace DashSlash.Gameplay.UI.Utility
     [RequireComponent( typeof( Image ) )]
     public class ImageFillAnimator : MonoBehaviour
     {
+		public float Value => Image.fillAmount;
 		public Image Image => m_image;
 
         private Image m_image;
