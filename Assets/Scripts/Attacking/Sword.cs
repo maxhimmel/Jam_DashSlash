@@ -73,6 +73,7 @@ namespace DashSlash.Gameplay.Weapons
 			if ( TrySlice( e ) )
 			{
 				m_vfxController.PlaySliceVfx();
+				m_vfxController.IncrementSlomoDuration();
 			}
 		}
 
