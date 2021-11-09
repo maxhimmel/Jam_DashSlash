@@ -15,6 +15,10 @@ namespace DashSlash.Gameplay
 		public event System.EventHandler<ScoreEventArgs> PickupsUpdated;
 		public event System.EventHandler<ScoreEventArgs> ComboDropped;
 
+		public int MaxPickupGroupBonus => m_maxPickupGroupBonus;
+
+		[SerializeField] private bool m_enableLogging = false;
+
 		[Header( "Scoring" )]
 		[Tooltip( "The rate at which the meter is constantly decaying." )]
 		[SerializeField, Min( 0 )] private float m_meterDecayRate = 1;
@@ -31,13 +35,19 @@ namespace DashSlash.Gameplay
 
 		private bool m_hasKills = false;
 		private bool m_hasPickups = false;
+		private bool m_canScorePickups = true;
+
+		public void SetPickupScoringActive( bool isActive )
+		{
+			m_canScorePickups = isActive;
+		}
 
 		public void BeginCombo()
 		{
 			m_hasKills = false;
 			m_hasPickups = false;
 
-			this.Log( "Begin combo", Colors.Lime );
+			Log( "Begin combo", Colors.Lime );
 		}
 
 		public bool TryClearBonus()
@@ -74,13 +84,13 @@ namespace DashSlash.Gameplay
 			if ( hadPickups )
 			{
 				float pickups = clearPickupBonus ? 0 : Pickups - m_meterUsageCost;
-				SetPickups( pickups );
+				SetPickups( pickups, false );
 			}
 
 			// Finally, apply combo drop ...
-			if ( hadCombo )
+			if ( hadCombo || clearPickupBonus )
 			{
-				this.Log( "Cleared combo", Colors.Red );
+				Log( "Cleared combo", Colors.Red );
 				ComboDropped?.Invoke( this, new ScoreEventArgs()
 				{
 					Score = Score,
@@ -119,7 +129,7 @@ namespace DashSlash.Gameplay
 		{
 			m_hasPickups = true;
 
-			this.Log( $"Pickups : {Pickups + 1}", Colors.Yellow );
+			Log( $"Pickups : {Pickups + 1}", Colors.Yellow );
 			SetPickups( Pickups + 1 );
 		}
 
@@ -134,7 +144,7 @@ namespace DashSlash.Gameplay
 
 			m_hasKills = true;
 
-			this.Log( $"Sliced! {Score} : " +
+			Log( $"Sliced! {Score} : " +
 				$" added({ComboSlices * comboBonus})" +
 				$" <b>|</b> combo({ComboSlices})" +
 				$" <b>|</b> bonus({comboBonus})",
@@ -174,13 +184,16 @@ namespace DashSlash.Gameplay
 			return pickups / (float)m_pickupGroupCount;
 		}
 
-		private void SetPickups( float pickups  )
+		private void SetPickups( float pickups, bool sendEvent = true  )
 		{
+			if ( !m_canScorePickups ) { return; }
+
 			float prevPickups = Pickups;
 			float maxPickups = m_maxPickupGroupBonus * m_pickupGroupCount;
 			Pickups = Mathf.Clamp( pickups, 0, maxPickups );
 
 			if ( prevPickups == Pickups ) { return; }
+			if ( !sendEvent ) { return; }
 
 			PickupsUpdated?.Invoke( this, new ScoreEventArgs()
 			{
@@ -200,6 +213,12 @@ namespace DashSlash.Gameplay
 
 			float decayDelta = m_meterDecayRate * Time.deltaTime;
 			SetPickups( Pickups - decayDelta );
+		}
+
+		private void Log( string message, Colors color = Colors.Black )
+		{
+			if ( !m_enableLogging ) { return; }
+			LogExtensions.Log( this, message, color );
 		}
 	}
 

@@ -75,6 +75,7 @@ namespace DashSlash.Gameplay.Player
 			m_animController.PlayStunnedVfx( m_stunVfxDuration );
 
 			Score.ForceClearCombo();
+			Score.SetPickupScoringActive( false );
 		}
 
 		private void ApplyDamage( DamageDatum dmgData )
@@ -104,6 +105,8 @@ namespace DashSlash.Gameplay.Player
 
 			this.TryStopCoroutine( ref m_recoverySliceRoutine );
 			m_recoverySliceRoutine = StartCoroutine( PerformRecoverySlice() );
+
+			Score.SetPickupScoringActive( true );
 		}
 
 		private IEnumerator PerformRecoverySlice()
