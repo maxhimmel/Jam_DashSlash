@@ -14,10 +14,7 @@ namespace DashSlash.Gameplay.UI
 		private ScoreController Score => ScoreController.Instance;
 
 		[Header( "Pickup Meter" )]
-		[SerializeField] private ImageFillAnimator m_pickupMeterElement = default;
 		[SerializeField] private TMP_Text m_pickupGroupBonusElement = default;
-		[SerializeField] private Ease m_pickupMeterFillTween = Ease.OutCubic;
-		[SerializeField] private float m_pickupMeterFillDuration = 0.3f;
 
 		[Header( "Score Increment" )]
 		[SerializeField] private TextCountAnimator m_scoreIncrementElement = default;
@@ -49,7 +46,6 @@ namespace DashSlash.Gameplay.UI
 		private void OnPickupsUpdated( object sender, ScoreEventArgs e )
 		{
 			m_pickupGroupBonusElement.text = e.PickupGroupBonus.ToString();
-			m_pickupMeterElement.Fill( e.PickupRatio, m_pickupMeterFillDuration, m_pickupMeterFillTween );
 		}
 
 		private void OnComboDropped( object sender, ScoreEventArgs e )
@@ -66,7 +62,6 @@ namespace DashSlash.Gameplay.UI
 				 // ...
 
 			m_pickupGroupBonusElement.text = 1.ToString();
-			m_pickupMeterElement.Fill( 0, m_pickupMeterFillDuration, m_pickupMeterFillTween, true );
 		}
 
 		private void Start()
@@ -83,7 +78,6 @@ namespace DashSlash.Gameplay.UI
 			m_scoreElement.SetValue( 0, 0, true );
 
 			m_pickupGroupBonusElement.text = 1.ToString();
-			m_pickupMeterElement.Fill( 0, 0, m_pickupMeterFillTween );
 
 			Score.ScoreUpdated += OnScoreUpdated;
 			Score.PickupsUpdated += OnPickupsUpdated;

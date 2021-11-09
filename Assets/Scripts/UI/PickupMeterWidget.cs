@@ -24,34 +24,26 @@ namespace DashSlash.Gameplay.UI
 		[SerializeField] private float m_comboDropClearDuration = 0.9f;
 
 		[Header( "Elements" )]
-		[SerializeField] private ImageFillAnimator  m_meter1 = default;
-        [SerializeField] private ImageFillAnimator m_meter2 = default;
+		[SerializeField] private ImageFillAnimator m_meterPrefab = default;
+		[SerializeField] private Transform m_meterContainer = default;
 
-		private ImageFillAnimator m_currentMeter;
+		private Dictionary<int, ImageFillAnimator> m_meters = new Dictionary<int, ImageFillAnimator>();
 		private int m_groupBonus = 1;
 		private Coroutine m_clearBonusRoutine;
 
 		private void OnPickupsUpdated( object sender, ScoreEventArgs e )
 		{
-			m_currentMeter.Fill( e.PickupRatio, m_meterFillDuration, m_meterFillTween );
-
 			if ( m_groupBonus != e.PickupGroupBonus )
 			{
-				bool isFinalGroup = e.PickupGroupBonus <= 1;
-				m_currentMeter.Fill( isFinalGroup ? 0 : 1, 0, m_meterFillTween );
-				m_currentMeter.Image.color = m_meterPalette.GetColor( e.PickupGroupBonus - 2 );
-
-				m_currentMeter = GetNextMeter();
-				m_currentMeter.transform.SetAsLastSibling();
-				m_currentMeter.Image.color = m_meterPalette.GetColor( e.PickupGroupBonus - 1 );
-
-				if ( !isFinalGroup )
-				{
-					m_currentMeter.Fill( e.PickupRatio, 0, m_meterFillTween );
-				}
+				var prevMeter = GetMeter( m_groupBonus - 1 );
+				int fillAmount = m_groupBonus < e.PickupGroupBonus ? 1 : 0;
+				prevMeter.Fill( fillAmount, m_meterFillDuration, m_meterFillTween );
 
 				m_groupBonus = e.PickupGroupBonus;
 			}
+
+			var meter = GetMeter( e.PickupGroupBonus - 1 );
+			meter.Fill( e.PickupRatio, m_meterFillDuration, m_meterFillTween );
 		}
 
 		private void OnComboDropped( object sender, ScoreEventArgs e )
@@ -62,52 +54,48 @@ namespace DashSlash.Gameplay.UI
 
 		private IEnumerator UpdateComboDropClearing()
 		{
-			ImageFillAnimator prevMeter = null;
 			float durationPerGroup = m_comboDropClearDuration / m_groupBonus;
 
 			for ( int group = m_groupBonus; group >= 1; --group )
 			{
-				bool isFinalGroup = group <= 1;
+				var meter = GetMeter( group - 1 );
+				meter.Fill( 0, durationPerGroup, m_comboDropClearTween );
 
-				if ( prevMeter != null && !isFinalGroup )
-				{
-					prevMeter.Fill( 1, 0, m_comboDropClearTween );
-					prevMeter.Image.color = m_meterPalette.GetColor( group - 2 );
-				}
-
-				m_currentMeter.Fill( 0, durationPerGroup, m_comboDropClearTween );
 				yield return new WaitForSeconds( durationPerGroup );
-
-				if ( isFinalGroup ) { break; }
-
-				prevMeter = m_currentMeter;
-
-				m_currentMeter = GetNextMeter();
-				m_currentMeter.transform.SetAsLastSibling();
 			}
 
-			m_groupBonus = 1;
 			m_clearBonusRoutine = null;
 		}
 
-		private ImageFillAnimator GetNextMeter()
+		private ImageFillAnimator GetMeter( int idx )
 		{
-			return m_currentMeter == m_meter1
-				? m_meter2
-				: m_meter1;
+			m_meters.TryGetValue( idx, out var meter );
+			return meter;
 		}
 
 		private void Start()
 		{
-			m_meter1.Fill( 0, 0, m_meterFillTween );
-			m_meter2.Fill( 0, 0, m_meterFillTween );
-
-			m_meter1.transform.SetAsLastSibling();
-			m_currentMeter = m_meter1;
-			m_currentMeter.Image.color = m_meterPalette.GetColor( 0 );
+			InitMeters();
 
 			Score.PickupsUpdated += OnPickupsUpdated;
 			Score.ComboDropped += OnComboDropped;
+		}
+
+		private void InitMeters()
+		{
+			m_meterPrefab.gameObject.SetActive( false );
+
+			for ( int idx = 0; idx < m_meterPalette.Count; ++idx )
+			{
+				var fillMeter = Instantiate( m_meterPrefab, m_meterContainer );
+				fillMeter.gameObject.SetActive( true );
+				fillMeter.name = $"Image_Meter{idx}";
+
+				fillMeter.Fill( 0, 0, Ease.Unset );
+				fillMeter.Image.color = m_meterPalette.GetColor( idx );
+
+				m_meters.Add( idx, fillMeter );
+			}
 		}
 
 		private void OnDestroy()
