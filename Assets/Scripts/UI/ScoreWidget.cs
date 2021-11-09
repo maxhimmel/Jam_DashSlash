@@ -11,6 +11,8 @@ namespace DashSlash.Gameplay.UI
 
     public class ScoreWidget : MonoBehaviour
 	{
+		private ScoreController Score => ScoreController.Instance;
+
 		[Header( "Pickup Meter" )]
 		[SerializeField] private ImageFillAnimator m_pickupMeterElement = default;
 		[SerializeField] private TMP_Text m_pickupGroupBonusElement = default;
@@ -28,8 +30,6 @@ namespace DashSlash.Gameplay.UI
 		[Header( "Elements" )]
 		[SerializeField] private TMP_Text m_comboElement = default;
 		[SerializeField] private TMP_Text m_bonusElement = default;
-
-		private ScoreController Score => ScoreController.Instance;
 
 		private void OnScoreUpdated( object sender, ScoreEventArgs e )
 		{
