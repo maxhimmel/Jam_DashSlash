@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_projectileFactory: {fileID: 2824409484327318091}
-  m_fireRate: 1.25
+  m_fireRate: 2
   m_projectileSpeed: 8
 --- !u!114 &2824409484327318091
 MonoBehaviour:
