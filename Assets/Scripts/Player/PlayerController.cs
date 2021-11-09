@@ -75,14 +75,29 @@ namespace DashSlash.Gameplay.Player
 			Score.AddSliceKill();
 		}
 
+		[Header( "Editor / Debug" )]
+		[SerializeField] private int m_pickupColections = 10;
+
 		private void Update()
 		{
 			TryForceUpdateTrajectory();
 
 			if ( Input.GetKeyDown( KeyCode.Space ) )
 			{
-				ICollector self = this as ICollector;
-				self.Collect( null );
+				ICollector self = this;
+				for ( int idx = 0; idx < m_pickupColections; ++idx )
+				{
+					self.Collect( null );
+				}
+			}
+			if ( Input.GetKeyDown( KeyCode.Return ) )
+			{
+				IDamageable damaegable = GetComponentInChildren<IDamageable>();
+				damaegable.TakeDamage( new DamageDatum()
+				{
+					DamageCauser = transform,
+					Instigator = transform
+				} );
 			}
 		}
 
