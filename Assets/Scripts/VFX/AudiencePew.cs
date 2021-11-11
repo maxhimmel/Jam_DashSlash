@@ -14,18 +14,13 @@ namespace DashSlash.Vfx
 
     public class AudiencePew : MonoBehaviour
     {
+		private CinemachineImpulseManager ImpulseManager => CinemachineImpulseManager.Instance;
+
 		[Header( "Spawning" )]
         [SerializeField] private int m_count = 10;
 
 		[Header( "Reactions" )]
-		[SerializeField, Range( 0, 2 )] private float m_strength = 1;
-		[SerializeField] private float m_noiseOffset = 1;
-		[CinemachineImpulseChannelProperty] 
-		[SerializeField] private int m_channelMask;
-		[SerializeField] private bool m_use2DDistance = true;
-		[SerializeField] private NoiseSettings m_noise = default;
-		[SerializeField] private Transform m_listenerSource = default;
-
+		[SerializeField] private Transform m_reactionSource = default;
 		[CinemachineImpulseDefinitionProperty]
 		[SerializeField] private CinemachineImpulseDefinition m_impulseDefinition = new CinemachineImpulseDefinition();
 
@@ -36,78 +31,68 @@ namespace DashSlash.Vfx
 
 		private void Update()
 		{
-			var impulseManager = CinemachineImpulseManager.Instance;
-
-
-			// 3)
 			if ( Input.GetKeyDown( KeyCode.Backspace ) )
 			{
-				for ( int idx = 0; idx < m_spectators.Count; ++idx )
-				{
-					var velocity = Random.insideUnitCircle;
-
-					var impulse = impulseManager.NewImpulseEvent();
-					impulse.m_Channel = m_impulseDefinition.m_ImpulseChannel;
-					impulse.m_DirectionMode = m_impulseDefinition.m_DirectionMode;
-					impulse.m_DissipationDistance = m_impulseDefinition.m_DissipationDistance;
-					impulse.m_DissipationMode = m_impulseDefinition.m_DissipationMode;
-					impulse.m_Envelope = m_impulseDefinition.m_TimeEnvelope;
-					impulse.m_Position = m_listenerSource.position;
-					impulse.m_PropagationSpeed = m_impulseDefinition.m_PropagationSpeed;
-					impulse.m_Radius = m_impulseDefinition.m_ImpactRadius;
-					impulse.m_SignalSource = new SignalSource( m_impulseDefinition, velocity );
-					impulse.m_StartTime = impulseManager.CurrentTime;
-
-					m_impulses[idx] = impulse;
-				}
+				CreateReaction( m_reactionSource.position );
 			}
+
 			for ( int idx = 0; idx < m_spectators.Count; ++idx )
 			{
-				GameObject viewer = m_spectators[idx];
-
-				if ( !m_impulses.TryGetValue( idx, out var impulse ) ) { continue; }
-
-				if ( impulse.Expired )
+				if ( TryUpdateSignal( idx, out var localPos, out var localRot ) )
 				{
-					m_impulses.Remove( idx );
-					continue;
+					GameObject viewer = m_spectators[idx];
+					Transform viewerSprite = viewer.transform.GetChild( 0 );
+
+					viewerSprite.localPosition = localPos + Vector3.up * 2;
+					viewerSprite.localRotation = localRot;
 				}
+			}
+		}
 
-				bool hasSignal = impulse.GetDecayedSignal( viewer.transform.position, m_use2DDistance, out var localPos, out var localRot );
-				if ( !hasSignal ) { continue; }
+		public void CreateReaction( Vector3 reactionPosition )
+		{
+			for ( int idx = 0; idx < m_spectators.Count; ++idx )
+			{
+				CreateImpulseEvent( reactionPosition, idx );
+			}
+		}
 
-				Transform viewerSprite = viewer.transform.GetChild( 0 );
-				viewerSprite.localPosition = localPos + Vector3.up * 2;
-				viewerSprite.localRotation = localRot;
+		private CinemachineImpulseManager.ImpulseEvent CreateImpulseEvent( Vector3 position, int spectatorIndex )
+		{
+			var velocity = Random.insideUnitCircle;
+
+			var impulse = ImpulseManager.NewImpulseEvent();
+			impulse.m_Channel = m_impulseDefinition.m_ImpulseChannel;
+			impulse.m_DirectionMode = m_impulseDefinition.m_DirectionMode;
+			impulse.m_DissipationDistance = m_impulseDefinition.m_DissipationDistance;
+			impulse.m_DissipationMode = m_impulseDefinition.m_DissipationMode;
+			impulse.m_Envelope = m_impulseDefinition.m_TimeEnvelope;
+			impulse.m_Position = position;
+			impulse.m_PropagationSpeed = m_impulseDefinition.m_PropagationSpeed;
+			impulse.m_Radius = m_impulseDefinition.m_ImpactRadius;
+			impulse.m_SignalSource = new SignalSource( m_impulseDefinition, velocity );
+			impulse.m_StartTime = ImpulseManager.CurrentTime;
+
+			m_impulses[spectatorIndex] = impulse;
+
+			return impulse;
+		}
+
+		private bool TryUpdateSignal( int spectatorIndex, out Vector3 pos, out Quaternion rot )
+		{
+			pos = Vector3.zero;
+			rot = Quaternion.identity;
+
+			if ( !m_impulses.TryGetValue( spectatorIndex, out var impulse ) ) { return false; }
+
+			if ( impulse.Expired )
+			{
+				m_impulses.Remove( spectatorIndex );
+				return false;
 			}
 
-
-			// 2) 
-			//for ( int idx = 0; idx < m_spectators.Count; ++idx )
-			//{
-			//	GameObject viewer = m_spectators[idx];
-			//	bool hasSignal = impulseManager.GetImpulseAt( viewer.transform.position, m_use2DDistance, m_channelMask, out var localPos, out var localRot );
-			//	if ( hasSignal )
-			//	{
-			//		Transform viewerSprite = viewer.transform.GetChild( 0 );
-			//		viewerSprite.localPosition = localPos + Vector3.up * 2;
-			//		viewerSprite.localRotation = localRot;
-			//	}
-			//}
-
-
-			// 1)
-			//float time = Time.timeSinceLevelLoad;
-			//for ( int idx = 0; idx < m_spectators.Count; ++idx )
-			//{
-			//	float timeOffset = (idx + 1) * m_noiseOffset;
-			//	m_noise.GetSignal( time + timeOffset, out var localPos, out var localRot );
-
-			//	GameObject viewer = m_spectators[idx];
-			//	Transform viewerSprite = viewer.transform.GetChild( 0 );
-			//	viewerSprite.localPosition = localPos + Vector3.up * 2;
-			//	viewerSprite.localRotation = localRot;
-			//}
+			GameObject viewer = m_spectators[spectatorIndex];
+			return impulse.GetDecayedSignal( viewer.transform.position, use2D: true, out pos, out rot );
 		}
 
 		private void Start()
@@ -129,6 +114,9 @@ namespace DashSlash.Vfx
             m_spectatorFactory = GetComponentInChildren<IFactory<GameObject>>();
 		}
 
+		/// <summary>
+		/// Copy-paste of <see cref="CinemachineImpulseDefinition.SignalSource"/> due to access levels of class.
+		/// </summary>
 		class SignalSource : ISignalSource6D
 		{
 			private CinemachineImpulseDefinition m_def;
@@ -140,7 +128,7 @@ namespace DashSlash.Vfx
 				m_def = def;
 				m_velocity = velocity;
 				if ( m_def.m_Randomize && m_def.m_RawSignal.SignalDuration <= 0 )
-					m_startTimeOffset = UnityEngine.Random.Range( -1000f, 1000f );
+					m_startTimeOffset = Random.Range( -1000f, 1000f );
 			}
 
 			public float SignalDuration { get { return m_def.m_RawSignal.SignalDuration; } }
