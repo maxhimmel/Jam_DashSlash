@@ -512,10 +512,10 @@ GameObject:
   m_Component:
   - component: {fileID: 90438603}
   - component: {fileID: 90438608}
+  - component: {fileID: 90438604}
   - component: {fileID: 90438607}
   - component: {fileID: 90438606}
   - component: {fileID: 90438605}
-  - component: {fileID: 90438604}
   m_Layer: 0
   m_Name: Front
   m_TagString: Untagged
@@ -613,37 +613,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_count: 10
-  m_reactionSource: {fileID: 854946424}
-  m_impulseDefinition:
-    m_ImpulseChannel: 2
-    m_RawSignal: {fileID: 11400000, guid: 843b79acb543c4e45b66bcbfdae2d025, type: 2}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_DecayShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 5
-    m_DirectionMode: 1
-    m_DissipationMode: 2
-    m_DissipationDistance: 50
-    m_PropagationSpeed: 343
 --- !u!4 &101859970 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9000519400927449601, guid: 269936834e6f15748986965b3853633f, type: 3}
@@ -891,10 +860,10 @@ GameObject:
   m_Component:
   - component: {fileID: 273620179}
   - component: {fileID: 273620184}
+  - component: {fileID: 273620180}
   - component: {fileID: 273620183}
   - component: {fileID: 273620182}
   - component: {fileID: 273620181}
-  - component: {fileID: 273620180}
   m_Layer: 0
   m_Name: Back
   m_TagString: Untagged
@@ -992,37 +961,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_count: 9
-  m_reactionSource: {fileID: 854946424}
-  m_impulseDefinition:
-    m_ImpulseChannel: 2
-    m_RawSignal: {fileID: 11400000, guid: 843b79acb543c4e45b66bcbfdae2d025, type: 2}
-    m_AmplitudeGain: 1
-    m_FrequencyGain: 1
-    m_RepeatMode: 0
-    m_Randomize: 1
-    m_TimeEnvelope:
-      m_AttackShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_DecayShape:
-        serializedVersion: 2
-        m_Curve: []
-        m_PreInfinity: 2
-        m_PostInfinity: 2
-        m_RotationOrder: 4
-      m_AttackTime: 0
-      m_SustainTime: 2
-      m_DecayTime: 0.7
-      m_ScaleWithImpact: 1
-      m_HoldForever: 0
-    m_ImpactRadius: 5
-    m_DirectionMode: 1
-    m_DissipationMode: 2
-    m_DissipationDistance: 50
-    m_PropagationSpeed: 343
 --- !u!4 &280999611 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9000519400927449601, guid: 269936834e6f15748986965b3853633f, type: 3}
@@ -1164,6 +1102,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 394520643}
+  - component: {fileID: 394520645}
   - component: {fileID: 394520644}
   m_Layer: 0
   m_Name: AudienceMember_Back
@@ -1196,12 +1135,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 394520642}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c11265b855408d42af33d62691f5194, type: 3}
+  m_Script: {fileID: 11500000, guid: 293c4c0f5ecc2884290d16d62911d2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ChannelMask: 2
-  m_Gain: 1
-  m_Use2DDistance: 1
+  m_gain: 1
+--- !u!114 &394520645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 394520642}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60a9c32916a2fd4fa78c8464023b22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &415036257
 GameObject:
   m_ObjectHideFlags: 0
@@ -5443,6 +5392,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 854946424}
+  - component: {fileID: 854946425}
   m_Layer: 0
   m_Name: AudienceReaction
   m_TagString: Untagged
@@ -5458,12 +5408,54 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 854946423}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -12, y: 4.5, z: 0}
+  m_LocalPosition: {x: -9, y: 7, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 184554071}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &854946425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 854946423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96478e02795fe5949894cab100b539c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_impulseDefinition:
+    m_ImpulseChannel: 2
+    m_RawSignal: {fileID: 11400000, guid: 843b79acb543c4e45b66bcbfdae2d025, type: 2}
+    m_AmplitudeGain: 1
+    m_FrequencyGain: 1
+    m_RepeatMode: 0
+    m_Randomize: 1
+    m_TimeEnvelope:
+      m_AttackShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_DecayShape:
+        serializedVersion: 2
+        m_Curve: []
+        m_PreInfinity: 2
+        m_PostInfinity: 2
+        m_RotationOrder: 4
+      m_AttackTime: 0.2
+      m_SustainTime: 2
+      m_DecayTime: 0.7
+      m_ScaleWithImpact: 1
+      m_HoldForever: 0
+    m_ImpactRadius: 5
+    m_DirectionMode: 1
+    m_DissipationMode: 2
+    m_DissipationDistance: 40
+    m_PropagationSpeed: 343
 --- !u!4 &873659537 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9000519400927449601, guid: 269936834e6f15748986965b3853633f, type: 3}
@@ -6836,6 +6828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1504835214}
+  - component: {fileID: 1504835216}
   - component: {fileID: 1504835215}
   m_Layer: 0
   m_Name: AudienceMember_Front
@@ -6868,12 +6861,22 @@ MonoBehaviour:
   m_GameObject: {fileID: 1504835213}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0c11265b855408d42af33d62691f5194, type: 3}
+  m_Script: {fileID: 11500000, guid: 293c4c0f5ecc2884290d16d62911d2e4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_ChannelMask: 2
-  m_Gain: 1
-  m_Use2DDistance: 1
+  m_gain: 1
+--- !u!114 &1504835216
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504835213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b60a9c32916a2fd4fa78c8464023b22e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1523292783
 GameObject:
   m_ObjectHideFlags: 0
