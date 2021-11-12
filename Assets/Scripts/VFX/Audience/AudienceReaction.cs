@@ -15,16 +15,25 @@ namespace DashSlash.Vfx.Audiences
         [CinemachineImpulseDefinitionProperty]
         [SerializeField] private CinemachineImpulseDefinition m_impulseDefinition = new CinemachineImpulseDefinition();
 
-		public void React( Vector3 velocity )
+		/// <summary>
+		/// </summary>
+		/// <param name="velocity"></param>
+		/// <returns>Duration of reaction.</returns>
+		public float React( Vector3 velocity )
 		{
 			var allSpectators = DynamicPool.Instance.GetPooledObjectsByType<AudienceSpectator>();
-			if ( allSpectators == null ) { return; }
+			if ( allSpectators == null ) { return 0; }
 
+			CinemachineImpulseManager.ImpulseEvent lastImpulse = null;
 			foreach ( var spectator in allSpectators )
 			{
 				var impulse = CreateImpulseEvent( velocity );
 				spectator.React( impulse );
+
+				lastImpulse = impulse;
 			}
+
+			return lastImpulse.m_Envelope.Duration;
 		}
 
 		private CinemachineImpulseManager.ImpulseEvent CreateImpulseEvent( Vector3 velocity )
