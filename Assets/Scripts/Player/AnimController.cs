@@ -8,6 +8,8 @@ using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Player.Animation
 {
+	using Vfx.Audiences;
+
     public class AnimController : MonoBehaviour
     {
 		private Transform ModelParent => Model.parent;
@@ -59,6 +61,8 @@ namespace DashSlash.Gameplay.Player.Animation
 
 			this.TryStopCoroutine( ref m_stunBlinkRoutine );
 			m_stunBlinkRoutine = this.StartWaitingForSeconds( duration, () => m_stunBlinker.Stop( true ) );
+
+			AudienceReactionFactory.Instance.PlayScaredReaction( Model.position, Vector3.up );
 		}
 
 		public void PlayStunRecovery()
