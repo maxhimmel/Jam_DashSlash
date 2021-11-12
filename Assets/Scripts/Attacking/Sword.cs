@@ -6,7 +6,7 @@ using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Weapons
 {
-	using Player;
+	using Vfx;
 	using Gameplay.Slicing;
 
 	public class Sword : MonoBehaviour

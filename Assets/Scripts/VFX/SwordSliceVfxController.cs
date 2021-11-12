@@ -5,8 +5,10 @@ using Xam.Gameplay;
 using Xam.Utility.Extensions;
 using Cinemachine;
 
-namespace DashSlash
+namespace DashSlash.Vfx
 {
+	using Audiences;
+
     public class SwordSliceVfxController : MonoBehaviour
 	{
 		private Animator CameraAnimator => StateCamera.m_AnimatedTarget;
@@ -40,6 +42,8 @@ namespace DashSlash
 		{
 			BeginSlomo();
 			PlayCameraState( "Slice" );
+
+			AudienceReactionFactory.Instance.PlayExcitedReaction( transform.position, Vector3.up );
 		}
 
 		private void BeginSlomo()
