@@ -99,6 +99,10 @@ namespace DashSlash.Gameplay.Player
 					Instigator = transform
 				} );
 			}
+			if ( Input.GetKeyDown( KeyCode.Backspace ) )
+			{
+				Vfx.Audiences.AudienceReactionFactory.Instance.PlayExcitedReaction( transform.position, Vector3.up );
+			}
 		}
 
 		private void TryForceUpdateTrajectory()
