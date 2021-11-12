@@ -8,7 +8,7 @@ namespace DashSlash.Vfx.Audiences
 {
     public class AudienceSpectator : MonoBehaviour
     {
-		[SerializeField] private float m_gain = 1;
+		[SerializeField] private float m_reactionStrength = 1;
 
         private List<CinemachineImpulseManager.ImpulseEvent> m_reactions = new List<CinemachineImpulseManager.ImpulseEvent>();
 		private Vector3 m_impulsePosLastFrame;
@@ -86,9 +86,9 @@ namespace DashSlash.Vfx.Audiences
 		/// </summary>
 		private void ApplyReaction( ref Vector3 impulsePos, ref Quaternion impulseRot )
 		{
-			impulsePos *= m_gain;
+			impulsePos *= m_reactionStrength;
 			impulseRot = Quaternion.SlerpUnclamped(
-				Quaternion.identity, impulseRot, -m_gain );
+				Quaternion.identity, impulseRot, -m_reactionStrength );
 
 			transform.position += impulsePos;
 			transform.rotation = transform.rotation * impulseRot;
