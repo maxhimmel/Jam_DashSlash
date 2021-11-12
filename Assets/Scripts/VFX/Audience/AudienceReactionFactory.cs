@@ -9,8 +9,16 @@ namespace DashSlash.Vfx.Audiences
     public class AudienceReactionFactory : SingletonMono<AudienceReactionFactory>
     {
         [Header( "Reactions" )]
+        [SerializeField] private bool m_canReact = true;
+
+        [Space]
         [SerializeField] private AudienceReaction m_excitedReactionPrefab = default;
         [SerializeField] private AudienceReaction m_scaredReactionPrefab = default;
+
+        public void SetReactionsActive( bool isActive )
+		{
+            m_canReact = isActive;
+		}
 
         public void PlayExcitedReaction( Vector3 position, Vector3 velocity )
 		{
@@ -24,6 +32,8 @@ namespace DashSlash.Vfx.Audiences
 
         private void PlayReaction( Vector3 position, Vector3 velocity, AudienceReaction prefab )
 		{
+            if ( !m_canReact ) { return; }
+
             var reaction = CreateReaction( position, prefab );
             float duration = reaction.React( velocity );
 
