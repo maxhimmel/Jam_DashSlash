@@ -8037,8 +8037,9 @@ MonoBehaviour:
     configured as colliders atm.
 
 
-    This is totally okay though since it''s causing
-    the enemies to bounce off the walls and return to the play area much quicker.'
+    This is totally okay, though, since it''s
+    causing the enemies to bounce off the walls and return to the play area much
+    quicker.'
 --- !u!1001 &1877714015
 PrefabInstance:
   m_ObjectHideFlags: 0
