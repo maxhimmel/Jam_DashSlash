@@ -67,5 +67,9 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6345490774901927552, guid: 572eae45fa4c998439a1c32a7da651d7, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 572eae45fa4c998439a1c32a7da651d7, type: 3}
