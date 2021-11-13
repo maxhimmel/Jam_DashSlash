@@ -10,6 +10,9 @@ namespace DashSlash.Vfx.Audiences
     {
 		[SerializeField] private float m_reactionStrength = 1;
 
+		[Space]
+		[SerializeField] private Transform m_chair = default;
+
         private List<CinemachineImpulseManager.ImpulseEvent> m_reactions = new List<CinemachineImpulseManager.ImpulseEvent>();
 		private Vector3 m_impulsePosLastFrame;
 		private Quaternion m_impulseRotLastFrame;
@@ -92,6 +95,11 @@ namespace DashSlash.Vfx.Audiences
 
 			transform.position += impulsePos;
 			transform.rotation = transform.rotation * impulseRot;
+		}
+
+		private void Start()
+		{
+			m_chair.SetParent( transform.parent );
 		}
 	}
 }
