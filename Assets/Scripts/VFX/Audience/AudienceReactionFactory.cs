@@ -12,8 +12,8 @@ namespace DashSlash.Vfx.Audiences
         [SerializeField] private bool m_canReact = true;
 
         [Space]
-        [SerializeField] private AudienceReaction m_excitedReactionPrefab = default;
-        [SerializeField] private AudienceReaction m_scaredReactionPrefab = default;
+        [SerializeField] private AudienceReaction m_excitedReaction = default;
+        [SerializeField] private AudienceReaction m_scaredReaction = default;
 
         public void SetReactionsActive( bool isActive )
 		{
@@ -22,27 +22,19 @@ namespace DashSlash.Vfx.Audiences
 
         public void PlayExcitedReaction( Vector3 position, Vector3 velocity )
 		{
-            PlayReaction( position, velocity, m_excitedReactionPrefab );
+            PlayReaction( position, velocity, m_excitedReaction );
         }
 
         public void PlayScaredReaction( Vector3 position, Vector3 velocity )
         {
-            PlayReaction( position, velocity, m_scaredReactionPrefab );
+            PlayReaction( position, velocity, m_scaredReaction );
         }
 
-        private void PlayReaction( Vector3 position, Vector3 velocity, AudienceReaction prefab )
+        private void PlayReaction( Vector3 position, Vector3 velocity, AudienceReaction reaction )
 		{
             if ( !m_canReact ) { return; }
 
-            var reaction = CreateReaction( position, prefab );
-            float duration = reaction.React( velocity );
-
-            Destroy( reaction.gameObject, duration );
-		}
-
-        private AudienceReaction CreateReaction( Vector3 position, AudienceReaction prefab )
-		{
-            return Instantiate( prefab, position, Quaternion.identity );
+            reaction.React( position, velocity );
 		}
     }
 }

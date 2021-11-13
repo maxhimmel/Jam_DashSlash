@@ -734,8 +734,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_destroyOnLoad: 1
-  m_excitedReactionPrefab: {fileID: 3623884128146274616, guid: 1e8201b2480b0a749a7b72ddeb4c8b5c, type: 3}
-  m_scaredReactionPrefab: {fileID: 2073329162772641797, guid: 27f96ca3811e5614ab40b9171a67e67a, type: 3}
+  m_canReact: 1
+  m_excitedReaction: {fileID: 11400000, guid: 220f8a70c0e26f54ca6e8c080c13b34f, type: 2}
+  m_scaredReaction: {fileID: 11400000, guid: d5847d22961497141b1a49ddad3e7727, type: 2}
 --- !u!4 &195983867 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 9000519400927449601, guid: 269936834e6f15748986965b3853633f, type: 3}
@@ -6270,7 +6271,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1409821140
 MonoBehaviour:
   m_ObjectHideFlags: 0

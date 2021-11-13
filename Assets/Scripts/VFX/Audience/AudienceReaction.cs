@@ -8,8 +8,11 @@ using Xam.Utility.Extensions;
 
 namespace DashSlash.Vfx.Audiences
 {
-    public class AudienceReaction : MonoBehaviour
+	[CreateAssetMenu( menuName = "DashSlash/Audience Reaction", fileName = "NewAudienceReaction" )]
+    public class AudienceReaction : ScriptableObject
     {
+		public CinemachineImpulseDefinition ImpulseDefinition => m_impulseDefinition;
+
 		private CinemachineImpulseManager ImpulseManager => CinemachineImpulseManager.Instance;
 
         [CinemachineImpulseDefinitionProperty]
@@ -19,7 +22,7 @@ namespace DashSlash.Vfx.Audiences
 		/// </summary>
 		/// <param name="velocity"></param>
 		/// <returns>Duration of reaction.</returns>
-		public float React( Vector3 velocity )
+		public float React( Vector3 position, Vector3 velocity )
 		{
 			var allSpectators = DynamicPool.Instance.GetPooledObjectsByType<AudienceSpectator>();
 			if ( allSpectators == null ) { return 0; }
@@ -27,7 +30,7 @@ namespace DashSlash.Vfx.Audiences
 			CinemachineImpulseManager.ImpulseEvent lastImpulse = null;
 			foreach ( var spectator in allSpectators )
 			{
-				var impulse = CreateImpulseEvent( velocity );
+				var impulse = CreateImpulseEvent( position, velocity );
 				spectator.React( impulse );
 
 				lastImpulse = impulse;
@@ -36,7 +39,7 @@ namespace DashSlash.Vfx.Audiences
 			return lastImpulse.m_Envelope.Duration;
 		}
 
-		private CinemachineImpulseManager.ImpulseEvent CreateImpulseEvent( Vector3 velocity )
+		private CinemachineImpulseManager.ImpulseEvent CreateImpulseEvent( Vector3 position, Vector3 velocity )
 		{
 			var impulse = ImpulseManager.NewImpulseEvent();
 
@@ -45,7 +48,7 @@ namespace DashSlash.Vfx.Audiences
 			impulse.m_DissipationDistance = m_impulseDefinition.m_DissipationDistance;
 			impulse.m_DissipationMode = m_impulseDefinition.m_DissipationMode;
 			impulse.m_Envelope = m_impulseDefinition.m_TimeEnvelope;
-			impulse.m_Position = transform.position;
+			impulse.m_Position = position;
 			impulse.m_PropagationSpeed = m_impulseDefinition.m_PropagationSpeed;
 			impulse.m_Radius = m_impulseDefinition.m_ImpactRadius;
 			impulse.m_SignalSource = new SignalSource( m_impulseDefinition, velocity );
@@ -95,61 +98,5 @@ namespace DashSlash.Vfx.Audiences
 				rot = Quaternion.SlerpUnclamped( Quaternion.identity, rot, gain );
 			}
 		}
-
-
-#if UNITY_EDITOR
-		[Header( "Editor / Tools" )]
-		[SerializeField] private Color m_radiusColor = Color.cyan;
-		[SerializeField] private int m_radiusResolution = 20;
-
-		private void OnDrawGizmosSelected()
-		{
-			Vector3 center = transform.position;
-			Vector3 normal = transform.forward;
-
-			UnityEditor.Handles.color = m_radiusColor;
-			UnityEditor.Handles.DrawSolidDisc( center, normal, m_impulseDefinition.m_ImpactRadius );
-
-			for ( int idx = 0; idx < m_radiusResolution; ++idx )
-			{
-				float radiusScale = idx / (float)(m_radiusResolution - 1);
-				float radius = Mathf.Lerp( m_impulseDefinition.m_ImpactRadius, m_impulseDefinition.m_DissipationDistance, radiusScale );
-
-				UnityEditor.Handles.color = m_radiusColor.NewAlpha( DistanceDecay( radius ) );
-				UnityEditor.Handles.DrawWireDisc( center, normal, radius );
-			}
-
-			UnityEditor.Handles.color = m_radiusColor.NewAlpha( 1 );
-			UnityEditor.Handles.DrawWireDisc( center, normal, m_impulseDefinition.m_DissipationDistance );
-		}
-
-		/// <summary>
-		/// Essentially a copy-paste of <see cref="CinemachineImpulseManager.ImpulseEvent.DistanceDecay(float)"/>.
-		/// </summary>
-		/// <param name="distance"></param>
-		/// <returns></returns>
-		public float DistanceDecay( float distance )
-		{
-			float dissipationDistance = m_impulseDefinition.m_DissipationDistance;
-
-			float radius = Mathf.Max( m_impulseDefinition.m_ImpactRadius, 0 );
-			if ( distance < radius )
-				return 1;
-			distance -= radius;
-			if ( distance >= dissipationDistance )
-				return 0;
-
-			switch ( m_impulseDefinition.m_DissipationMode )
-			{
-				default:
-				case CinemachineImpulseManager.ImpulseEvent.DissipationMode.LinearDecay:
-					return Mathf.Lerp( 1, 0, distance / dissipationDistance );
-				case CinemachineImpulseManager.ImpulseEvent.DissipationMode.SoftDecay:
-					return 0.5f * (1 + Mathf.Cos( Mathf.PI * (distance / dissipationDistance) ));
-				case CinemachineImpulseManager.ImpulseEvent.DissipationMode.ExponentialDecay:
-					return 1 - Damper.Damp( 1, dissipationDistance, distance );
-			}
-		}
-#endif
 	}
 }
