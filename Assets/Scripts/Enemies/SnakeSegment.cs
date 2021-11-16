@@ -4,22 +4,40 @@ using UnityEngine;
 
 namespace DashSlash.Gameplay.Enemies
 {
+	using Slicing;
+
     public class SnakeSegment : MonoBehaviour
     {
-        public Transform Segment => m_segment;
-        public float Radius => m_radius;
-        public float DampPosition => m_dampPosition;
-        public float DampRotation => m_dampRotation;
-        public bool MaintainAim => m_maintainAim;
+		public float OffsetDistance => m_radius * 2f;
+		public ISliceable Sliceable { get; private set; }
 
-        [SerializeField] private Transform m_segment = default;
+		[SerializeField] private float m_radius = 0.5f;
 
-        [Space]
-        [SerializeField] private float m_radius = 0.5f;
+		private SnakeSegment m_nextSegment;
+		private Rigidbody2D m_body;
 
-        [Space]
-        [SerializeField, Range( 0, 1 )] private float m_dampPosition = 0;
-        [SerializeField, Range( 0, 1 )] private float m_dampRotation = 0.6f;
-        [SerializeField] private bool m_maintainAim = false;
-    }
+		public void SetNextSegment( SnakeSegment next )
+		{
+			m_nextSegment = next;
+		}
+
+		public void UpdateFollowMovement()
+		{
+			Vector3 myPos = m_body.position;
+			Vector3 nextPos = m_nextSegment.m_body.position;
+
+			Vector3 segmentToNext = nextPos - myPos;
+			Vector3 segmentPos = nextPos - segmentToNext.normalized * OffsetDistance;
+			Quaternion segmentRot = Quaternion.LookRotation( Vector3.forward, segmentToNext );
+
+			m_body.MovePosition( segmentPos );
+			m_body.SetRotation( segmentRot );
+		}
+
+		private void Awake()
+		{
+			m_body = GetComponentInChildren<Rigidbody2D>();
+			Sliceable = GetComponentInChildren<ISliceable>();
+		}
+	}
 }
