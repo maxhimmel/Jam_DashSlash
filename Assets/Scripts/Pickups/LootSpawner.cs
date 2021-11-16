@@ -6,7 +6,6 @@ using Xam.Utility.Randomization;
 namespace DashSlash.Gameplay
 {
 	using Utility;
-	using Enemies;
 
 	public class LootSpawner : MonoBehaviour
     {
@@ -18,31 +17,22 @@ namespace DashSlash.Gameplay
 
 		private IDirection m_launchRotation;
 
-		private void Start()
-		{
-            Enemy enemy = GetComponentInParent<Enemy>();
-			if ( enemy != null )
-			{
-				enemy.Died += OnEnemyDied;
-			}
-		}
-
-		private void OnEnemyDied( object sender, System.EventArgs e )
+		public void Spawn( Vector3 position )
 		{
 			int spawnAmount = m_spawnAmountRange.Evaluate();
 			for ( int idx = 0; idx < spawnAmount; ++idx )
 			{
-				Pickup newPickup = CreatePickup();
+				Pickup newPickup = CreatePickup( position );
 				LaunchPickup( newPickup, idx, spawnAmount );
 			}
 		}
 
-		private Pickup CreatePickup()
+		private Pickup CreatePickup( Vector3 position )
 		{
 			int randAngle = Random.Range( 0, 360 );
 			Quaternion spawnRot = Quaternion.Euler( 0, 0, randAngle );
 
-			return Instantiate( m_pickupPrefab, transform.position, spawnRot );
+			return Instantiate( m_pickupPrefab, position, spawnRot );
 		}
 
 		private void LaunchPickup( Pickup pickup, int index, int spawnCount )
