@@ -23,11 +23,11 @@ namespace DashSlash.Gameplay
             Enemy enemy = GetComponentInParent<Enemy>();
 			if ( enemy != null )
 			{
-				enemy.Died += OnEnemyDead;
+				enemy.Died += OnEnemyDied;
 			}
 		}
 
-		private void OnEnemyDead( object sender, System.EventArgs e )
+		private void OnEnemyDied( object sender, System.EventArgs e )
 		{
 			int spawnAmount = m_spawnAmountRange.Evaluate();
 			for ( int idx = 0; idx < spawnAmount; ++idx )
