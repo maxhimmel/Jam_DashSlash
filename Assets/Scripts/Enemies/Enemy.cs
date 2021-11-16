@@ -35,8 +35,9 @@ namespace DashSlash.Gameplay.Enemies
 		private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
 
 		protected Rigidbody2D m_body;
+		protected LootSpawner m_lootSpawner;
 
-        private void FixedUpdate()
+		private void FixedUpdate()
 		{
 			if ( IsAwake )
 			{
@@ -152,6 +153,11 @@ namespace DashSlash.Gameplay.Enemies
 
 		protected virtual void OnDied()
 		{
+			if ( m_lootSpawner != null )
+			{
+				m_lootSpawner.Spawn( Position );
+			}
+
 			Died?.Invoke( this, System.EventArgs.Empty );
 		}
 
@@ -178,6 +184,18 @@ namespace DashSlash.Gameplay.Enemies
 			m_sliceable = GetComponentInChildren<ISliceable>();
 			m_hurtBoxes = GetComponentsInChildren<HurtBox>( true );
 			m_hitBoxes = GetComponentsInChildren<HitBox>( true );
+
+			InitLootSpawner();
+		}
+
+		private void InitLootSpawner()
+		{
+			var lootSpawnerFactory = GetComponentInChildren<LootSpawnerFactory>();
+			if ( lootSpawnerFactory != null )
+			{
+				var lootObj = lootSpawnerFactory.Create( Vector3.zero, Quaternion.identity, lootSpawnerFactory.transform );
+				m_lootSpawner = lootObj.GetComponent<LootSpawner>();
+			}
 		}
 
 		protected virtual void OnDisable()

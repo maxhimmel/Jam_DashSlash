@@ -205,12 +205,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 4368795122165069187}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4060fa1a8d2098a46bd2301f3819068d, type: 3}
+  m_Script: {fileID: 11500000, guid: aaf8c1d045df24b4eb64aa05c2492c57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_prefab: {fileID: 1619041360633666307, guid: a09b884063c78504a86c74e6754e258e, type: 3}
-  m_spawnOnAwake: 1
-  m_parentToFactory: 1
+  m_prefab: {fileID: 2378694828765605548, guid: a09b884063c78504a86c74e6754e258e, type: 3}
+  m_spawnOnAwake: 0
+  m_parentToFactory: 0
 --- !u!1 &9000519399964222847
 GameObject:
   m_ObjectHideFlags: 0
