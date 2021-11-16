@@ -50,6 +50,8 @@ namespace DashSlash.Gameplay.Enemies
 
 			int newHeadIndex = GetNewHeadIndex( slicedSegment );
 
+			TrySpawnLoot( newHeadIndex );
+
 			if ( TryHandleTailSegment( newHeadIndex ) ) 
 			{ 
 				return; 
@@ -58,6 +60,17 @@ namespace DashSlash.Gameplay.Enemies
 			var discardedSegments = PopDiscardedSegments( newHeadIndex );
 
 			CreateNewSnakeHead( discardedSegments );
+		}
+
+		private void TrySpawnLoot( int newHeadIndex )
+		{
+			if ( newHeadIndex <= 1 ) 
+			{ 
+				return; 
+			}
+
+			var slicedSegment = m_segments[newHeadIndex - 1];
+			m_lootSpawner.Spawn( slicedSegment.transform.position );
 		}
 
 		private int GetNewHeadIndex( SnakeSegment slicedSegment )
