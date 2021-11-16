@@ -119,6 +119,7 @@ namespace DashSlash.Gameplay.Enemies
 			var newHead = newHeadSegment.gameObject.AddComponent<SnakeHead>();
 
 			newHead.SetSegments( segments );
+			newHead.m_googlyEyes.gameObject.SetActive( true );
 
 			return newHead;
 		}

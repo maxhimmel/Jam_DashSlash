@@ -8,6 +8,7 @@ namespace DashSlash.Gameplay.Enemies
 	using Slicing;
     using Player;
 	using Weapons;
+	using Vfx.Googly;
 
     public class Enemy : MonoBehaviour
     {
@@ -36,6 +37,7 @@ namespace DashSlash.Gameplay.Enemies
 
 		protected Rigidbody2D m_body;
 		protected LootSpawner m_lootSpawner;
+		protected GooglyEyesController m_googlyEyes;
 
 		private void FixedUpdate()
 		{
@@ -48,6 +50,16 @@ namespace DashSlash.Gameplay.Enemies
 		protected virtual void UpdateState()
 		{
 			UpdateRotation();
+			UpdateGooglyEyes();
+		}
+
+		protected virtual void UpdateGooglyEyes()
+		{
+			if ( m_googlyEyes != null )
+			{
+				Vector3 directionToPlayer = m_lookAtPlayer.GetDirection( Position );
+				m_googlyEyes.SetDesiredLookDirection( directionToPlayer );
+			}
 		}
 
         protected void UpdateRotation()
@@ -184,6 +196,7 @@ namespace DashSlash.Gameplay.Enemies
 			m_sliceable = GetComponentInChildren<ISliceable>();
 			m_hurtBoxes = GetComponentsInChildren<HurtBox>( true );
 			m_hitBoxes = GetComponentsInChildren<HitBox>( true );
+			m_googlyEyes = GetComponentInChildren<GooglyEyesController>( true );
 
 			InitLootSpawner();
 		}

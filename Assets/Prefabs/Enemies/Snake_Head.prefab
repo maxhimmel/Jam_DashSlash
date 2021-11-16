@@ -36,6 +36,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5076495242556129333, guid: 08f0f071ea6292741aafae9b556bf285, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8724559822238722457, guid: 08f0f071ea6292741aafae9b556bf285, type: 3}
       propertyPath: m_Name
       value: Snake_Head
