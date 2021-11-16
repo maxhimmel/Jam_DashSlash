@@ -21,14 +21,24 @@ namespace DashSlash.Gameplay.Enemies
 
 			m_motor.SetDesiredVelocity( FacingDirection );
 
-			if ( m_segments != null && m_segments.Count > 1 )
+			if ( CanUpdateSegments() )
 			{
-				// We start from 1 to skip this head segment ...
-				for ( int idx = 1; idx < m_segments.Count; ++idx )
-				{
-					var segment = m_segments[idx];
-					segment.UpdateFollowMovement();
-				}
+				UpdateSegmentMovement();
+			}
+		}
+
+		private bool CanUpdateSegments()
+		{
+			return m_segments != null && m_segments.Count > 1;
+		}
+
+		private void UpdateSegmentMovement()
+		{
+			// We start from 1 to skip this head segment ...
+			for ( int idx = 1; idx < m_segments.Count; ++idx )
+			{
+				var segment = m_segments[idx];
+				segment.UpdateFollowMovement();
 			}
 		}
 
@@ -38,35 +48,65 @@ namespace DashSlash.Gameplay.Enemies
 			var slicedSegment = slicedComponent?.GetComponent<SnakeSegment>();
 			Debug.Assert( slicedSegment != null, $"Sliced segment must be of type 'SnakeSegment.'", this );
 
-			int newHeadIndice = -1;
-			for ( int idx = 0; idx < m_segments.Count; ++idx )
-			{
-				var segment = m_segments[idx];
-				if ( segment != slicedSegment ) { continue; }
+			int newHeadIndex = GetNewHeadIndex( slicedSegment );
 
-				newHeadIndice = idx + 1;
-				break;
+			if ( TryHandleTailSegment( newHeadIndex ) ) 
+			{ 
+				return; 
 			}
 
-			if ( newHeadIndice >= m_segments.Count )
-			{
-				int tailIndice = m_segments.Count - 1;
-				m_segments.RemoveAt( tailIndice );
-				return;
-			}
-
-			int segmentCount = m_segments.Count - newHeadIndice;
-			var discardedSegments = m_segments.GetRange( newHeadIndice, segmentCount );
+			var discardedSegments = PopDiscardedSegments( newHeadIndex );
 			foreach ( var segment in discardedSegments )
 			{
 				segment.Sliceable.Sliced -= OnSegmentSliced;
 			}
 
-			var newHeadSegment = discardedSegments[0];
-			var newHead = newHeadSegment.gameObject.AddComponent<SnakeHead>();
-			newHead.SetSegments( discardedSegments );
+			CreateNewSnakeHead( discardedSegments );
+		}
 
-			m_segments.RemoveRange( newHeadIndice - 1, segmentCount + 1 );
+		private int GetNewHeadIndex( SnakeSegment slicedSegment )
+		{
+			for ( int idx = 0; idx < m_segments.Count; ++idx )
+			{
+				var segment = m_segments[idx];
+				if ( segment != slicedSegment ) { continue; }
+
+				return idx + 1;
+			}
+
+			return -1;
+		}
+
+		private bool TryHandleTailSegment( int newHeadIndex )
+		{
+			if ( newHeadIndex >= m_segments.Count )
+			{
+				int tailIndice = m_segments.Count - 1;
+				m_segments.RemoveAt( tailIndice );
+				return true;
+			}
+
+			return false;
+		}
+
+		private List<SnakeSegment> PopDiscardedSegments( int newHeadIndex )
+		{
+			int segmentCount = m_segments.Count - newHeadIndex;
+
+			var discardedSegments = m_segments.GetRange( newHeadIndex, segmentCount );
+			m_segments.RemoveRange( newHeadIndex - 1, segmentCount + 1 );
+
+			return discardedSegments;
+		}
+
+		private SnakeHead CreateNewSnakeHead( List<SnakeSegment> segments )
+		{
+			var newHeadSegment = segments[0];
+			var newHead = newHeadSegment.gameObject.AddComponent<SnakeHead>();
+
+			newHead.SetSegments( segments );
+
+			return newHead;
 		}
 
 		protected override void InitReferences()
