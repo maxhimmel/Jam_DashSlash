@@ -56,10 +56,6 @@ namespace DashSlash.Gameplay.Enemies
 			}
 
 			var discardedSegments = PopDiscardedSegments( newHeadIndex );
-			foreach ( var segment in discardedSegments )
-			{
-				segment.Sliceable.Sliced -= OnSegmentSliced;
-			}
 
 			CreateNewSnakeHead( discardedSegments );
 		}
@@ -95,6 +91,11 @@ namespace DashSlash.Gameplay.Enemies
 
 			var discardedSegments = m_segments.GetRange( newHeadIndex, segmentCount );
 			m_segments.RemoveRange( newHeadIndex - 1, segmentCount + 1 );
+
+			foreach ( var segment in discardedSegments )
+			{
+				segment.Sliceable.Sliced -= OnSegmentSliced;
+			}
 
 			return discardedSegments;
 		}
