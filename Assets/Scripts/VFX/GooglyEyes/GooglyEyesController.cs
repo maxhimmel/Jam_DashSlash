@@ -6,7 +6,7 @@ namespace DashSlash.Vfx.Googly
 {
     public class GooglyEyesController : MonoBehaviour
     {
-        private GoogleEye[] m_eyes = default;
+        private GooglyEye[] m_eyes = default;
 
 		public void SetDesiredLookDirection( Vector3 direction )
 		{
@@ -18,7 +18,7 @@ namespace DashSlash.Vfx.Googly
 
 		private void Awake()
 		{
-			m_eyes = GetComponentsInChildren<GoogleEye>();
+			m_eyes = GetComponentsInChildren<GooglyEye>();
 		}
 	}
 }
