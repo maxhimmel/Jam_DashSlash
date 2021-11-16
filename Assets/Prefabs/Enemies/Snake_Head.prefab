@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1127125930823120134
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9027433092630505594}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9244b978fb7f23849b34991ac501b2c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_segmentCount: 6
+  m_segmentPrefab: {fileID: 1356177889, guid: 08f0f071ea6292741aafae9b556bf285, type: 3}
 --- !u!114 &2542502980745139387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15,20 +29,6 @@ MonoBehaviour:
   m_spawnAwakeDelay: 0.25
   m_spawnInvincibiltyDuration: 0.25
   m_rotationSpeed: 540
---- !u!114 &1127125930823120134
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9027433092630505594}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9244b978fb7f23849b34991ac501b2c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_segmentCount: 6
-  m_segmentPrefab: {fileID: 1356177889, guid: 08f0f071ea6292741aafae9b556bf285, type: 3}
 --- !u!1001 &311942987195597283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38,7 +38,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8724559822238722457, guid: 08f0f071ea6292741aafae9b556bf285, type: 3}
       propertyPath: m_Name
-      value: Snake_Head2
+      value: Snake_Head
       objectReference: {fileID: 0}
     - target: {fileID: 8724559822238722461, guid: 08f0f071ea6292741aafae9b556bf285, type: 3}
       propertyPath: m_RootOrder
@@ -84,6 +84,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8724559822691350406, guid: 08f0f071ea6292741aafae9b556bf285, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: eda9898a3dab0274b8b76a860c7533fa, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08f0f071ea6292741aafae9b556bf285, type: 3}
 --- !u!1 &9027433092630505594 stripped
