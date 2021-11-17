@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using DG.Tweening;
+using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.UI
 {
@@ -28,6 +29,8 @@ namespace DashSlash.Gameplay.UI
 		[SerializeField] private TMP_Text m_comboElement = default;
 		[SerializeField] private TMP_Text m_bonusElement = default;
 
+		private Coroutine m_scoreIncrementDisableRoutine;
+
 		private void OnScoreUpdated( object sender, ScoreEventArgs e )
 		{
 			m_comboElement.text = e.ComboSlices.ToString();
@@ -36,9 +39,7 @@ namespace DashSlash.Gameplay.UI
 			m_bonusElement.text = e.ComboBonus.ToString();
 			m_bonusElement.gameObject.SetActive( true );
 
-			m_scoreIncrementElement.gameObject.SetActive( true );
-			m_scoreIncrementElement.SetValue( e.ScoreIncrement, 0 );
-			m_scoreIncrementElement.SetValue( 0, m_scoreIncrementDuration );
+			UpdateScoreIncrement( e.ScoreIncrement );
 
 			m_scoreElement.SetValue( e.Score, m_scoreUpdateDuration, false );
 		}
@@ -56,12 +57,21 @@ namespace DashSlash.Gameplay.UI
 			m_bonusElement.text = 0.ToString();
 			m_bonusElement.gameObject.SetActive( false );
 
-			m_scoreIncrementElement.SetValue( e.ScoreIncrement, 0, false );
-			m_scoreIncrementElement.SetValue( 0, m_scoreIncrementDuration, true );
-			// TODO: And then we gotta hide this element once it's back to zero
-				 // ...
+			UpdateScoreIncrement( e.ScoreIncrement );
 
 			m_pickupGroupBonusElement.text = 1.ToString();
+		}
+
+		private void UpdateScoreIncrement( int scoreIncrement )
+		{
+			m_scoreIncrementElement.gameObject.SetActive( true );
+			m_scoreIncrementElement.SetValue( scoreIncrement, 0, false );
+			m_scoreIncrementElement.SetValue( 0, m_scoreIncrementDuration, true );
+
+			this.TryStopCoroutine( ref m_scoreIncrementDisableRoutine );
+			m_scoreIncrementDisableRoutine = this.StartWaitingForSeconds( 
+				m_scoreIncrementDuration, m_scoreIncrementElement.gameObject.SetActive, false 
+			);
 		}
 
 		private void Start()
