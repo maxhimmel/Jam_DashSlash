@@ -9,7 +9,6 @@ using Xam.Utility.Extensions;
 namespace DashSlash.Gameplay.Player.Animation
 {
 	using Vfx.Audiences;
-	using Vfx.Googly;
 
 	public class AnimController : MonoBehaviour
     {
@@ -34,7 +33,6 @@ namespace DashSlash.Gameplay.Player.Animation
 
 		private Tweener m_rotationAnim;
 		private Coroutine m_stunBlinkRoutine;
-		private GooglyEyesController m_googlyEyes;
 
 		public void PlayPrepareDashAnim( float duration, Vector3 trajectory )
 		{
@@ -87,11 +85,6 @@ namespace DashSlash.Gameplay.Player.Animation
 
 			m_stunBlinker.Stop( true );
 			this.TryStopCoroutine( ref m_stunBlinkRoutine );
-		}
-
-		private void Awake()
-		{
-			m_googlyEyes = GetComponentInChildren<GooglyEyesController>();
 		}
 	}
 }
