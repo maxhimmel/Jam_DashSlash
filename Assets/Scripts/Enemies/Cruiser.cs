@@ -16,6 +16,7 @@ namespace DashSlash.Gameplay.Enemies
 		protected override void UpdateState()
 		{
 			m_characterMotor.SetDesiredVelocity( FacingDirection );
+			UpdateGooglyEyes();
 		}
 
 		protected override void OnAwokenFromSpawn()
