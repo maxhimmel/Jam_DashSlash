@@ -48,6 +48,8 @@ namespace DashSlash.Gameplay.UI
 
 		private void OnComboDropped( object sender, ScoreEventArgs e )
 		{
+			if ( e.Pickups > 0 ) { return; }
+
 			this.TryStopCoroutine( ref m_clearBonusRoutine );
 			m_clearBonusRoutine = StartCoroutine( UpdateComboDropClearing() );
 		}
