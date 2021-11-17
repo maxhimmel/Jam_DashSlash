@@ -44,8 +44,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_destroyOnLoad: 1
-  m_enableLogging: 1
+  m_enableLogging: 0
   m_meterDecayRate: 0.5
+  m_meterDecayValue: 0.5
   m_meterUsageCost: 10
   m_maxPickupGroupBonus: 5
   m_pickupGroupCount: 10

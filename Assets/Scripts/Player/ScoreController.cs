@@ -22,6 +22,7 @@ namespace DashSlash.Gameplay
 		[Header( "Scoring" )]
 		[Tooltip( "The rate at which the meter is constantly decaying." )]
 		[SerializeField, Min( 0 )] private float m_meterDecayRate = 1;
+		[SerializeField, Min( 0 )] private float m_meterDecayValue = 1;
 		[Tooltip( "How much the meter is reduced when missing a dash/slash." )]
 		[SerializeField, Min( 0 )] private float m_meterUsageCost = 0.5f;
 
@@ -36,6 +37,7 @@ namespace DashSlash.Gameplay
 		private bool m_hasKills = false;
 		private bool m_hasPickups = false;
 		private bool m_canScorePickups = true;
+		private Coroutine m_meterDecayRoutine;
 
 		public void SetPickupScoringActive( bool isActive )
 		{
@@ -68,14 +70,15 @@ namespace DashSlash.Gameplay
 			m_hasPickups = false;
 		}
 
-		private void ClearCombo( bool clearPickupBonus )
+		private void ClearCombo( bool isForced )
 		{
 			int scoreIncrement = 0;
 			bool hadCombo = ComboSlices > 0;
 			bool hadPickups = Pickups > 0;
+			bool canDrop = hadCombo && GetPickupGroupBonus() <= 1;
 
 			// Apply and clear bonus ...
-			if ( hadCombo )
+			if ( canDrop )
 			{
 				scoreIncrement = ApplyBonusCleared();
 			}
@@ -83,12 +86,12 @@ namespace DashSlash.Gameplay
 			// Update pickups ...
 			if ( hadPickups )
 			{
-				float pickups = clearPickupBonus ? 0 : Pickups - m_meterUsageCost;
-				SetPickups( pickups, false );
+				float pickups = isForced ? 0 : Pickups - m_meterUsageCost;
+				SetPickups( pickups );
 			}
 
 			// Finally, apply combo drop ...
-			if ( hadCombo || clearPickupBonus )
+			if ( isForced || canDrop )
 			{
 				Log( "Cleared combo", Colors.Red );
 				ComboDropped?.Invoke( this, new ScoreEventArgs()
@@ -175,7 +178,7 @@ namespace DashSlash.Gameplay
 
 		private float GetPickupRatio( bool isWrapped )
 		{
-			if ( Pickups / m_pickupGroupCount > m_maxPickupGroupBonus ) { return 1; }
+			if ( Pickups / m_pickupGroupCount >= m_maxPickupGroupBonus ) { return 1; }
 
 			float pickups = isWrapped
 				? Pickups % m_pickupGroupCount
@@ -207,12 +210,29 @@ namespace DashSlash.Gameplay
 			} );
 		}
 
-		private void Update()
+		private void OnDisable()
 		{
-			if ( Pickups <= 0 ) { return; }
+			this.TryStopCoroutine( ref m_meterDecayRoutine );
+		}
 
-			float decayDelta = m_meterDecayRate * Time.deltaTime;
-			SetPickups( Pickups - decayDelta );
+		private void OnEnable()
+		{
+			m_meterDecayRoutine = StartCoroutine( UpdateMeterDecay() );
+		}
+
+		private IEnumerator UpdateMeterDecay()
+		{
+			while ( enabled )
+			{
+				yield return new WaitForSeconds( m_meterDecayRate );
+
+				if ( Pickups > 0 )
+				{
+					SetPickups( Pickups - m_meterDecayValue );
+				}
+			}
+
+			m_meterDecayRoutine = null;
 		}
 
 		private void Log( string message, Colors color = Colors.Black )
