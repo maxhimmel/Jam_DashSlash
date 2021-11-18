@@ -72,7 +72,7 @@ namespace DashSlash.Gameplay.Player
 			m_body.freezeRotation = false;
 
 			m_animController.ClearAllAnimations();
-			m_animController.PlayStunnedVfx( m_stunVfxDuration );
+			m_animController.PlayStunnedVfx( m_stunVfxDuration, m_stunDuration );
 
 			Score.ForceClearCombo();
 			Score.SetPickupScoringActive( false );

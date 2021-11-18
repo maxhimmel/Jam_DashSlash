@@ -10762,6 +10762,7 @@ MonoBehaviour:
   m_collectPickupVfx: {fileID: 970715915440952253}
   m_dashShake: {fileID: 970715915429147739}
   m_stunBlinker: {fileID: 970715915602231613}
+  m_googlyEyes: {fileID: 5643202950573198245}
 --- !u!212 &970715915602231611
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11244,6 +11245,10 @@ PrefabInstance:
     - target: {fileID: 6281046984893230832, guid: a9af710d998fbfb4a9264768e7309759, type: 3}
       propertyPath: m_SortingOrder
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8116011982877337000, guid: a9af710d998fbfb4a9264768e7309759, type: 3}
+      propertyPath: m_dazedSpinSpeed
+      value: 1080
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9af710d998fbfb4a9264768e7309759, type: 3}

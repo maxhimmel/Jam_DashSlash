@@ -30,6 +30,7 @@ namespace DashSlash.Gameplay.Player.Animation
 		[SerializeField] private ParticleSystem m_collectPickupVfx = default;
 		[SerializeField] private CinemachineImpulseSource m_dashShake = default;
 		[SerializeField] private RendererBlinker m_stunBlinker = default;
+		[SerializeField] private PlayerGooglyEyesController m_googlyEyes = default;
 
 		private Tweener m_rotationAnim;
 		private Coroutine m_stunBlinkRoutine;
@@ -55,12 +56,14 @@ namespace DashSlash.Gameplay.Player.Animation
 			m_dashShake.GenerateImpulseAt( Model.position, trajectory );
 		}
 
-		public void PlayStunnedVfx( float duration )
+		public void PlayStunnedVfx( float vfxDuration, float totalStunDuration )
 		{
 			m_stunBlinker.Play();
 
 			this.TryStopCoroutine( ref m_stunBlinkRoutine );
-			m_stunBlinkRoutine = this.StartWaitingForSeconds( duration, () => m_stunBlinker.Stop( true ) );
+			m_stunBlinkRoutine = this.StartWaitingForSeconds( vfxDuration, m_stunBlinker.Stop, true );
+
+			m_googlyEyes.PlayDazedAnim( totalStunDuration );
 
 			AudienceReactionFactory.Instance.PlayScaredReaction( Model.position, Vector3.up );
 		}
