@@ -96,6 +96,19 @@ namespace DashSlash.Gameplay.Player.Animation
 			return true;
 		}
 
+		public void PlayDazedAnim( float duration )
+		{
+			m_googlyEyes.PlayDazedAnim( duration );
+		}
+
+		private void Update()
+		{
+			if ( Input.GetKeyDown( KeyCode.Backspace ) )
+			{
+				PlayDazedAnim( m_gazeDuration );
+			}
+		}
+
 		private void Start()
 		{
 			m_poiBucket.TargetEntered += OnPoiEntered;
