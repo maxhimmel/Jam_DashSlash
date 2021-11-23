@@ -12,6 +12,7 @@ namespace DashSlash.Gameplay.Weapons
 	public class Sword : MonoBehaviour
     {
 		public event System.EventHandler Sliced;
+		public event System.EventHandler<ISliceable> Blocked;
 
 		public bool IsSlicing => m_collider.enabled;
 
@@ -87,8 +88,14 @@ namespace DashSlash.Gameplay.Weapons
 			Vector3 slicePos = sliceable.MeshPos;
 			Vector3 sliceTrajectory = (slicePos - transform.position).normalized;
 			Vector3 sliceNormal = Quaternion.AngleAxis( 90, Vector3.forward ) * sliceTrajectory;
-			GameObject[] slices = sliceable.Slice( slicePos, sliceNormal );
 
+			if ( !sliceable.CanSlice( slicePos, sliceTrajectory ) ) 
+			{
+				Blocked?.Invoke( this, sliceable );
+				return false; 
+			}
+
+			GameObject[] slices = sliceable.Slice( slicePos, sliceNormal );
 			if ( slices.Length <= 0 ) { return false; }
 
 			for ( int idx = 0; idx < slices.Length; ++idx )

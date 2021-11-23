@@ -9,6 +9,7 @@ namespace DashSlash.Gameplay.Player
 	using Weapons;
 	using Animation;
 	using Movement;
+	using Slicing;
 
 	public class PlayerController : MonoBehaviour, 
 		ICollector
@@ -27,6 +28,7 @@ namespace DashSlash.Gameplay.Player
 		private LerpMotor m_motor;
 		private PlayerTrajectoryController m_trajectoryController;
 		private AnimController m_animator;
+		private IDamageable m_damageable;
 
 		void ICollector.Collect( Pickup pickup )
 		{
@@ -73,6 +75,20 @@ namespace DashSlash.Gameplay.Player
 		private void OnSwordSliced( object sender, System.EventArgs e )
 		{
 			Score.AddSliceKill();
+		}
+
+		private void OnSwordBlocked( object sender, ISliceable e )
+		{
+			Transform sliceableObj = e.ToTransform();
+
+			Debug.Assert( sliceableObj != null, $"Expecting ISliceable to be implemented on a Component.\n" +
+				$"<b>Cannot handle this use case. Please refactor.</b>", this );
+
+			m_damageable.TakeDamage( new IgnoreSlicingDamageDatum()
+			{
+				Instigator = sliceableObj,
+				DamageCauser = sliceableObj
+			} );
 		}
 
 		[Header( "Editor / Debug" )]
@@ -125,6 +141,7 @@ namespace DashSlash.Gameplay.Player
 			m_trajectoryController.ZipUpCompleted += OnZipUpCompleted;
 
 			m_sword.Sliced += OnSwordSliced;
+			m_sword.Blocked += OnSwordBlocked;
 		}
 
 		private void OnDestroy()
@@ -134,6 +151,7 @@ namespace DashSlash.Gameplay.Player
 			m_trajectoryController.ZipUpCompleted -= OnZipUpCompleted;
 
 			m_sword.Sliced -= OnSwordSliced;
+			m_sword.Blocked -= OnSwordBlocked;
 		}
 
 		private void Awake()
@@ -141,6 +159,7 @@ namespace DashSlash.Gameplay.Player
 			m_motor = GetComponentInChildren<LerpMotor>();
 			m_trajectoryController = GetComponent<PlayerTrajectoryController>();
 			m_animator = GetComponentInChildren<AnimController>();
+			m_damageable = GetComponentInChildren<IDamageable>();
 		}
 	}
 }
