@@ -53,7 +53,7 @@ namespace DashSlash.Gameplay.Player
 		private bool CanTakeDamage( DamageDatum dmgData )
 		{
 			if ( IsStunned ) { return false; }
-			if ( !m_sword.IsSlicing ) { return true; }
+			if ( !m_sword.IsSlicing || dmgData is IgnoreSlicingDamageDatum ) { return true; }
 
 			Vector3 dmgDir = dmgData.GetHitDirection( transform.position );
 			float hitDot = Vector3.Dot( dmgDir, transform.up );

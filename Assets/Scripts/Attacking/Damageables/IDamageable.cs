@@ -21,7 +21,13 @@ namespace DashSlash.Gameplay
 		}
 	}
 
-    public static class DamageableExtensions
+    [System.Serializable]
+	public class IgnoreSlicingDamageDatum : DamageDatum
+	{
+
+	}
+
+	public static class DamageableExtensions
 	{
         public static bool TryGetDamageable<T>( this T self, out IDamageable damageable ) where T : Component
         {
