@@ -21,6 +21,13 @@ namespace DashSlash.Gameplay.Slicing
 		[SerializeField, Min( -1 )] private float m_blinkFrequency = 0.05f;
 		[SerializeField] private MeshFilter m_sliceMesh = default;
 
+		private ISliceResolver m_sliceResolver;
+
+		public bool CanSlice( Vector3 position, Vector3 normal )
+		{
+			return m_sliceResolver.CanSlice( position, normal );
+		}
+
 		public GameObject[] Slice( Vector3 position, Vector3 normal )
 		{
 			GameObject[] slices = MeshObj.SliceInstantiate( position, normal );
@@ -73,6 +80,8 @@ namespace DashSlash.Gameplay.Slicing
 			{
 				m_sliceMesh = GetComponentInChildren<MeshFilter>();
 			}
+
+			m_sliceResolver = GetComponentInChildren<ISliceResolver>() ?? new SimpleSliceResolver();
 		}
 	}
 }

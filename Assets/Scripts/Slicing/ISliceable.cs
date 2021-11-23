@@ -10,6 +10,7 @@ namespace DashSlash.Gameplay.Slicing
 
         public Vector3 MeshPos { get; }
 
+        public bool CanSlice( Vector3 position, Vector3 sliceDirection );
         GameObject[] Slice( Vector3 position, Vector3 normal );
     }
 }
