@@ -11,7 +11,7 @@ namespace DashSlash.Gameplay.Player
 	using Movement;
 	using Slicing;
 
-	public class PlayerController : MonoBehaviour, 
+	public partial class PlayerController : MonoBehaviour, 
 		ICollector
 	{
 		private ScoreController Score => ScoreController.Instance;
@@ -24,6 +24,9 @@ namespace DashSlash.Gameplay.Player
 
 		[Header( "Attacking" )]
 		[SerializeField] private Sword m_sword = default;
+
+		[Header( "Debug" )]
+		[SerializeField] private DebugCheats m_cheats = new DebugCheats();
 
 		private LerpMotor m_motor;
 		private PlayerTrajectoryController m_trajectoryController;
@@ -91,34 +94,11 @@ namespace DashSlash.Gameplay.Player
 			} );
 		}
 
-		[Header( "Editor / Debug" )]
-		[SerializeField] private int m_pickupColections = 10;
-
 		private void Update()
 		{
 			TryForceUpdateTrajectory();
 
-			if ( Input.GetKeyDown( KeyCode.Space ) )
-			{
-				ICollector self = this;
-				for ( int idx = 0; idx < m_pickupColections; ++idx )
-				{
-					self.Collect( null );
-				}
-			}
-			if ( Input.GetKeyDown( KeyCode.Return ) )
-			{
-				IDamageable damaegable = GetComponentInChildren<IDamageable>();
-				damaegable.TakeDamage( new DamageDatum()
-				{
-					DamageCauser = transform,
-					Instigator = transform
-				} );
-			}
-			if ( Input.GetKeyDown( KeyCode.Backspace ) )
-			{
-				Vfx.Audiences.AudienceReactionFactory.Instance.PlayExcitedReaction( transform.position, Vector3.up );
-			}
+			m_cheats.Update( this );
 		}
 
 		private void TryForceUpdateTrajectory()
