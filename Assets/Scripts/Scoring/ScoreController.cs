@@ -136,7 +136,7 @@ namespace DashSlash.Gameplay.Scoring
 			SetPickups( Pickups + 1 );
 		}
 
-		public void AddSliceKill()
+		public int AddSliceKill()
 		{
 			int comboBonus = GetComboBonus();
 
@@ -147,7 +147,7 @@ namespace DashSlash.Gameplay.Scoring
 
 			m_hasKills = true;
 
-			Log( $"Sliced! {Score} : " +
+			Log( $"Sliced! {Score} :" +
 				$" added({ComboSlices * comboBonus})" +
 				$" <b>|</b> combo({ComboSlices})" +
 				$" <b>|</b> bonus({comboBonus})",
@@ -163,6 +163,36 @@ namespace DashSlash.Gameplay.Scoring
 				PickupGroupBonus = GetPickupGroupBonus(),
 				PickupRatio = GetPickupRatio( true ),
 			} );
+
+			return scoreIncrement;
+		}
+
+		public int AddSliceKill( int baseScore )
+		{
+			++ComboSlices;
+
+			int scoreIncrement = ComboSlices * baseScore;
+			Score += scoreIncrement;
+
+			m_hasKills = true;
+
+			Log( $"Sliced! {Score} :" +
+				$" added({ComboSlices * baseScore})" +
+				$" <b>|</b> combo({ComboSlices})",
+				Colors.Olive );
+
+			ScoreUpdated?.Invoke( this, new ScoreEventArgs()
+			{
+				Score = Score,
+				ScoreIncrement = scoreIncrement,
+				ComboSlices = ComboSlices,
+				ComboBonus = GetComboBonus(),
+				Pickups = Pickups,
+				PickupGroupBonus = GetPickupGroupBonus(),
+				PickupRatio = GetPickupRatio( true ),
+			} );
+
+			return scoreIncrement;
 		}
 
 		private int GetComboBonus()
