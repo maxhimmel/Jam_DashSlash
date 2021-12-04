@@ -9,6 +9,7 @@ namespace DashSlash.Gameplay.Enemies
     using Player;
 	using Weapons;
 	using Vfx.Googly;
+	using Scoring;
 
     public class Enemy : MonoBehaviour
     {
@@ -18,6 +19,7 @@ namespace DashSlash.Gameplay.Enemies
 		public virtual Vector3 FacingDirection => m_pawn.up;
 
 		protected bool IsAwake => m_sleepRoutine == null;
+		protected ScoreController Score => ScoreController.Instance;
 
 		[Header( "Spawning" )]
         [SerializeField, Min( 0 )] protected float m_spawnAwakeDelay = 0.25f;
@@ -25,6 +27,9 @@ namespace DashSlash.Gameplay.Enemies
 
 		[Header( "Rotation" )]
 		[SerializeField] protected float m_rotationSpeed = 540;
+
+		[Header( "Scoring" )]
+		[SerializeField] private int m_points = 100;
 
 		private bool m_isAppQuitting = false;
 		private Transform m_pawn;
@@ -34,6 +39,7 @@ namespace DashSlash.Gameplay.Enemies
 		private HurtBox[] m_hurtBoxes;
 		private HitBox[] m_hitBoxes;
 		private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
+		private VfxPointsFactory m_vfxPointsFactory;
 
 		protected Rigidbody2D m_body;
 		protected LootSpawner m_lootSpawner;
@@ -153,6 +159,11 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			// The child sliceable will destroy this gameobject.
 				// So, we can handle death stuffs in OnDestroy ...
+
+			int points = Score.AddSliceKill( m_points );
+
+			var pointsVfx = m_vfxPointsFactory.Create( Position );
+			pointsVfx.SetText( points.ToString() );
 		}
 
 		private void OnDestroy()
@@ -197,6 +208,7 @@ namespace DashSlash.Gameplay.Enemies
 			m_hurtBoxes = GetComponentsInChildren<HurtBox>( true );
 			m_hitBoxes = GetComponentsInChildren<HitBox>( true );
 			m_googlyEyes = GetComponentInChildren<GooglyEyesController>( true );
+			m_vfxPointsFactory = GetComponentInChildren<VfxPointsFactory>();
 
 			InitLootSpawner();
 		}
