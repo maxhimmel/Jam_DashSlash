@@ -9,8 +9,9 @@ using Xam.Utility.Extensions;
 namespace DashSlash.Gameplay.UI
 {
 	using Utility;
+	using Scoring;
 
-    public class ScoreWidget : MonoBehaviour
+	public class ScoreWidget : MonoBehaviour
 	{
 		private ScoreController Score => ScoreController.Instance;
 

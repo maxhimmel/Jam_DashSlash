@@ -9,6 +9,7 @@ namespace DashSlash.Gameplay.Player
 	using Movement;
 	using Animation;
 	using Weapons;
+	using Scoring;
 
 	public class DamageHandler : MonoBehaviour, IDamageable
 	{

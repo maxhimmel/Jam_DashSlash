@@ -9,6 +9,7 @@ using Xam.Utility.Extensions;
 namespace DashSlash.Gameplay.UI
 {
 	using Utility;
+	using Scoring;
 
 	public class PickupMeterWidget : MonoBehaviour
 	{

@@ -10,6 +10,7 @@ namespace DashSlash.Gameplay.Player
 	using Animation;
 	using Movement;
 	using Slicing;
+	using Scoring;
 
 	public partial class PlayerController : MonoBehaviour, 
 		ICollector

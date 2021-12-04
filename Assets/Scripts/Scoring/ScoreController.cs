@@ -4,7 +4,7 @@ using UnityEngine;
 using Xam.Utility.Patterns;
 using Xam.Utility.Extensions;
 
-namespace DashSlash.Gameplay
+namespace DashSlash.Gameplay.Scoring
 {
 	[System.Serializable]
 	public class ScoreController : SingletonMono<ScoreController>
