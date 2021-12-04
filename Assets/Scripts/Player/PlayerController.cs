@@ -76,11 +76,6 @@ namespace DashSlash.Gameplay.Player
 			Score.TryClearBonus();
 		}
 
-		private void OnSwordSliced( object sender, System.EventArgs e )
-		{
-			Score.AddSliceKill();
-		}
-
 		private void OnSwordBlocked( object sender, ISliceable e )
 		{
 			Transform sliceableObj = e.ToTransform();
@@ -121,7 +116,6 @@ namespace DashSlash.Gameplay.Player
 			m_trajectoryController.DragReleased += OnDragReleased;
 			m_trajectoryController.ZipUpCompleted += OnZipUpCompleted;
 
-			m_sword.Sliced += OnSwordSliced;
 			m_sword.Blocked += OnSwordBlocked;
 		}
 
@@ -131,7 +125,6 @@ namespace DashSlash.Gameplay.Player
 			m_trajectoryController.DragReleased -= OnDragReleased;
 			m_trajectoryController.ZipUpCompleted -= OnZipUpCompleted;
 
-			m_sword.Sliced -= OnSwordSliced;
 			m_sword.Blocked -= OnSwordBlocked;
 		}
 
