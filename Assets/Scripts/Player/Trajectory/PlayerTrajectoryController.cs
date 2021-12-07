@@ -7,7 +7,7 @@ using DG.Tweening;
 
 namespace DashSlash.Gameplay.Player
 {
-    public class PlayerTrajectoryController : MonoBehaviour, IDragAndDrop
+    public class PlayerTrajectoryController : MonoBehaviour, ITrajectoryController
     {
 		public event EventHandler<DragArgs> DragStarted;
 		public event EventHandler<DragArgs> DragUpdated;
@@ -29,6 +29,11 @@ namespace DashSlash.Gameplay.Player
 		private Coroutine m_zipUpRoutine;
 		private Tweener m_retrieveReticleTween;
 		private DragArgs m_currentDrag;
+
+		public void SetActive( bool isActive )
+		{
+			enabled = isActive;
+		}
 
 		private void OnDragStarted( object sender, DragArgs args )
 		{

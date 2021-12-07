@@ -12,7 +12,7 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private Transform m_reticle = default;
 
 		private LineRenderer m_renderer;
-		private PlayerTrajectoryController m_dragAndDrop;
+		private ITrajectoryController m_dragAndDrop;
 
 		private void OnTrajectoryCompleted( object sender, DragArgs e )
 		{
@@ -74,7 +74,7 @@ namespace DashSlash.Gameplay.Player
 		private void Awake()
 		{
 			m_renderer = GetComponent<LineRenderer>();
-			m_dragAndDrop = GetComponentInParent<PlayerTrajectoryController>();
+			m_dragAndDrop = GetComponentInParent<ITrajectoryController>();
 		}
 	}
 }

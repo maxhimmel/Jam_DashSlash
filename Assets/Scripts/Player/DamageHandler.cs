@@ -36,7 +36,7 @@ namespace DashSlash.Gameplay.Player
 		private LerpMotor m_motor;
 		private Rigidbody2D m_body;
 		private AnimController m_animController;
-		private PlayerTrajectoryController m_trajectoryController;
+		private ITrajectoryController m_trajectoryController;
 		private Coroutine m_stunRoutine;
 		private Coroutine m_recoverySliceRoutine;
 
@@ -66,7 +66,7 @@ namespace DashSlash.Gameplay.Player
 		{
 			m_sword.StopSlicing( true );
 
-			m_trajectoryController.enabled = false;
+			m_trajectoryController.SetActive( false );
 			m_trajectoryController.RetrieveReticle( m_retrieveReticleDuration, m_retrieveReticleAnim );
 
 			m_motor.ClearMovement();
@@ -97,7 +97,7 @@ namespace DashSlash.Gameplay.Player
 
 		private void OnRecovered()
 		{
-			m_trajectoryController.enabled = true;
+			m_trajectoryController.SetActive( true );
 
 			m_body.freezeRotation = true;
 			m_body.angularVelocity = 0;
@@ -124,7 +124,7 @@ namespace DashSlash.Gameplay.Player
 			m_motor = GetComponent<LerpMotor>();
 			m_body = GetComponent<Rigidbody2D>();
 			m_animController = GetComponentInChildren<AnimController>();
-			m_trajectoryController = GetComponent<PlayerTrajectoryController>();
+			m_trajectoryController = GetComponent<ITrajectoryController>();
 		}
 	}
 }
