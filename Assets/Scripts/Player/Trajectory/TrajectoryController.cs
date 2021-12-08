@@ -132,6 +132,22 @@ namespace DashSlash.Gameplay.Player
 			m_currentDrag = null;
 		}
 
+		public void SetProximity( float start, float end )
+		{
+			SetStartProximity( start );
+			SetEndProximity( end );
+		}
+
+		public void SetStartProximity( float proximity )
+		{
+			m_startProximity = proximity;
+		}
+
+		public void SetEndProximity( float proximity )
+		{
+			m_endProximity = proximity;
+		}
+
 		protected virtual void OnEnable()
 		{
 			m_dragAndDrop.DragStarted += OnDragStarted;
