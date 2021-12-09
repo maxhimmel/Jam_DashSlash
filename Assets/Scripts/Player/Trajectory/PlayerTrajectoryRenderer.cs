@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Xam.Utility;
 
 namespace DashSlash.Gameplay.Player
 {
@@ -13,7 +12,7 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private Transform m_reticle = default;
 
 		private LineRenderer m_renderer;
-		private LazyCachedParentComponent<ITrajectoryController> m_dragAndDrop = new LazyCachedParentComponent<ITrajectoryController>( true );
+		private ITrajectoryController m_dragAndDrop;
 
 		private void OnTrajectoryCompleted( object sender, DragArgs e )
 		{
@@ -60,21 +59,22 @@ namespace DashSlash.Gameplay.Player
 			m_renderer.positionCount = 0;
 			m_reticle.gameObject.SetActive( false );
 
-			m_dragAndDrop[this].DragStarted += OnDragStarted;
-			m_dragAndDrop[this].DragUpdated += OnDragUpdated;
-			m_dragAndDrop[this].TrajectoryConnected += OnTrajectoryCompleted;
+			m_dragAndDrop.DragStarted += OnDragStarted;
+			m_dragAndDrop.DragUpdated += OnDragUpdated;
+			m_dragAndDrop.TrajectoryConnected += OnTrajectoryCompleted;
 		}
 
 		private void OnDestroy()
 		{
-			m_dragAndDrop[this].DragStarted -= OnDragStarted;
-			m_dragAndDrop[this].DragUpdated -= OnDragUpdated;
-			m_dragAndDrop[this].ZipUpCompleted -= OnTrajectoryCompleted;
+			m_dragAndDrop.DragStarted -= OnDragStarted;
+			m_dragAndDrop.DragUpdated -= OnDragUpdated;
+			m_dragAndDrop.ZipUpCompleted -= OnTrajectoryCompleted;
 		}
 
 		private void Awake()
 		{
 			m_renderer = GetComponent<LineRenderer>();
+			m_dragAndDrop = GetComponentInParent<ITrajectoryController>();
 		}
 	}
 }
