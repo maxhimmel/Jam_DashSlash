@@ -13,7 +13,7 @@ namespace DashSlash.Gameplay.Player
 	using Scoring;
 
 	public partial class PlayerController : MonoBehaviour, 
-		ICollector
+		ICollector, ITrajectoryControllerContainer
 	{
 		private ScoreController Score => ScoreController.Instance;
 
@@ -30,14 +30,34 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private DebugCheats m_cheats = new DebugCheats();
 
 		private LerpMotor m_motor;
-		private ITrajectoryController m_trajectoryController;
 		private AnimController m_animator;
 		private IDamageable m_damageable;
+		private ITrajectoryController m_trajectoryController;
+		private PlayerTrajectoryRenderer m_trajectoryRenderer;
 
 		void ICollector.Collect( Pickup pickup )
 		{
 			m_animator.PlayCollectPickupVfx();
 			Score.AddPickup();
+		}
+
+		void ITrajectoryControllerContainer.InstallTrajectory( ITrajectoryController controller )
+		{
+			if ( m_trajectoryController != null )
+			{
+				m_trajectoryController.DragStarted -= OnDragStarted;
+				m_trajectoryController.DragReleased -= OnDragReleased;
+				m_trajectoryController.ZipUpCompleted -= OnZipUpCompleted;
+			}
+
+			if ( controller != null )
+			{
+				controller.DragStarted += OnDragStarted;
+				controller.DragReleased += OnDragReleased;
+				controller.ZipUpCompleted += OnZipUpCompleted;
+			}
+
+			m_trajectoryController = controller;
 		}
 
 		private void OnDragStarted( object sender, DragArgs e )
@@ -112,9 +132,8 @@ namespace DashSlash.Gameplay.Player
 
 		private void Start()
 		{
-			m_trajectoryController.DragStarted += OnDragStarted;
-			m_trajectoryController.DragReleased += OnDragReleased;
-			m_trajectoryController.ZipUpCompleted += OnZipUpCompleted;
+			ITrajectoryControllerContainer trajectoryContainer = this;
+			trajectoryContainer.InstallTrajectory( m_trajectoryController );
 
 			m_sword.Blocked += OnSwordBlocked;
 		}
@@ -131,9 +150,10 @@ namespace DashSlash.Gameplay.Player
 		private void Awake()
 		{
 			m_motor = GetComponentInChildren<LerpMotor>();
-			m_trajectoryController = GetComponent<ITrajectoryController>();
 			m_animator = GetComponentInChildren<AnimController>();
 			m_damageable = GetComponentInChildren<IDamageable>();
+			m_trajectoryController = GetComponent<ITrajectoryController>();
+			m_trajectoryRenderer = GetComponentInChildren<PlayerTrajectoryRenderer>();
 		}
 	}
 }

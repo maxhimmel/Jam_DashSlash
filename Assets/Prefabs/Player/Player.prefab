@@ -10557,6 +10557,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 970715915532628903}
+  - component: {fileID: 6347540663550715061}
   - component: {fileID: 970715915532628922}
   - component: {fileID: 970715915532628926}
   - component: {fileID: 970715915532628924}
@@ -10591,6 +10592,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6347540663550715061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 970715915532628902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c99a2581299ec4d498c624b5bfdc8cea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &970715915532628922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10608,7 +10621,11 @@ MonoBehaviour:
   m_dashEase: 21
   m_dashMoveDuration: 0.4
   m_sword: {fileID: 970715915262069810}
-  m_pickupColections: 10
+  m_cheats:
+    m_pickupColections: 10
+    m_collectPickupsKey: 32
+    m_takeDamageKey: 13
+    m_excitedReactionKey: 8
 --- !u!114 &970715915532628926
 MonoBehaviour:
   m_ObjectHideFlags: 0

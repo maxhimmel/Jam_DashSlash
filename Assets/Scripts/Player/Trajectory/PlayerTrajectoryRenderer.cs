@@ -1,18 +1,39 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Player
 {
 	[RequireComponent( typeof( LineRenderer ) )]
-    public class PlayerTrajectoryRenderer : MonoBehaviour
+    public class PlayerTrajectoryRenderer : MonoBehaviour,
+		ITrajectoryControllerContainer
 	{
 		private const int k_minLinePoints = 2;
 
 		[SerializeField] private Transform m_reticle = default;
 
 		private LineRenderer m_renderer;
-		private ITrajectoryController m_dragAndDrop;
+		private ITrajectoryController m_trajectoryController;
+
+		void ITrajectoryControllerContainer.InstallTrajectory( ITrajectoryController controller )
+		{
+			if ( m_trajectoryController != null )
+			{
+				m_trajectoryController.ZipUpCompleted -= OnTrajectoryCompleted;
+				m_trajectoryController.DragStarted -= OnDragStarted;
+				m_trajectoryController.DragUpdated -= OnDragUpdated;
+			}
+
+			if ( controller != null )
+			{
+				controller.TrajectoryConnected += OnTrajectoryCompleted;
+				controller.DragStarted += OnDragStarted;
+				controller.DragUpdated += OnDragUpdated;
+			}
+
+			m_trajectoryController = controller;
+		}
 
 		private void OnTrajectoryCompleted( object sender, DragArgs e )
 		{
@@ -59,22 +80,21 @@ namespace DashSlash.Gameplay.Player
 			m_renderer.positionCount = 0;
 			m_reticle.gameObject.SetActive( false );
 
-			m_dragAndDrop.DragStarted += OnDragStarted;
-			m_dragAndDrop.DragUpdated += OnDragUpdated;
-			m_dragAndDrop.TrajectoryConnected += OnTrajectoryCompleted;
+			ITrajectoryControllerContainer trajectoryContainer = this;
+			trajectoryContainer.InstallTrajectory( m_trajectoryController );
 		}
 
 		private void OnDestroy()
 		{
-			m_dragAndDrop.DragStarted -= OnDragStarted;
-			m_dragAndDrop.DragUpdated -= OnDragUpdated;
-			m_dragAndDrop.ZipUpCompleted -= OnTrajectoryCompleted;
+			m_trajectoryController.ZipUpCompleted -= OnTrajectoryCompleted;
+			m_trajectoryController.DragStarted -= OnDragStarted;
+			m_trajectoryController.DragUpdated -= OnDragUpdated;
 		}
 
 		private void Awake()
 		{
 			m_renderer = GetComponent<LineRenderer>();
-			m_dragAndDrop = GetComponentInParent<ITrajectoryController>();
+			m_trajectoryController = GetComponentInParent<ITrajectoryController>();
 		}
 	}
 }

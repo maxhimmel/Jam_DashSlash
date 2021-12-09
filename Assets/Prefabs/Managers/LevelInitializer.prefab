@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 4170325916560698839}
   - component: {fileID: 5848798371739525214}
   - component: {fileID: 179484217075613523}
+  - component: {fileID: 4055385020906421765}
   m_Layer: 0
   m_Name: LevelInitializer
   m_TagString: Untagged
@@ -107,3 +108,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_enabledState: 2
   m_disabledState: 0
+--- !u!114 &4055385020906421765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9203389658742171477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3807df5abb3bfda45a6996af3500ac6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_swipeTrajectory: {fileID: 11400000, guid: 6ff67adee823cbb4d814d0a0aefa30fe, type: 2}
+  m_pointClickTrajectory: {fileID: 11400000, guid: 2728e03fcd6df0b4f8b21d8df40c133f, type: 2}

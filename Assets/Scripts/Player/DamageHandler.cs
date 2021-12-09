@@ -11,7 +11,8 @@ namespace DashSlash.Gameplay.Player
 	using Weapons;
 	using Scoring;
 
-	public class DamageHandler : MonoBehaviour, IDamageable
+	public class DamageHandler : MonoBehaviour, 
+		IDamageable, ITrajectoryControllerContainer
 	{
 		public bool IsStunned => m_stunRoutine != null;
 
@@ -39,6 +40,11 @@ namespace DashSlash.Gameplay.Player
 		private ITrajectoryController m_trajectoryController;
 		private Coroutine m_stunRoutine;
 		private Coroutine m_recoverySliceRoutine;
+
+		void ITrajectoryControllerContainer.InstallTrajectory( ITrajectoryController controller )
+		{
+			m_trajectoryController = controller;
+		}
 
 		public void TakeDamage( DamageDatum dmgData )
 		{
