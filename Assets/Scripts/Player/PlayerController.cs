@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using Xam.Utility;
 using Xam.Utility.Extensions;
 
 namespace DashSlash.Gameplay.Player
@@ -30,7 +31,7 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private DebugCheats m_cheats = new DebugCheats();
 
 		private LerpMotor m_motor;
-		private ITrajectoryController m_trajectoryController;
+		private LazyCachedComponent<ITrajectoryController> m_trajectoryController = new LazyCachedComponent<ITrajectoryController>();
 		private AnimController m_animator;
 		private IDamageable m_damageable;
 
@@ -101,29 +102,29 @@ namespace DashSlash.Gameplay.Player
 		{
 			if ( CanUpdateTrajectory() )
 			{
-				m_trajectoryController.ForceUpdate();
+				m_trajectoryController[this].ForceUpdate();
 			}
 		}
 
 		private bool CanUpdateTrajectory()
 		{
-			return m_motor.IsMoving && m_trajectoryController.IsDragging;
+			return m_motor.IsMoving && m_trajectoryController[this].IsDragging;
 		}
 
 		private void Start()
 		{
-			m_trajectoryController.DragStarted += OnDragStarted;
-			m_trajectoryController.DragReleased += OnDragReleased;
-			m_trajectoryController.ZipUpCompleted += OnZipUpCompleted;
+			m_trajectoryController[this].DragStarted += OnDragStarted;
+			m_trajectoryController[this].DragReleased += OnDragReleased;
+			m_trajectoryController[this].ZipUpCompleted += OnZipUpCompleted;
 
 			m_sword.Blocked += OnSwordBlocked;
 		}
 
 		private void OnDestroy()
 		{
-			m_trajectoryController.DragStarted -= OnDragStarted;
-			m_trajectoryController.DragReleased -= OnDragReleased;
-			m_trajectoryController.ZipUpCompleted -= OnZipUpCompleted;
+			m_trajectoryController[this].DragStarted -= OnDragStarted;
+			m_trajectoryController[this].DragReleased -= OnDragReleased;
+			m_trajectoryController[this].ZipUpCompleted -= OnZipUpCompleted;
 
 			m_sword.Blocked -= OnSwordBlocked;
 		}
@@ -131,7 +132,6 @@ namespace DashSlash.Gameplay.Player
 		private void Awake()
 		{
 			m_motor = GetComponentInChildren<LerpMotor>();
-			m_trajectoryController = GetComponent<ITrajectoryController>();
 			m_animator = GetComponentInChildren<AnimController>();
 			m_damageable = GetComponentInChildren<IDamageable>();
 		}
