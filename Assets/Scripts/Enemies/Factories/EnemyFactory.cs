@@ -7,5 +7,9 @@ namespace DashSlash.Gameplay.Enemies.Factories
 {
     public class EnemyFactory : Factory<Enemy>
     {
+        public void SetEnemyPrefab( Enemy prefab )
+		{
+            m_prefab = prefab;
+		}
     }
 }
