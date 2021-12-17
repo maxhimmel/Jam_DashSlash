@@ -2097,7 +2097,7 @@ MonoBehaviour:
   m_spawnRange:
     Min: 10
     Max: 15
-  m_spawnAnticPrefab: {fileID: 0}
+  m_spawnAnticPrefab: {fileID: 6769762862675733761, guid: 9057b699f4a0a3b4496e42ef470d7818, type: 3}
   m_placement: {fileID: 59993217}
 --- !u!114 &662452552
 MonoBehaviour:
@@ -5770,7 +5770,7 @@ MonoBehaviour:
   m_spawnRange:
     Min: 18
     Max: 18
-  m_spawnAnticPrefab: {fileID: 0}
+  m_spawnAnticPrefab: {fileID: 6769762862675733761, guid: 9057b699f4a0a3b4496e42ef470d7818, type: 3}
   m_placement: {fileID: 1427576794}
 --- !u!114 &966512928
 MonoBehaviour:
@@ -9160,7 +9160,7 @@ MonoBehaviour:
   m_spawnRange:
     Min: 100
     Max: 100
-  m_spawnAnticPrefab: {fileID: 0}
+  m_spawnAnticPrefab: {fileID: 6769762862675733761, guid: 9057b699f4a0a3b4496e42ef470d7818, type: 3}
   m_placement: {fileID: 1111363042}
 --- !u!114 &2093270235
 MonoBehaviour:
