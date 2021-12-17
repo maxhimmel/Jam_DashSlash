@@ -7,6 +7,13 @@ namespace DashSlash.Gameplay.WaveSpawning
 			base.OnSpawned( spawnable );
 
 			spawnable.Spawn( spawnable.transform.position );
+
+			Cleanup( spawnable );
+		}
+
+		private void Cleanup( LootSpawner spawner )
+		{
+			Destroy( spawner.gameObject );
 		}
 	}
 }
