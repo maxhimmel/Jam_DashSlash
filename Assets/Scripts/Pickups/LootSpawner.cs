@@ -9,6 +9,8 @@ namespace DashSlash.Gameplay
 
 	public class LootSpawner : MonoBehaviour
     {
+		public event System.EventHandler<Pickup> PickupSpawned;
+
         [SerializeField] private Pickup m_pickupPrefab = default;
 
         [Space]
@@ -17,7 +19,7 @@ namespace DashSlash.Gameplay
 
 		private IDirection m_launchRotation;
 
-		public void Spawn( Vector3 position )
+		public int Spawn( Vector3 position )
 		{
 			int spawnAmount = m_spawnAmountRange.Evaluate();
 			for ( int idx = 0; idx < spawnAmount; ++idx )
@@ -25,6 +27,8 @@ namespace DashSlash.Gameplay
 				Pickup newPickup = CreatePickup( position );
 				LaunchPickup( newPickup, idx, spawnAmount );
 			}
+
+			return spawnAmount;
 		}
 
 		private Pickup CreatePickup( Vector3 position )
@@ -32,7 +36,11 @@ namespace DashSlash.Gameplay
 			int randAngle = Random.Range( 0, 360 );
 			Quaternion spawnRot = Quaternion.Euler( 0, 0, randAngle );
 
-			return Instantiate( m_pickupPrefab, position, spawnRot );
+			var newPickup = Instantiate( m_pickupPrefab, position, spawnRot );
+
+			PickupSpawned?.Invoke( this, newPickup );
+
+			return newPickup;
 		}
 
 		private void LaunchPickup( Pickup pickup, int index, int spawnCount )

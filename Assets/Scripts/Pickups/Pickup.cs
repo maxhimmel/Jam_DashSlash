@@ -7,7 +7,9 @@ using Xam.Utility.Extensions;
 namespace DashSlash.Gameplay
 {
     public class Pickup : MonoBehaviour
-    {
+	{
+		public event System.EventHandler Died;
+
 		public bool IsCleaningUp { get; private set; }
 
 		[SerializeField, Min( 0 )] private float m_spawnInvincibilityDuration = 0.25f;
@@ -51,6 +53,9 @@ namespace DashSlash.Gameplay
 		private void Cleanup()
 		{
 			IsCleaningUp = true;
+
+			Died?.Invoke( this, System.EventArgs.Empty );
+
 			Destroy( gameObject );
 		}
 
