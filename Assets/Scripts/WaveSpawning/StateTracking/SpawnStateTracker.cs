@@ -19,7 +19,7 @@ namespace DashSlash.Gameplay.WaveSpawning
             m_expectedSpawnCount = expectedSpawnCount;
         }
 
-        public virtual void Spawned( TSpawnable enemy )
+        public virtual void Spawned( TSpawnable spawnable )
         {
 
         }
