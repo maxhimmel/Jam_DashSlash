@@ -12,6 +12,13 @@ namespace DashSlash.Gameplay.WaveSpawning
 		private LootSpawner m_lootSpawner;
 		private int m_deadPickupsCount = 0;
 
+		public override void PrePlay( int expectedSpawnCount )
+		{
+			m_deadPickupsCount = 0;
+
+			base.PrePlay( expectedSpawnCount );
+		}
+
 		public void AddExpectedSpawns( int count )
 		{
 			m_expectedSpawnCount += count;
