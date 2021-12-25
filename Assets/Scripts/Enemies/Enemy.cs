@@ -63,7 +63,7 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			if ( m_googlyEyes != null )
 			{
-				Vector3 directionToPlayer = m_lookAtPlayer.GetDirection( Position );
+				Vector3 directionToPlayer = GetDirectionToPlayer();
 				m_googlyEyes.SetDesiredLookDirection( directionToPlayer );
 			}
 		}
@@ -126,8 +126,8 @@ namespace DashSlash.Gameplay.Enemies
 
 		private void BeginSpawnInvincibilityToggle()
 		{
-			SetHurtBoxesActive( false );
-			SetHitBoxesActive( false );
+			SetBehaviourEnabled( false, m_hurtBoxes );
+			SetBehaviourEnabled( false, m_hitBoxes );
 
 			this.TryStopCoroutine( ref m_spawnInvincibilityRoutine );
 			m_spawnInvincibilityRoutine = this.StartWaitingForSeconds( m_spawnInvincibiltyDuration, OnSpawnInvincibilityEnded );
@@ -135,23 +135,15 @@ namespace DashSlash.Gameplay.Enemies
 
 		protected virtual void OnSpawnInvincibilityEnded()
 		{
-			SetHurtBoxesActive( true );
-			SetHitBoxesActive( true );
+			SetBehaviourEnabled( true, m_hurtBoxes );
+			SetBehaviourEnabled( true, m_hitBoxes );
 		}
 
-		private void SetHurtBoxesActive( bool isActive )
+		private void SetBehaviourEnabled<T>( bool isEnabled, params T[] behaviours ) where T : Behaviour
 		{
-			foreach ( HurtBox hurt in m_hurtBoxes )
+			foreach ( var behaviour in behaviours )
 			{
-				hurt.enabled = isActive;
-			}
-		}
-
-		private void SetHitBoxesActive( bool isActive )
-		{
-			foreach ( HitBox hit in m_hitBoxes )
-			{
-				hit.enabled = isActive;
+				behaviour.enabled = isEnabled;
 			}
 		}
 
@@ -218,8 +210,7 @@ namespace DashSlash.Gameplay.Enemies
 			var lootSpawnerFactory = GetComponentInChildren<LootSpawnerFactory>();
 			if ( lootSpawnerFactory != null )
 			{
-				var lootObj = lootSpawnerFactory.Create( Vector3.zero, Quaternion.identity, lootSpawnerFactory.transform );
-				m_lootSpawner = lootObj.GetComponent<LootSpawner>();
+				m_lootSpawner = lootSpawnerFactory.Create( Vector3.zero, Quaternion.identity, lootSpawnerFactory.transform );
 			}
 		}
 
