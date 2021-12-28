@@ -241,10 +241,12 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			DrawGizmos();
 		}
+		protected virtual void DrawGizmos() { }
 
-		protected virtual void DrawGizmos()
+		private void OnDrawGizmosSelected()
 		{
-
+			DrawGizmosSelected();
 		}
+		protected virtual void DrawGizmosSelected() { }
 	}
 }
