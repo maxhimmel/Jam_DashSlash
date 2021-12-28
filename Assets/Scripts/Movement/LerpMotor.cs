@@ -9,6 +9,7 @@ namespace DashSlash.Gameplay.Movement
     {
 		public Vector3 Position => m_body.position;
 		public bool IsMoving => m_moveTween.IsActive() || m_body.velocity.sqrMagnitude > 0.01f;
+		public Vector3 Velocity => (m_body.position - m_prevPosition) / Time.deltaTime;
 
 		[SerializeField] private bool m_clearVelocityOnMove = true;
 
@@ -18,6 +19,7 @@ namespace DashSlash.Gameplay.Movement
 
         private Rigidbody2D m_body;
 		private Tweener m_moveTween;
+		private Vector2 m_prevPosition;
 
 		public void SetDuration( float duration )
 		{
@@ -43,8 +45,14 @@ namespace DashSlash.Gameplay.Movement
 
 			Vector3 endPos = direction + Position;
 			m_moveTween = m_body.DOMove( endPos, m_lerpDuration )
-				.SetUpdate( UpdateType.Fixed )
+				.SetUpdate( UpdateType.Manual )
 				.SetEase( m_ease );
+		}
+
+		private void FixedUpdate()
+		{
+			m_prevPosition = m_body.position;
+			m_moveTween.ManualUpdate( Time.deltaTime, Time.unscaledDeltaTime );
 		}
 
 		public void ClearMovement()
