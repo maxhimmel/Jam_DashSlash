@@ -10,8 +10,9 @@ namespace DashSlash.Gameplay.Enemies
 	using Weapons;
 	using Vfx.Googly;
 	using Scoring;
+	using Xam.Utility.Patterns;
 
-    public class Enemy : MonoBehaviour
+	public class Enemy : MonoBehaviour
     {
 		public event System.EventHandler Died;
 
@@ -101,6 +102,18 @@ namespace DashSlash.Gameplay.Enemies
 		protected float GetDistanceSqrToPlayer()
 		{
 			return m_lookAtPlayer.GetDistanceSqr( Position );
+		}
+
+		protected bool IsPlayerAttacking()
+		{
+			var player = DynamicPool.Instance.GetFirstPooledObjectByType<PlayerController>();
+			return player.IsAttacking;
+		}
+
+		protected Vector3 GetPlayerVelocity()
+		{
+			var player = DynamicPool.Instance.GetFirstPooledObjectByType<PlayerController>();
+			return player.Velocity;
 		}
 
 		private void OnEnable()
@@ -222,6 +235,16 @@ namespace DashSlash.Gameplay.Enemies
 		private void OnApplicationQuit()
 		{
 			m_isAppQuitting = true;
+		}
+
+		private void OnDrawGizmos()
+		{
+			DrawGizmos();
+		}
+
+		protected virtual void DrawGizmos()
+		{
+
 		}
 	}
 }
