@@ -6,6 +6,9 @@ namespace DashSlash.Gameplay.Movement
 {
     public class CharacterMotor : MonoBehaviour
     {
+		public float MaxSpeed => m_maxSpeed;
+		public float Acceleration => m_acceleration;
+
 		[SerializeField] private float m_maxSpeed = 4;
 		[SerializeField] private float m_acceleration = 10;
 
@@ -21,6 +24,11 @@ namespace DashSlash.Gameplay.Movement
 		public void SetAcceleration( float acceleration )
 		{
 			m_acceleration = acceleration;
+		}
+
+		public void AddForce( Vector3 force, ForceMode2D mode = ForceMode2D.Impulse)
+		{
+			m_body.AddForce( force, mode );
 		}
 
 		public void SetDesiredVelocity( Vector3 direction )
