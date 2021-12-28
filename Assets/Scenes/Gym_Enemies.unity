@@ -4885,7 +4885,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 81bb63149d81a5b489062523a0ba7299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_playOnStart: 1
   m_useRandomColorAtStart: 1
   m_shiftDuration: 4
   m_colorData:
@@ -5796,7 +5795,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1694366338}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0a5eb8814324d246a75abf929c8b19d, type: 3}
+  m_Script: {fileID: 11500000, guid: 4750e2d92906a0049920273131cf6186, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &1694366343
