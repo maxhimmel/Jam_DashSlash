@@ -8,6 +8,8 @@ namespace DashSlash.Gameplay.Player
 {
     public class PlayerTrajectorySettings : MonoBehaviour
     {
+        [SerializeField] private TrajectoryControllerDatum m_defaultTrajectoryController = default;
+
         [Header( "Settings" )]
         [SerializeField] private SwipeControllerDatum m_swipeTrajectory = default;
         [SerializeField] private PointControllerDatum m_pointClickTrajectory = default;
@@ -67,7 +69,15 @@ namespace DashSlash.Gameplay.Player
             return player != null;
         }
 
-        private bool IsAppPlaying()
+		private void Start()
+		{
+			if ( TryGetPlayer( out var player ) )
+			{
+                ConfigureControls( m_defaultTrajectoryController );
+			}
+		}
+
+		private bool IsAppPlaying()
 		{
             return Application.isPlaying;
 		}
