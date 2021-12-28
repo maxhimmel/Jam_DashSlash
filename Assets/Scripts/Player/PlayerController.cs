@@ -15,6 +15,9 @@ namespace DashSlash.Gameplay.Player
 	public partial class PlayerController : MonoBehaviour, 
 		ICollector, ITrajectoryControllerContainer
 	{
+		public bool IsAttacking => m_sword.IsSlicing;
+		public Vector3 Velocity => m_motor.Velocity;
+
 		private ScoreController Score => ScoreController.Instance;
 
 		[Header( "Movement" )]
