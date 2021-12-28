@@ -8,13 +8,85 @@ namespace DashSlash.Gameplay.Enemies
 
     public class DirectionMover : Enemy
     {
-        private CharacterMotor m_motor;
+		[Header( "Dodging" )]
+		[SerializeField] private float m_senseDangerRadius = 5;
+
+		[Space]
+		[SerializeField] private float m_dodgeForce = 10;
+		[SerializeField] private float m_dodgeDrag = 50;
+
+		[Space]
+		[SerializeField] private float m_dodgeCooldown = 1;
+		[SerializeField] private float m_dodgeDuration = 0.3f;
+
+		private CharacterMotor m_motor;
+		private float m_initialAcceleration = -1;
+		private float m_nextDodgeTime = 0;
+		private float m_dodgeCooldownEndTime = 0;
 
 		protected override void UpdateState()
 		{
 			base.UpdateState();
 
-			m_motor.SetDesiredVelocity( FacingDirection );
+			if ( IsDodging() )
+			{
+				return;
+			}
+			else if ( CanDodge() )
+			{
+				Dodge();
+			}
+			else
+			{
+				m_motor.SetAcceleration( m_initialAcceleration );
+				m_motor.SetDesiredVelocity( FacingDirection );
+			}
+		}
+
+		private bool IsDodging()
+		{
+			return m_nextDodgeTime > Time.timeSinceLevelLoad;
+		}
+
+		private bool CanDodge()
+		{
+			if ( m_dodgeCooldownEndTime > Time.timeSinceLevelLoad ) { return false; }
+
+			if ( Mathf.Approximately( m_dodgeForce, 0 ) ) { return false; }
+
+			float distToPlayerSqr = GetDistanceSqrToPlayer();
+			if ( distToPlayerSqr > m_senseDangerRadius * m_senseDangerRadius ) { return false; }
+
+			if ( !IsPlayerAttacking() ) { return false; }
+
+			var dirToPlayer = GetDirectionToPlayer();
+			var playerVelocity = GetPlayerVelocity();
+			if ( Vector3.Dot( dirToPlayer, playerVelocity ) > 0 ) { return false; }
+
+			return true;
+		}
+
+		private void Dodge()
+		{
+			m_nextDodgeTime = Time.timeSinceLevelLoad + m_dodgeDuration;
+			m_dodgeCooldownEndTime = Time.timeSinceLevelLoad + m_dodgeCooldown;
+
+			m_motor.SetAcceleration( m_dodgeDrag );
+			m_motor.SetDesiredVelocity( Vector3.zero );
+
+
+			var dirToPlayer = GetDirectionToPlayer();
+			var dodgeDir = Quaternion.AngleAxis( 90, Vector3.forward ) * dirToPlayer;
+
+			var dodgeForce = dodgeDir * m_dodgeForce;
+			m_motor.AddForce( dodgeForce );
+		}
+
+		protected override void InitReferences()
+		{
+			base.InitReferences();
+
+			m_initialAcceleration = m_motor.Acceleration;
 		}
 
 		protected override void CacheReferences()
@@ -22,6 +94,25 @@ namespace DashSlash.Gameplay.Enemies
 			base.CacheReferences();
 
 			m_motor = GetComponent<CharacterMotor>();
+		}
+
+		[Header( "Editor / Tools" )]
+		[SerializeField] private Color m_senseDangerColor = Color.red;
+
+		protected override void DrawGizmos()
+		{
+			base.DrawGizmos();
+
+			Gizmos.color = m_senseDangerColor;
+
+			try
+			{
+				Gizmos.DrawWireSphere( Position, m_senseDangerRadius );
+			}
+			catch
+			{
+				Gizmos.DrawWireSphere( transform.position, m_senseDangerRadius );
+			}
 		}
 	}
 }

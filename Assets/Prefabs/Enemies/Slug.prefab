@@ -15,6 +15,13 @@ MonoBehaviour:
   m_spawnAwakeDelay: 0.25
   m_spawnInvincibiltyDuration: 0.25
   m_rotationSpeed: 540
+  m_points: 100
+  m_senseDangerRadius: 6.5
+  m_dodgeForce: 30
+  m_dodgeDrag: 100
+  m_dodgeCooldown: 1
+  m_dodgeDuration: 0.3
+  m_senseDangerColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!114 &8656142877248817936
 MonoBehaviour:
   m_ObjectHideFlags: 0
