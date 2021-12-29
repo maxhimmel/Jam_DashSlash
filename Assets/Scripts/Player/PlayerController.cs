@@ -32,7 +32,7 @@ namespace DashSlash.Gameplay.Player
 		[Header( "Debug" )]
 		[SerializeField] private DebugCheats m_cheats = new DebugCheats();
 
-		private LerpMotor m_motor;
+		private IInterpolationMovement m_motor;
 		private AnimController m_animator;
 		private IDamageable m_damageable;
 		private ITrajectoryController m_trajectoryController;
@@ -152,7 +152,7 @@ namespace DashSlash.Gameplay.Player
 
 		private void Awake()
 		{
-			m_motor = GetComponentInChildren<LerpMotor>();
+			m_motor = GetComponentInChildren<IInterpolationMovement>();
 			m_animator = GetComponentInChildren<AnimController>();
 			m_damageable = GetComponentInChildren<IDamageable>();
 			m_trajectoryController = GetComponent<ITrajectoryController>();
