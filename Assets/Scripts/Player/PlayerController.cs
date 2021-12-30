@@ -36,7 +36,6 @@ namespace DashSlash.Gameplay.Player
 		private AnimController m_animator;
 		private IDamageable m_damageable;
 		private ITrajectoryController m_trajectoryController;
-		private PlayerTrajectoryRenderer m_trajectoryRenderer;
 
 		void ICollector.Collect( Pickup pickup )
 		{
@@ -156,7 +155,6 @@ namespace DashSlash.Gameplay.Player
 			m_animator = GetComponentInChildren<AnimController>();
 			m_damageable = GetComponentInChildren<IDamageable>();
 			m_trajectoryController = GetComponent<ITrajectoryController>();
-			m_trajectoryRenderer = GetComponentInChildren<PlayerTrajectoryRenderer>();
 		}
 	}
 }
