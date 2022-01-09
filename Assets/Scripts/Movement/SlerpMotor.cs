@@ -6,8 +6,9 @@ using UnityEngine;
 namespace DashSlash.Gameplay.Movement
 {
 	using Player;
+	using Xam.Utility.Extensions;
 
-    public class SlerpMotor : MonoBehaviour,
+	public class SlerpMotor : MonoBehaviour,
 		IInterpolationMovement,
 		ITrajectoryControllerContainer
 	{
@@ -22,31 +23,33 @@ namespace DashSlash.Gameplay.Movement
 		[SerializeField] private float m_lerpDuration = 0.5f;
 
 		[Space]
-		[SerializeField] private float m_minCurveOffset = 0;
-		[SerializeField] private float m_maxCurveOffset = 1;
-
-		[Header( "TESTING" )]
-		[SerializeField] private Transform m_slerpCenter = default;
+		[SerializeField] private AnimationCurve m_curveOffset;
+		[SerializeField] private float m_maxCurveOffset = 30;
+		[SerializeField] private float m_maxMidpointDistance = 7;
 
 		private ITrajectoryController m_trajectoryController;
 		private Rigidbody2D m_body;
+		private float m_tweenTimer = 0;
 		private Tweener m_moveTween;
 		private Vector2 m_prevPosition;
 		private Vector3 m_startPos;
 		private Vector3 m_endPos;
 		private Vector3 m_slerpOffset;
-		private float m_lerpTimer = 0;
+		private DragArgs m_currentDragArgs;
+		private List<Vector3> m_dragPoints = new List<Vector3>();
 
 		public void InstallTrajectory( ITrajectoryController controller )
 		{
 			if ( m_trajectoryController != null )
 			{
-
+				m_trajectoryController.DragStarted -= OnDragStarted;
+				m_trajectoryController.DragUpdated -= OnDragUpdated;
 			}
 
 			if ( controller != null )
 			{
-
+				controller.DragStarted += OnDragStarted;
+				controller.DragUpdated += OnDragUpdated;
 			}
 
 			m_trajectoryController = controller;
@@ -70,11 +73,6 @@ namespace DashSlash.Gameplay.Movement
 
 		public void SetDesiredVelocity( Vector3 direction )
 		{
-			SetDesiredVelocity( direction, 0 );
-		}
-
-		public void SetDesiredVelocity( Vector3 direction, float curveStrength )
-		{
 			if ( IsMoving )
 			{
 				m_moveTween.Kill();
@@ -85,25 +83,60 @@ namespace DashSlash.Gameplay.Movement
 				}
 			}
 
-			m_lerpTimer = 0;
+			m_tweenTimer = 0;
 			m_startPos = Position;
 			m_endPos = direction + Position;
+			m_slerpOffset = GetOffsetPosition( direction );
 
-
-			var midPoint = (m_startPos + m_endPos) / 2f;
-			var offsetDir = Quaternion.AngleAxis( 90, Vector3.forward ) * direction;
-			var offsetPos = midPoint + offsetDir * curveStrength;
-
-			Debug.DrawRay( m_startPos, direction, Color.yellow, 5 );
-			Debug.DrawRay( midPoint, offsetDir, Color.white, 5 );
-			Debug.DrawRay( offsetPos, Vector3.up, Color.yellow, 5 );
-
-			m_slerpOffset = transform.InverseTransformPoint( offsetPos );
-			//m_slerpOffset = offsetDir * curveStrength;
-
-			m_moveTween = DOTween.To( () => m_lerpTimer, tweenTimer => m_lerpTimer = tweenTimer, 1, m_lerpDuration )
+			m_moveTween = DOTween.To( () => m_tweenTimer, tweenTimer => m_tweenTimer = tweenTimer, 1, m_lerpDuration )
 				.SetUpdate( UpdateType.Manual )
 				.SetEase( m_ease );
+		}
+
+		private Vector3 GetOffsetPosition( Vector3 direction )
+		{
+			var signedMidpointDistance = GetSlerpOffsetSignedDistance();
+			var offsetSign = Mathf.Sign( signedMidpointDistance );
+			var midpointDistance = signedMidpointDistance * offsetSign;
+
+			var midpointLerp = Mathf.Clamp01( midpointDistance / m_maxMidpointDistance );
+			var midpointCurve = m_curveOffset.Evaluate( midpointLerp );
+			var offsetDistance = Mathf.LerpUnclamped( 0, m_maxCurveOffset, midpointCurve );
+
+			var midpoint = (m_startPos + m_endPos) / 2f;
+			var offsetDir = Quaternion.AngleAxis( 90, Vector3.forward ) * direction.normalized;
+			var offsetPos = midpoint + offsetDir * (offsetDistance * offsetSign);
+
+			return transform.InverseTransformPoint( offsetPos );
+		}
+
+		private float GetSlerpOffsetSignedDistance()
+		{
+			var nearestZero = Mathf.Infinity;
+			var mostAlignedPoint = Vector3.zero;
+			var midpoint = (m_currentDragArgs.Start + m_currentDragArgs.End) / 2f;
+			var dragDirection = m_currentDragArgs.Vector;
+
+			for ( int idx = 1; idx < m_dragPoints.Count - 1; ++idx )
+			{
+				var dragPos = m_dragPoints[idx];
+				var midPointToDragPos = (dragPos - midpoint);
+				float dot = Mathf.Abs( Vector3.Dot( midPointToDragPos, dragDirection ) );
+
+				if ( dot < nearestZero )
+				{
+					nearestZero = dot;
+					mostAlignedPoint = dragPos;
+				}
+			}
+
+			var cross = Vector3.Cross( dragDirection, Vector3.forward );
+			var signDir = Mathf.Sign( Vector3.Dot( cross, (mostAlignedPoint - midpoint) ) );
+			float distFromMidpoint = (mostAlignedPoint - midpoint).magnitude;
+
+			return m_dragPoints.Count <= 3
+				? 0
+				: distFromMidpoint * signDir;
 		}
 
 		private void FixedUpdate()
@@ -112,14 +145,69 @@ namespace DashSlash.Gameplay.Movement
 
 			if ( m_moveTween.IsActive() )
 			{
-				var midPoint = (m_startPos + m_endPos) / 2f + m_slerpOffset;
-				var relativeStart = m_startPos - midPoint;
-				var relativeEnd = m_endPos - midPoint;
-
 				m_moveTween.ManualUpdate( Time.deltaTime, Time.unscaledDeltaTime );
+				m_body.MovePosition( GetNextPosition() );
+			}
+		}
 
-				var nextPos = Vector3.SlerpUnclamped( relativeStart, relativeEnd, m_lerpTimer ) + midPoint;
-				m_body.MovePosition( nextPos );
+		private Vector3 GetNextPosition()
+		{
+			var midpoint = (m_startPos + m_endPos) / 2f + m_slerpOffset;
+			var relativeStart = m_startPos - midpoint;
+			var relativeEnd = m_endPos - midpoint;
+
+			return Vector3.SlerpUnclamped( relativeStart, relativeEnd, m_tweenTimer ) + midpoint;
+		}
+
+		private void OnDragStarted( object sender, DragArgs e )
+		{
+			m_currentDragArgs = e;
+
+			m_dragPoints.Clear();
+			m_dragPoints.Add( e.Start );
+		}
+
+		private void OnDragUpdated( object sender, DragArgs e )
+		{
+			m_currentDragArgs = e;
+
+			var prevDragPoint = m_dragPoints[m_dragPoints.Count - 1];
+			if ( (prevDragPoint - e.End).sqrMagnitude > 0.01f )
+			{
+				m_dragPoints.Add( e.End );
+			}
+		}
+
+		private void OnDragReleased( object sender, DragArgs e )
+		{
+			m_dragPoints.Add( e.End );
+
+			var nearestZero = Mathf.Infinity;
+			var mostAlignedPoint = Vector3.zero;
+			var midpoint = (e.Start + e.End) / 2f;
+			var dragDirection = e.Vector;
+
+			for ( int idx = 1; idx < m_dragPoints.Count - 1; ++idx )
+			{
+				var dragPos = m_dragPoints[idx];
+				var midPointToDragPos = (dragPos - midpoint);
+				float dot = Mathf.Abs( Vector3.Dot( midPointToDragPos, dragDirection ) );
+
+				if ( dot < nearestZero )
+				{
+					nearestZero = dot;
+					mostAlignedPoint = dragPos;
+				}
+			}
+
+
+			var cross = Vector3.Cross( dragDirection, Vector3.forward );
+			var signDir = Mathf.Sign( Vector3.Dot( cross, (mostAlignedPoint - midpoint) ) );
+			float distFromMidpoint = (midpoint - mostAlignedPoint).magnitude;
+
+			if ( m_dragPoints.Count <= 3 )
+			{
+				distFromMidpoint = 0;
 			}
 		}
 
@@ -127,10 +215,15 @@ namespace DashSlash.Gameplay.Movement
 		{
 			m_body = GetComponent<Rigidbody2D>();
 			m_trajectoryController = GetComponentInChildren<ITrajectoryController>();
+
+			m_currentDragArgs = new DragArgs( m_body.position, m_body.position );
 		}
 
 		private void OnDestroy()
 		{
+			m_trajectoryController.DragStarted -= OnDragStarted;
+			m_trajectoryController.DragUpdated -= OnDragUpdated;
+
 			if ( m_moveTween.IsActive() )
 			{
 				m_moveTween.Kill();
