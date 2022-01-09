@@ -36,7 +36,6 @@ namespace DashSlash.Gameplay.Player
 		private AnimController m_animator;
 		private IDamageable m_damageable;
 		private ITrajectoryController m_trajectoryController;
-		//private List<Vector3> m_dragPoints = new List<Vector3>();
 
 		void ICollector.Collect( Pickup pickup )
 		{
@@ -49,7 +48,6 @@ namespace DashSlash.Gameplay.Player
 			if ( m_trajectoryController != null )
 			{
 				m_trajectoryController.DragStarted -= OnDragStarted;
-				//m_trajectoryController.DragUpdated -= OnDragUpdated;
 				m_trajectoryController.DragReleased -= OnDragReleased;
 				m_trajectoryController.ZipUpCompleted -= OnZipUpCompleted;
 			}
@@ -57,7 +55,6 @@ namespace DashSlash.Gameplay.Player
 			if ( controller != null )
 			{
 				controller.DragStarted += OnDragStarted;
-				//controller.DragUpdated += OnDragUpdated;
 				controller.DragReleased += OnDragReleased;
 				controller.ZipUpCompleted += OnZipUpCompleted;
 			}
@@ -67,9 +64,6 @@ namespace DashSlash.Gameplay.Player
 
 		private void OnDragStarted( object sender, DragArgs e )
 		{
-			//m_dragPoints.Clear();
-			//m_dragPoints.Add( e.Start );
-
 			Vector3 moveDir = e.Start - m_motor.Position;
 
 			m_sword.StopSlicing( false );
@@ -84,36 +78,6 @@ namespace DashSlash.Gameplay.Player
 
 		private void OnDragReleased( object sender, DragArgs e )
 		{
-			//m_dragPoints.Add( e.End );
-
-			//var nearestZero = Mathf.Infinity;
-			//var mostAlignedPoint = Vector3.zero;
-			//var midpoint = (e.Start + e.End) / 2f;
-			//var dragDirection = e.Vector;
-
-			//for ( int idx = 1; idx < m_dragPoints.Count - 1; ++idx )
-			//{
-			//	var dragPos = m_dragPoints[idx];
-			//	var midPointToDragPos = (dragPos - midpoint);
-			//	float dot = Mathf.Abs( Vector3.Dot( midPointToDragPos, dragDirection ) );
-
-			//	if ( dot < nearestZero )
-			//	{
-			//		nearestZero = dot;
-			//		mostAlignedPoint = dragPos;
-			//	}
-			//}
-
-
-			//var cross = Vector3.Cross( dragDirection, Vector3.forward );
-			//var signDir = Mathf.Sign( Vector3.Dot( cross, (mostAlignedPoint - midpoint) ) );
-			//float distFromMidpoint = (midpoint - mostAlignedPoint).magnitude;
-
-			//if ( m_dragPoints.Count <= 3 )
-			//{
-			//	distFromMidpoint = 0;
-			//}
-
 			Vector3 moveDir = e.End - m_motor.Position;
 
 			m_sword.SetRotation( e.Vector );
@@ -121,21 +85,12 @@ namespace DashSlash.Gameplay.Player
 
 			m_motor.SetEase( m_dashEase );
 			m_motor.SetDuration( m_dashMoveDuration );
-			m_motor.SetDesiredVelocity( moveDir );//, distFromMidpoint * signDir );
+			m_motor.SetDesiredVelocity( moveDir );
 
 			m_animator.PlayDashVfx( m_dashMoveDuration, moveDir );
 
 			Score.BeginCombo();
 		}
-
-		//private void OnDragUpdated( object sender, DragArgs e )
-		//{
-		//	var prevDragPoint = m_dragPoints[m_dragPoints.Count - 1];
-		//	if ( (prevDragPoint - e.End).sqrMagnitude > 0.01f )
-		//	{
-		//		m_dragPoints.Add( e.End );
-		//	}
-		//}
 
 		private void OnZipUpCompleted( object sender, DragArgs e )
 		{
@@ -188,7 +143,6 @@ namespace DashSlash.Gameplay.Player
 		private void OnDestroy()
 		{
 			m_trajectoryController.DragStarted -= OnDragStarted;
-			//m_trajectoryController.DragUpdated -= OnDragUpdated;
 			m_trajectoryController.DragReleased -= OnDragReleased;
 			m_trajectoryController.ZipUpCompleted -= OnZipUpCompleted;
 

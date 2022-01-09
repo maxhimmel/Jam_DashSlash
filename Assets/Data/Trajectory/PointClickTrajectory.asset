@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3b8cd637063e414e80a018c00ad6311, type: 3}
   m_Name: PointClickTrajectory
   m_EditorClassIdentifier: 
-  m_startProximity: 2
+  m_startProximity: 0
   m_endProximity: 8

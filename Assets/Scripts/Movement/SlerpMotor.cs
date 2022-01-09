@@ -178,39 +178,6 @@ namespace DashSlash.Gameplay.Movement
 			}
 		}
 
-		private void OnDragReleased( object sender, DragArgs e )
-		{
-			m_dragPoints.Add( e.End );
-
-			var nearestZero = Mathf.Infinity;
-			var mostAlignedPoint = Vector3.zero;
-			var midpoint = (e.Start + e.End) / 2f;
-			var dragDirection = e.Vector;
-
-			for ( int idx = 1; idx < m_dragPoints.Count - 1; ++idx )
-			{
-				var dragPos = m_dragPoints[idx];
-				var midPointToDragPos = (dragPos - midpoint);
-				float dot = Mathf.Abs( Vector3.Dot( midPointToDragPos, dragDirection ) );
-
-				if ( dot < nearestZero )
-				{
-					nearestZero = dot;
-					mostAlignedPoint = dragPos;
-				}
-			}
-
-
-			var cross = Vector3.Cross( dragDirection, Vector3.forward );
-			var signDir = Mathf.Sign( Vector3.Dot( cross, (mostAlignedPoint - midpoint) ) );
-			float distFromMidpoint = (midpoint - mostAlignedPoint).magnitude;
-
-			if ( m_dragPoints.Count <= 3 )
-			{
-				distFromMidpoint = 0;
-			}
-		}
-
 		private void Awake()
 		{
 			m_body = GetComponent<Rigidbody2D>();
