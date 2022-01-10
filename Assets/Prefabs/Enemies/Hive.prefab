@@ -122,7 +122,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_maxSpeed: 2
   m_acceleration: 10
---- !u!114 &8498629955676047798
+--- !u!114 &5047637457775504499
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,12 +131,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 3780885965574278518}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1fc74c10fee7644dabc45e2ee69c603, type: 3}
+  m_Script: {fileID: 11500000, guid: 539d4459b8adfee4e83830bd87fdcaa8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_spawnAwakeDelay: 0.25
   m_spawnInvincibiltyDuration: 0.25
   m_rotationSpeed: 540
+  m_points: 100
+  m_senseDangerRadius: 0
+  m_dodgeForce: 0
+  m_dodgeDrag: 0
+  m_dodgeCooldown: Infinity
+  m_dodgeDuration: 0
+  m_senseDangerColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!58 &3724763248872975195
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -222,7 +229,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5810515585002687078, guid: 269936834e6f15748986965b3853633f, type: 3}
       propertyPath: m_RootOrder
-      value: 6
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 6489536852321127728, guid: 269936834e6f15748986965b3853633f, type: 3}
       propertyPath: m_IsActive
