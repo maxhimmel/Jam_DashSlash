@@ -48,7 +48,7 @@ namespace DashSlash.Gameplay.Enemies
 			return m_nextDodgeTime > Time.timeSinceLevelLoad;
 		}
 
-		private bool CanDodge()
+		protected virtual bool CanDodge()
 		{
 			if ( m_dodgeCooldownEndTime > Time.timeSinceLevelLoad ) { return false; }
 
