@@ -22,10 +22,15 @@ namespace DashSlash.Gameplay.Enemies
 				Rigidbody2D body = enemy.GetComponent<Rigidbody2D>();
 				if ( body == null ) { continue; }
 
-				Vector3 forceDir = enemy.transform.up;
-				Vector3 spawnVelocity = forceDir * m_spawnForceRange.Evaluate();
-				body.AddForce( spawnVelocity, ForceMode2D.Impulse );
+				LaunchEnemy( body );
 			}
+		}
+
+		private void LaunchEnemy( Rigidbody2D enemyBody )
+		{
+			Vector3 forceDir = enemyBody.transform.up;
+			Vector3 spawnVelocity = forceDir * m_spawnForceRange.Evaluate();
+			enemyBody.AddForce( spawnVelocity, ForceMode2D.Impulse );
 		}
 
 		private void Start()
