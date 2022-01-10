@@ -49,7 +49,7 @@ namespace DashSlash.Gameplay.WaveSpawning
 					if ( index >= m_enemyKeyMappings.Count ) { break; }
 
 					var mapping = m_enemyKeyMappings[index];
-					if ( GUILayout.Button( $"[{mapping.Key}] : <b>{mapping.Prefab.name}</b>" ) )
+					if ( GUILayout.Button( $"[{mapping.Key}] : <b>{mapping.Name}</b>" ) )
 					{
 						SpawnEnemy( mapping );
 					}
@@ -63,6 +63,12 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 		private void SpawnEnemy( EnemyKeyMap mapping )
 		{
+			if ( !mapping.IsValid() )
+			{
+				Debug.LogException( new System.NullReferenceException( "EnemyKeyMap.Prefab" ) );
+				return;
+			}
+
 			m_enemyFactory.SetEnemyPrefab( mapping.Prefab );
 			m_spawner.Play();
 		}
@@ -117,8 +123,15 @@ namespace DashSlash.Gameplay.WaveSpawning
 		[System.Serializable]
         class EnemyKeyMap
 		{
+			public string Name => IsValid() ? Prefab.name : "MISSING REFERENCE";
+
 			public KeyCode Key;
 			public Enemy Prefab;
+
+			public bool IsValid()
+			{
+				return Prefab != null;
+			}
 		}
 	}
 }
