@@ -152,7 +152,7 @@ namespace DashSlash.Gameplay.Enemies
 			SetBehaviourEnabled( true, m_hitBoxes );
 		}
 
-		private void SetBehaviourEnabled<T>( bool isEnabled, params T[] behaviours ) where T : Behaviour
+		protected void SetBehaviourEnabled<T>( bool isEnabled, params T[] behaviours ) where T : Behaviour
 		{
 			foreach ( var behaviour in behaviours )
 			{
