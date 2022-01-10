@@ -34,7 +34,7 @@ namespace DashSlash.Gameplay.Player
 		[SerializeField] private Sword m_sword = default;
 		[SerializeField] private Sword m_recoverySword = default;
 
-		private LerpMotor m_motor;
+		private IInterpolationMovement m_motor;
 		private Rigidbody2D m_body;
 		private AnimController m_animController;
 		private ITrajectoryController m_trajectoryController;
@@ -127,7 +127,7 @@ namespace DashSlash.Gameplay.Player
 
 		private void Awake()
 		{
-			m_motor = GetComponent<LerpMotor>();
+			m_motor = GetComponent<IInterpolationMovement>();
 			m_body = GetComponent<Rigidbody2D>();
 			m_animController = GetComponentInChildren<AnimController>();
 			m_trajectoryController = GetComponent<ITrajectoryController>();
