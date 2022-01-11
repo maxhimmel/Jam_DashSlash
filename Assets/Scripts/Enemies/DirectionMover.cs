@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Sirenix.OdinInspector;
 
 namespace DashSlash.Gameplay.Enemies
 {
@@ -9,14 +10,20 @@ namespace DashSlash.Gameplay.Enemies
     public class DirectionMover : Enemy
     {
 		[Header( "Dodging" )]
+		[SerializeField] private bool m_dodgingEnabled = true;
+		[ShowIfGroup( "Dodging", VisibleIf = "m_dodgingEnabled" )]
 		[SerializeField] private float m_senseDangerRadius = 5;
 
 		[Space]
+		[ShowIfGroup( "Dodging", VisibleIf = "m_dodgingEnabled" )]
 		[SerializeField] private float m_dodgeForce = 10;
+		[ShowIfGroup( "Dodging", VisibleIf = "m_dodgingEnabled" )]
 		[SerializeField] private float m_dodgeDrag = 50;
 
 		[Space]
+		[ShowIfGroup( "Dodging", VisibleIf = "m_dodgingEnabled" )]
 		[SerializeField] private float m_dodgeCooldown = 1;
+		[ShowIfGroup( "Dodging", VisibleIf = "m_dodgingEnabled" )]
 		[SerializeField] private float m_dodgeDuration = 0.3f;
 
 		private CharacterMotor m_motor;
@@ -45,11 +52,13 @@ namespace DashSlash.Gameplay.Enemies
 
 		private bool IsDodging()
 		{
-			return m_nextDodgeTime > Time.timeSinceLevelLoad;
+			return m_dodgingEnabled && m_nextDodgeTime > Time.timeSinceLevelLoad;
 		}
 
 		protected virtual bool CanDodge()
 		{
+			if ( !m_dodgingEnabled ) { return false; }
+
 			if ( m_dodgeCooldownEndTime > Time.timeSinceLevelLoad ) { return false; }
 
 			if ( Mathf.Approximately( m_dodgeForce, 0 ) ) { return false; }

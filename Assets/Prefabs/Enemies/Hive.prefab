@@ -108,6 +108,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_worldForward: {x: 0, y: 0, z: 1}
+--- !u!58 &3724763248872975195
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3780885964612401676}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.5
 --- !u!114 &3975655160794202776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -138,28 +154,14 @@ MonoBehaviour:
   m_spawnInvincibiltyDuration: 0.25
   m_rotationSpeed: 540
   m_points: 100
+  m_dodgingEnabled: 0
   m_senseDangerRadius: 0
   m_dodgeForce: 0
   m_dodgeDrag: 0
   m_dodgeCooldown: Infinity
   m_dodgeDuration: 0
   m_senseDangerColor: {r: 1, g: 0, b: 0, a: 1}
---- !u!58 &3724763248872975195
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3780885964612401676}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.5
+  m_lifetime: 5
 --- !u!58 &51483711169826359
 CircleCollider2D:
   m_ObjectHideFlags: 0

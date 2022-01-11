@@ -53,10 +53,5 @@ namespace DashSlash.Gameplay.Enemies
 					// Or, spawn them slightly dazed?
 			}
 		}
-
-		protected override bool CanDodge()
-		{
-			return false;
-		}
 	}
 }
