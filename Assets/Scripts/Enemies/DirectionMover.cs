@@ -26,7 +26,7 @@ namespace DashSlash.Gameplay.Enemies
 		[ShowIfGroup( "Dodging", VisibleIf = "m_dodgingEnabled" )]
 		[SerializeField] private float m_dodgeDuration = 0.3f;
 
-		private CharacterMotor m_motor;
+		protected CharacterMotor m_motor;
 		private float m_initialAcceleration = -1;
 		private float m_nextDodgeTime = 0;
 		private float m_dodgeCooldownEndTime = 0;
@@ -106,6 +106,7 @@ namespace DashSlash.Gameplay.Enemies
 		}
 
 		[Header( "Editor / Tools" )]
+		[ShowIfGroup( "Dodging", VisibleIf = "m_dodgingEnabled" )]
 		[SerializeField] private Color m_senseDangerColor = Color.red;
 
 		protected override void DrawGizmos()
