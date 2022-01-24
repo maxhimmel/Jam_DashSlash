@@ -1,5 +1,34 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1070049593413751626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2933685252558661106}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b080b04a7441630439ec24828b2ef355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_spawnAwakeDelay: 1
+  m_spawnInvincibiltyDuration: 1
+  m_rotationSpeed: 270
+  m_points: 100
+  m_dodgingEnabled: 0
+  m_senseDangerRadius: 5
+  m_dodgeForce: 10
+  m_dodgeDrag: 50
+  m_dodgeCooldown: 1
+  m_dodgeDuration: 0.3
+  m_senseDangerColor: {r: 1, g: 0, b: 0, a: 1}
+  m_angry:
+    m_maxSpeed: 9
+    m_acceleration: 18
+    m_turnSpeed: 540
+    m_awakeDelay: 0.25
+    m_spawnInvincibiltyDuration: 0.25
 --- !u!114 &1174494784665876659
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13,22 +42,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_maxSpeed: 6
-  m_acceleration: 20
---- !u!114 &4439555319345611745
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2933685252558661106}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c1fc74c10fee7644dabc45e2ee69c603, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_spawnAwakeDelay: 0.25
-  m_spawnInvincibiltyDuration: 0.25
-  m_rotationSpeed: 270
+  m_acceleration: 5
 --- !u!58 &139662201468358054
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -161,8 +175,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9000519400927449604, guid: 269936834e6f15748986965b3853633f, type: 3}
+      propertyPath: m_AngularDrag
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9000519400927449604, guid: 269936834e6f15748986965b3853633f, type: 3}
       propertyPath: m_Constraints
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9000519400927449605, guid: 269936834e6f15748986965b3853633f, type: 3}
       propertyPath: m_Name

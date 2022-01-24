@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5146814469961903902}
-  - component: {fileID: 2009533369142490307}
   - component: {fileID: 7388370143015781167}
   - component: {fileID: 8229117200436571863}
   - component: {fileID: 6604399050478693905}
@@ -35,21 +34,6 @@ Transform:
   m_Father: {fileID: 4127257783472033640}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2009533369142490307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1070555783220429832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84eb4ef8f6b6be846860efaba3b52019, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_spawnForceRange:
-    Min: 4
-    Max: 8
 --- !u!114 &7388370143015781167
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,7 +61,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b44a3068f1a1534fb4906c544fbf388, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_prefab: {fileID: 4439555319345611745, guid: a5dc2bfded7adee4d8c970c359b4a9e5, type: 3}
+  m_prefab: {fileID: 1070049593413751626, guid: a5dc2bfded7adee4d8c970c359b4a9e5, type: 3}
   m_spawnOnAwake: 0
   m_parentToFactory: 0
 --- !u!114 &6604399050478693905
@@ -161,7 +145,19 @@ MonoBehaviour:
   m_dodgeCooldown: Infinity
   m_dodgeDuration: 0
   m_senseDangerColor: {r: 1, g: 0, b: 0, a: 1}
-  m_lifetime: 5
+  m_lifetime: 3
+  m_spawnForceRange:
+    Min: 6
+    Max: 10
+  m_spawnTorqueRange:
+    Min: 1
+    Max: 1
+  m_angrySpawnForceRange:
+    Min: 10
+    Max: 14
+  m_angrySpawnTorqueRange:
+    Min: 1
+    Max: 1
 --- !u!58 &51483711169826359
 CircleCollider2D:
   m_ObjectHideFlags: 0

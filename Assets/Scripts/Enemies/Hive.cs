@@ -1,7 +1,7 @@
+using DashSlash.Gameplay.Enemies.Factories;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using Xam.Utility.Randomization;
 
 namespace DashSlash.Gameplay.Enemies
 {
@@ -12,7 +12,16 @@ namespace DashSlash.Gameplay.Enemies
 		[Header( "Hive" )]
 		[SerializeField] private float m_lifetime = 5;
 
+		[Header( "Child Enemies" )]
+		[SerializeField] private RandomFloatRange m_spawnForceRange = new RandomFloatRange( 4, 8 );
+		[SerializeField] private RandomFloatRange m_spawnTorqueRange = new RandomFloatRange( 90, 180 );
+
+		[Space]
+		[SerializeField] private RandomFloatRange m_angrySpawnForceRange = new RandomFloatRange( 10, 14 );
+		[SerializeField] private RandomFloatRange m_angrySpawnTorqueRange = new RandomFloatRange( 90, 180 );
+
 		private float m_lifetimeExpiration = -1;
+		private EnemyRangeFactory m_rangeFactory;
 
 		protected override void UpdateState()
 		{
@@ -42,16 +51,42 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			base.OnDied();
 
-			if ( IsExpired )
+			Enemy[] enemies = m_rangeFactory.CreateRange();
+			foreach ( Enemy enemy in enemies )
 			{
-				// Spawn Swarmers w/higher move/turn speeds
-				// ...
+				Rigidbody2D body = enemy.GetComponent<Rigidbody2D>();
+				if ( body != null )
+				{
+					var forceRange = IsExpired ? m_angrySpawnForceRange : m_spawnForceRange;
+					var torqueRange = IsExpired ? m_angrySpawnTorqueRange : m_spawnTorqueRange;
+					LaunchEnemy( body, forceRange, torqueRange );
+				}
+
+				if ( enemy is Swarmer swarmer )
+				{
+					if ( IsExpired )
+					{
+						swarmer.SetAngry();
+					}
+				}
 			}
-			else
-			{
-				// Spawn Swarmers normally?
-					// Or, spawn them slightly dazed?
-			}
+		}
+
+		private void LaunchEnemy( Rigidbody2D enemyBody, RandomFloatRange forceRange, RandomFloatRange torqueRange )
+		{
+			Vector3 forceDir = enemyBody.transform.up;
+			Vector3 spawnVelocity = forceDir * forceRange.Evaluate();
+			enemyBody.AddForce( spawnVelocity, ForceMode2D.Impulse );
+
+			float torque = RandomUtility.Sign() * torqueRange.Evaluate();
+			enemyBody.AddTorque( torque, ForceMode2D.Impulse );
+		}
+
+		protected override void CacheReferences()
+		{
+			base.CacheReferences();
+
+			m_rangeFactory = GetComponentInChildren<EnemyRangeFactory>();
 		}
 	}
 }
