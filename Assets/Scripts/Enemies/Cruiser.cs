@@ -5,13 +5,15 @@ using Xam.Utility;
 
 namespace DashSlash.Gameplay.Enemies
 {
-    using Movement;
+	using DashSlash.Gameplay.Weapons;
+	using Movement;
 
     public class Cruiser : Enemy
     {
 		private CharacterMotor m_characterMotor;
 		private WaveMovement m_waveMovement;
 		private ILookRotation m_lookRotation;
+		private LazyCachedChildComponent<Gun> m_gun = new LazyCachedChildComponent<Gun>( false );
 
 		protected override void UpdateState()
 		{
@@ -26,6 +28,8 @@ namespace DashSlash.Gameplay.Enemies
 			UpdateRotation();
 
 			m_waveMovement.enabled = true;
+
+			m_gun[this].StartFiring();
 		}
 
 		protected override Quaternion GetDesiredRotation()

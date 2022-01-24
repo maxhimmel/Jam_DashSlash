@@ -15,6 +15,7 @@ MonoBehaviour:
   m_spawnAwakeDelay: 0.25
   m_spawnInvincibiltyDuration: 0.25
   m_rotationSpeed: Infinity
+  m_points: 100
 --- !u!114 &7620688231029507249
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -72,6 +73,68 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13a634af1b5a8ee48aafe76be75badaa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &7732123626784182716
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7632240256408830388}
+  - component: {fileID: 8195447633729877251}
+  - component: {fileID: 3547268712345485434}
+  m_Layer: 0
+  m_Name: Gun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7632240256408830388
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7732123626784182716}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -1, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1575795859882004827}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8195447633729877251
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7732123626784182716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 912effe5dc496054ba61aefdc1851d5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_projectileFactory: {fileID: 3547268712345485434}
+  m_fireRate: 1
+  m_projectileSpeed: 0
+--- !u!114 &3547268712345485434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7732123626784182716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3bab074c7eabb4b9775cb3d2f4ca4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_prefab: {fileID: 5394421774685402443, guid: fd7a39ad3aec35c4782db7f0f7a60655, type: 3}
+  m_spawnOnAwake: 0
+  m_parentToFactory: 0
 --- !u!1001 &7208166920708096320
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -145,5 +208,10 @@ GameObject:
 --- !u!1 &8693185195450432563 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2066281964486720883, guid: 269936834e6f15748986965b3853633f, type: 3}
+  m_PrefabInstance: {fileID: 7208166920708096320}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1575795859882004827 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8202977296798928923, guid: 269936834e6f15748986965b3853633f, type: 3}
   m_PrefabInstance: {fileID: 7208166920708096320}
   m_PrefabAsset: {fileID: 0}
