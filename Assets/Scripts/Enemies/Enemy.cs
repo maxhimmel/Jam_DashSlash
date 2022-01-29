@@ -16,11 +16,12 @@ namespace DashSlash.Gameplay.Enemies
     {
 		public event System.EventHandler Died;
 
-		public virtual Vector3 Position => m_pawn.position;
-		public virtual Vector3 FacingDirection => m_pawn.up;
+		public virtual Vector3 Position => m_pawn != null ? m_pawn.position : transform.position;
+		public virtual Vector3 FacingDirection => m_pawn != null ? m_pawn.up : transform.up;
 
 		protected bool IsAwake => m_sleepRoutine == null;
 		protected ScoreController Score => ScoreController.Instance;
+		protected ArenaBounds Arena => ArenaBounds.Instance;
 
 		[Header( "Spawning" )]
         [SerializeField, Min( 0 )] protected float m_spawnAwakeDelay = 0.25f;
@@ -37,14 +38,15 @@ namespace DashSlash.Gameplay.Enemies
 		private Coroutine m_sleepRoutine;
 		private Coroutine m_spawnInvincibilityRoutine;
 		private ISliceable m_sliceable;
-		private HurtBox[] m_hurtBoxes;
-		private HitBox[] m_hitBoxes;
 		private LookAtPlayer m_lookAtPlayer = new LookAtPlayer();
 		private VfxPointsFactory m_vfxPointsFactory;
+		private Renderer[] m_renderers;
 
 		protected Rigidbody2D m_body;
 		protected LootSpawner m_lootSpawner;
 		protected GooglyEyesController m_googlyEyes;
+		protected HurtBox[] m_hurtBoxes;
+		protected HitBox[] m_hitBoxes;
 
 		private void FixedUpdate()
 		{
@@ -114,6 +116,30 @@ namespace DashSlash.Gameplay.Enemies
 		{
 			var player = DynamicPool.Instance.GetFirstPooledObjectByType<PlayerController>();
 			return player.Velocity;
+		}
+
+		protected Vector3 GetPlayerPosition()
+		{
+			var player = DynamicPool.Instance.GetFirstPooledObjectByType<PlayerController>();
+			return player.transform.position;
+		}
+
+		protected virtual void ShowModel()
+		{
+			ToggleRenderers( true );
+		}
+
+		protected virtual void HideModel()
+		{
+			ToggleRenderers( false );
+		}
+
+		private void ToggleRenderers( bool isActive )
+		{
+			foreach ( var renderer in m_renderers )
+			{
+				renderer.enabled = isActive;
+			}
 		}
 
 		private void OnEnable()
@@ -214,6 +240,7 @@ namespace DashSlash.Gameplay.Enemies
 			m_hitBoxes = GetComponentsInChildren<HitBox>( true );
 			m_googlyEyes = GetComponentInChildren<GooglyEyesController>( true );
 			m_vfxPointsFactory = GetComponentInChildren<VfxPointsFactory>();
+			m_renderers = GetComponentsInChildren<Renderer>( false );
 
 			InitLootSpawner();
 		}
