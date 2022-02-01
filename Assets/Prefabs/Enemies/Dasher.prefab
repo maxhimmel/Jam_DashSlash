@@ -30,9 +30,38 @@ MonoBehaviour:
   m_spawnAwakeDelay: 0.25
   m_spawnInvincibiltyDuration: 0.25
   m_rotationSpeed: 540
+  m_points: 100
   m_dashOffsetAngle: 30
-  m_dashCooldownDuration: 2
   m_dashDistance: 5
+  m_dashAnticDuration: 0.5
+  m_dashCooldownDuration: 2
+--- !u!114 &4847865315082361077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506020656129276418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72292079968a1f4d803dfa79ad6cc85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_colorPropertyName: _BaseColor
+--- !u!114 &8550253567923726381
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1506020656129276418}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc11d223fdc111342b28cec4ebabb6fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_blinkFrequency: 0.1
+  m_blinkColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!1001 &7497984838024050206
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,5 +130,10 @@ PrefabInstance:
 --- !u!1 &1506020655843959835 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 9000519400927449605, guid: 269936834e6f15748986965b3853633f, type: 3}
+  m_PrefabInstance: {fileID: 7497984838024050206}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1506020656129276418 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9000519400709442588, guid: 269936834e6f15748986965b3853633f, type: 3}
   m_PrefabInstance: {fileID: 7497984838024050206}
   m_PrefabAsset: {fileID: 0}
