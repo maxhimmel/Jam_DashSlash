@@ -1,6 +1,8 @@
 using DashSlash.Gameplay.Enemies.Factories;
 using System;
 using UnityEngine;
+using Xam.Utility.Extensions;
+using Xam.Utility.Juicy;
 using Xam.Utility.Randomization;
 
 namespace DashSlash.Gameplay.Enemies
@@ -11,6 +13,7 @@ namespace DashSlash.Gameplay.Enemies
 
 		[Header( "Hive" )]
 		[SerializeField] private float m_lifetime = 5;
+		[SerializeField] private float m_expirationAnticDuration = 0.5f;
 
 		[Header( "Child Enemies" )]
 		[SerializeField] private RandomFloatRange m_spawnForceRange = new RandomFloatRange( 4, 8 );
@@ -22,6 +25,8 @@ namespace DashSlash.Gameplay.Enemies
 
 		private float m_lifetimeExpiration = -1;
 		private EnemyRangeFactory m_rangeFactory;
+		private ColorBlinker m_expirationAntic;
+		private Coroutine m_anticRoutine;
 
 		protected override void UpdateState()
 		{
@@ -38,6 +43,9 @@ namespace DashSlash.Gameplay.Enemies
 			base.OnAwokenFromSpawn();
 
 			m_lifetimeExpiration = m_lifetime + Time.timeSinceLevelLoad;
+
+			float anticDelay = m_lifetime - m_expirationAnticDuration;
+			m_anticRoutine = this.StartWaitingForSeconds( anticDelay, m_expirationAntic.Play );
 		}
 
 		protected override void OnSliced( object sender, EventArgs e )
@@ -45,6 +53,9 @@ namespace DashSlash.Gameplay.Enemies
 			base.OnSliced( sender, e );
 
 			m_lifetimeExpiration = -1;
+
+			this.TryStopCoroutine( ref m_anticRoutine );
+			m_expirationAntic.Stop();
 		}
 
 		protected override void OnDied()
@@ -87,6 +98,7 @@ namespace DashSlash.Gameplay.Enemies
 			base.CacheReferences();
 
 			m_rangeFactory = GetComponentInChildren<EnemyRangeFactory>();
+			m_expirationAntic = GetComponentInChildren<ColorBlinker>();
 		}
 	}
 }

@@ -92,22 +92,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_worldForward: {x: 0, y: 0, z: 1}
---- !u!58 &3724763248872975195
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3780885964612401676}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  serializedVersion: 2
-  m_Radius: 1.5
 --- !u!114 &3975655160794202776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +142,49 @@ MonoBehaviour:
   m_angrySpawnTorqueRange:
     Min: 1
     Max: 1
+--- !u!114 &1551529209808833632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3780885965490754415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc11d223fdc111342b28cec4ebabb6fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_blinkFrequency: 0.1
+  m_blinkColor: {r: 1, g: 1, b: 1, a: 1}
+--- !u!114 &1149744843750415123
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3780885965490754415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d72292079968a1f4d803dfa79ad6cc85, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_colorPropertyName: _BaseColor
+--- !u!58 &3724763248872975195
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3780885964612401676}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 1.5
 --- !u!58 &51483711169826359
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -312,6 +339,11 @@ GameObject:
 --- !u!4 &4127257783472033640 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8202977296798928923, guid: 269936834e6f15748986965b3853633f, type: 3}
+  m_PrefabInstance: {fileID: 5228718155548483443}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &3780885965490754415 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9000519400709442588, guid: 269936834e6f15748986965b3853633f, type: 3}
   m_PrefabInstance: {fileID: 5228718155548483443}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &3780885964612401676 stripped
