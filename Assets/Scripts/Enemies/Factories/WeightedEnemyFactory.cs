@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
 using Xam.Gameplay.Patterns;
 using Xam.Utility.Randomization;
@@ -16,7 +17,10 @@ namespace DashSlash.Gameplay.Enemies.Factories
 		public Enemy Create( Vector3 position = default, Quaternion rotation = default, Transform parent = null )
 		{
 			Enemy randomEnemy = m_enemies.GetRandomItem();
-			if ( randomEnemy == null ) { return null; }
+			if ( randomEnemy == null ) 
+			{
+				throw new NoNullAllowedException( nameof( randomEnemy ) );
+			}
 
 			Enemy newEnemy = Instantiate( randomEnemy, position, rotation, parent );
 
