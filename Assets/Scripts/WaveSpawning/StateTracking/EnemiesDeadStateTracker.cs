@@ -43,6 +43,32 @@ namespace DashSlash.Gameplay.WaveSpawning
 			deadEnemy.Died -= OnEnemyDied;
 
 			++m_deadEnemiesCount;
+
+			HandleMatryoshkaEnemy( deadEnemy );
+		}
+
+		private void HandleMatryoshkaEnemy( Enemy deadEnemy )
+		{
+			var matryoshka = deadEnemy.GetComponent<IMatryoshkaEnemy>();
+			if ( matryoshka == null ) { return; }
+
+			var children = matryoshka.GetChildren();
+			if ( children == null ) 
+			{
+				Debug.LogWarning(
+					$"IMatryoshkaEnemy ({deadEnemy.name}) had no children! " +
+					$"Was this expected? " +
+					$"Or was GetChildren() called out of order?", this 
+				);
+
+				return; 
+			}
+
+			m_expectedSpawnCount += children.Length;
+			foreach ( var child in children )
+			{
+				child.Died += OnEnemyDied;
+			}
 		}
 
 		private bool IsAnyEnemyAlive()

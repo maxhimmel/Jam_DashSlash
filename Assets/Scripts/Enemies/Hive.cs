@@ -7,7 +7,8 @@ using Xam.Utility.Randomization;
 
 namespace DashSlash.Gameplay.Enemies
 {
-    public class Hive : DirectionMover
+    public class Hive : DirectionMover,
+		IMatryoshkaEnemy
     {
 		private bool IsExpired => m_lifetimeExpiration > 0 && m_lifetimeExpiration <= Time.timeSinceLevelLoad;
 
@@ -27,6 +28,7 @@ namespace DashSlash.Gameplay.Enemies
 		private EnemyRangeFactory m_rangeFactory;
 		private ColorBlinker m_expirationAntic;
 		private Coroutine m_anticRoutine;
+		private Enemy[] m_matryoshkaChildren;
 
 		protected override void UpdateState()
 		{
@@ -60,10 +62,8 @@ namespace DashSlash.Gameplay.Enemies
 
 		protected override void OnDied()
 		{
-			base.OnDied();
-
-			Enemy[] enemies = m_rangeFactory.CreateRange();
-			foreach ( Enemy enemy in enemies )
+			m_matryoshkaChildren = m_rangeFactory.CreateRange();
+			foreach ( Enemy enemy in m_matryoshkaChildren )
 			{
 				Rigidbody2D body = enemy.GetComponent<Rigidbody2D>();
 				if ( body != null )
@@ -81,6 +81,13 @@ namespace DashSlash.Gameplay.Enemies
 					}
 				}
 			}
+
+			base.OnDied();
+		}
+
+		Enemy[] IMatryoshkaEnemy.GetChildren()
+		{
+			return m_matryoshkaChildren;
 		}
 
 		private void LaunchEnemy( Rigidbody2D enemyBody, RandomFloatRange forceRange, RandomFloatRange torqueRange )

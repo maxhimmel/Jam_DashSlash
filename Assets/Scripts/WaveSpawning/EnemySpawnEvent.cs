@@ -4,5 +4,9 @@ namespace DashSlash.Gameplay.WaveSpawning
 
 	public class EnemySpawnEvent : SpawnEvent<Enemy>
 	{
+		protected override void OnSpawned( Enemy spawnable )
+		{
+			base.OnSpawned( spawnable );
+		}
 	}
 }
